@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Денис Евстратчик](https://up.htmlacademy.ru/ecmascript/9/user/509279).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Захарченко](https://htmlacademy.ru/profile/id1033227).
 
 ---
 
