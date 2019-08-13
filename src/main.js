@@ -27,9 +27,9 @@ render(filmsListElement, getBtnMoreTemplate());
 
 const filmsListContainerElement = mainElement.querySelectorAll(`.films-list__container`);
 
-filmsListContainerElement.forEach((it, index) => {
+filmsListContainerElement.forEach((item, index) => {
   for (let i = 0; i < NUMBER_CARDS[index]; i++) {
-    render(it, getCardTemplate());
+    render(item, getCardTemplate());
   }
 });
 
