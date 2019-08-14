@@ -1,4 +1,4 @@
-export const getMenuTemplate = () => {
+export default () => {
   return `
     <nav class="main-navigation">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>

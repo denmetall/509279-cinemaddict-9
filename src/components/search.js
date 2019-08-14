@@ -1,4 +1,4 @@
-export const getSearchTemplate = () => {
+export default () => {
   return `
     <form class="header__search search">
       <input type="text" name="search" class="search__field" placeholder="Search movies">
