@@ -34,13 +34,13 @@ export const generateFilmData = () => {
       `Фантастика`
     ][Math.floor(Math.random() * 7)],
     posterLink: [
-      // `made-for-each-other.png`,
-      // `the-dance-of-life.jpg`,
-      // `popeye-meets-sinbad.png`,
-      // `sagebrush-trail.jpg`,
-      // `santa-claus-conquers-the-martians.jpg`,
-      // `the-great-flamarion.jpg`,
-      // `the-man-with-the-golden-arm.jpg`
+      `made-for-each-other.png`,
+      `the-dance-of-life.jpg`,
+      `popeye-meets-sinbad.png`,
+      `sagebrush-trail.jpg`,
+      `santa-claus-conquers-the-martians.jpg`,
+      `the-great-flamarion.jpg`,
+      `the-man-with-the-golden-arm.jpg`
     ][Math.floor(Math.random() * 7)],
     description:
       new Array(1 + Math.floor(Math.random() * 2))
