@@ -8,7 +8,7 @@ export default ({title, rating, year, duration, genre, posterLink, description, 
         <span class="film-card__duration">${duration}</span>
         <span class="film-card__genre">${genre}</span>
       </p>
-      <img src="${posterLink}" alt="" class="film-card__poster">
+      <img src="./images/posters/${posterLink}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
       <a class="film-card__comments">${numberComments} comments</a>
       <form class="film-card__controls">

@@ -6,11 +6,13 @@ import createFilmsTemplate from "./components/films";
 import createCardTemplate from "./components/film-card";
 import createBtnMoreTemplate from "./components/btn-more";
 // import createPopupTemplate from "./components/popup";
-import filmCardsData from "./data/cards";
+import filmCards from "./data/cards";
 
 const NUMBER_SHOW_FILMS = 5;
 const NUMBER_SHOW_TOP_RATED_FILMS = 2;
 const NUMBER_SHOW_MOST_COMMENTED_FILMS = 2;
+
+const filmCardsData = filmCards;
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
