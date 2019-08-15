@@ -5,6 +5,7 @@ import createSortTemplate from "./components/sort";
 import createFilmsTemplate from "./components/films";
 import createCardTemplate from "./components/film-card";
 import createBtnMoreTemplate from "./components/btn-more";
+import createFooterTemplate from "./components/footer";
 // import createPopupTemplate from "./components/popup";
 import filmCards from "./data/cards";
 
@@ -26,6 +27,7 @@ const mainElement = document.querySelector(`#main`);
 render(mainElement, createMenuTemplate());
 render(mainElement, createSortTemplate());
 render(mainElement, createFilmsTemplate());
+render(mainElement, createFooterTemplate(), `afterend`);
 
 const allFilmsContainer = mainElement.querySelector(`#all-films`);
 const topRatedFilmsContainer = mainElement.querySelector(`#top-rated-films`);
