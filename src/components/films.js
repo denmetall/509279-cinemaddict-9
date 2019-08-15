@@ -4,7 +4,7 @@ export default () => {
       <section id="films-list" class="films-list">
         <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
   
-        <div class="films-list__container">
+        <div id="all-films" class="films-list__container">
 
         </div>
 
@@ -13,7 +13,7 @@ export default () => {
       <section class="films-list--extra">
         <h2 class="films-list__title">Top rated</h2>
   
-        <div class="films-list__container">
+        <div id="top-rated-films" class="films-list__container">
 
         </div>
       </section>
@@ -21,7 +21,7 @@ export default () => {
       <section class="films-list--extra">
         <h2 class="films-list__title">Most commented</h2>
   
-        <div class="films-list__container">
+        <div id="most-commented-films" class="films-list__container">
 
         </div>
       </section>

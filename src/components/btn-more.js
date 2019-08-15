@@ -1,5 +1,5 @@
 export default () => {
   return `
-    <button class="films-list__show-more">Show more</button>
+    <button id="load-more" class="films-list__show-more">Show more</button>
   `;
 };
