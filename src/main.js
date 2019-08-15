@@ -5,7 +5,7 @@ import createSortTemplate from "./components/sort";
 import createFilmsTemplate from "./components/films";
 import createCardTemplate from "./components/film-card";
 import createBtnMoreTemplate from "./components/btn-more";
-import createPopupTemplate from "./components/popup";
+// import createPopupTemplate from "./components/popup";
 import filmCardsData from "./data/cards";
 
 const NUMBER_SHOW_FILMS = 5;
