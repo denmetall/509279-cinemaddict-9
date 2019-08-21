@@ -75,6 +75,16 @@ if (filmCards.length > NUMBER_SHOW_FILMS) {
 
   btnMoreElement.addEventListener(`click`, (evt) => {
     evt.preventDefault();
-    console.log(`Кнопка - событие клик`);
+
+    let filmsCount = filmsListElement.querySelectorAll(`.film-card`).length;
+    let filmsForAdded = filmCards.slice(filmsCount, filmsCount + NUMBER_SHOW_FILMS);
+
+    filmsForAdded.forEach((film) => {
+      renderFilm(film, allFilmsContainer);
+    });
+
+    if (filmsForAdded.length < 5) {
+      unrender(btnMoreElement);
+    }
   });
 }

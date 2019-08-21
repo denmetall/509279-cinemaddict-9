@@ -34,4 +34,4 @@ export {
   createElement,
   render,
   unrender
-}
+};
