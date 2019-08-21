@@ -1,6 +1,6 @@
 import createSearchTemplate from "./components/search";
 import createProfileTemplate from "./components/profile";
-import createMenuTemplate from "./components/menu";
+import Menu from "./components/menu";
 import createSortTemplate from "./components/sort";
 import createFilmsTemplate from "./components/films";
 import createCardTemplate from "./components/film-card";
@@ -8,6 +8,7 @@ import createBtnMoreTemplate from "./components/btn-more";
 import createFooterTemplate from "./components/footer";
 import createPopupTemplate from "./components/popup";
 import filmCards from "./data/cards";
+import {renderNew} from './components/utils';
 
 const NUMBER_SHOW_FILMS = 5;
 const NUMBER_SHOW_TOP_RATED_FILMS = 2;
@@ -24,7 +25,10 @@ render(headerElement, createSearchTemplate());
 render(headerElement, createProfileTemplate());
 
 const mainElement = document.querySelector(`#main`);
-render(mainElement, createMenuTemplate());
+const newMenu = new Menu();
+renderNew(mainElement, newMenu.getElement());
+
+// render(mainElement, createMenuTemplate());
 render(mainElement, createSortTemplate());
 render(mainElement, createFilmsTemplate());
 render(mainElement, createFooterTemplate(), `afterend`);
