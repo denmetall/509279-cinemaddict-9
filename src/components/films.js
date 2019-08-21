@@ -13,6 +13,10 @@ export default class Films {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <section class="films">

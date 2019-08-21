@@ -13,6 +13,10 @@ export default class BtnMore {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <button id="load-more" class="films-list__show-more">Show more</button>

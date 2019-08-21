@@ -17,6 +17,10 @@ export default class Comment {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <li class="film-details__comment">

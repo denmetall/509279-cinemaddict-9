@@ -14,6 +14,10 @@ export default class Footer {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <footer id="footer" class="footer">

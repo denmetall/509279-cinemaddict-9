@@ -21,6 +21,10 @@ export default class Popup {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <section class="film-details">

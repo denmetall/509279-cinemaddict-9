@@ -22,6 +22,10 @@ export default class Card {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getTemplate() {
     return `
       <article class="film-card">
