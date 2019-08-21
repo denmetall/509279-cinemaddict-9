@@ -1,6 +1,7 @@
 const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
 };
 
 const createElement = (template) => {
@@ -9,7 +10,7 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const renderNew = (container, element, place = Position.BEFOREEND) => {
+const render = (container, element, place = Position.BEFOREEND) => {
   switch (place) {
     case Position.AFTERBEGIN:
       container.prepend(element);
@@ -17,10 +18,13 @@ const renderNew = (container, element, place = Position.BEFOREEND) => {
     case Position.BEFOREEND:
       container.append(element);
       break;
+    case Position.AFTEREND:
+      container.after(element);
+      break;
   }
 };
 
-const unrender = () => {
+const unrender = (element) => {
   if (element) {
     element.remove();
   }
@@ -28,6 +32,6 @@ const unrender = () => {
 
 export {
   createElement,
-  renderNew,
+  render,
   unrender
 }
