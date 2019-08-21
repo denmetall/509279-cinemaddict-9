@@ -23,7 +23,7 @@ export default class Menu {
         <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${stats.favoritesNumber}</span></a>
         <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
       </nav>
-    `;
+    `.trim();
   }
 }
 
