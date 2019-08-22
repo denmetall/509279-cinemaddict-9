@@ -7,6 +7,7 @@ import Card from "./components/film-card";
 import BtnMore from "./components/btn-more";
 import Footer from "./components/footer";
 import Popup from "./components/popup";
+import Comment from "./components/comment";
 import filmCards from "./data/cards";
 import {render, unrender} from './components/utils';
 
@@ -43,6 +44,11 @@ const renderFilm = (filmCard, container) => {
     .querySelector(`.film-card__poster`)
     .addEventListener(`click`, () => {
       render(footerElement, popup.getElement(), `afterend`);
+
+      const commentsContainer = popup.getElement().querySelector(`.film-details__comments-list`);
+      filmCard.comments.forEach((comment) => {
+        render(commentsContainer, new Comment(comment).getElement());
+      });
 
       popup.getElement()
         .querySelector(`.film-details__close-btn`)
@@ -84,7 +90,7 @@ if (filmCards.length > NUMBER_SHOW_FILMS) {
     });
 
     if (filmsForAdded.length < 5) {
-      unrender(btnMore);
+      unrender(btnMore.getElement());
       // btnMore.removeElement();
     }
   });

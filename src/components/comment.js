@@ -36,6 +36,6 @@ export default class Comment {
           </p>
         </div>
       </li>
-    `;
+    `.trim();
   }
 }
