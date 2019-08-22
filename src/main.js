@@ -91,7 +91,6 @@ if (filmCards.length > NUMBER_SHOW_FILMS) {
 
     if (filmsForAdded.length < 5) {
       unrender(btnMore.getElement());
-      // btnMore.removeElement();
     }
   });
 }
