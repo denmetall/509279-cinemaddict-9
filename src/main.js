@@ -48,7 +48,7 @@ const renderFilm = (filmCard, container) => {
     }
   };
 
-  const  onClickCard = () => {
+  const onClickCard = () => {
     render(footerElement, popup.getElement(), `afterend`);
 
     const commentsContainer = popup.getElement().querySelector(`.film-details__comments-list`);
@@ -68,13 +68,13 @@ const renderFilm = (filmCard, container) => {
 
     popup.getElement()
       .querySelector(`.film-details__comment-input`)
-      .addEventListener(`focus`, (evt) => {
+      .addEventListener(`focus`, () => {
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
 
     popup.getElement()
       .querySelector(`.film-details__comment-input`)
-      .addEventListener(`blur`, (evt) => {
+      .addEventListener(`blur`, () => {
         document.addEventListener(`keydown`, onEscKeyDown);
       });
   };
