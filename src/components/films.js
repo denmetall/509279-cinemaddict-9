@@ -18,7 +18,8 @@ export default class Films {
   }
 
   getTemplate() {
-    return `<section class="films">
+    return `
+      <section class="films">
         <section id="films-list" class="films-list">
           <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
     
@@ -43,6 +44,7 @@ export default class Films {
   
           </div>
         </section>
-      </section>`;
+      </section>
+    `;
   }
 }

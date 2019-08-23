@@ -27,7 +27,8 @@ export default class Card {
   }
 
   getTemplate() {
-    return `<article class="film-card">
+    return `
+      <article class="film-card">
         <h3 class="film-card__title">${this._title}</h3>
         <p class="film-card__rating">${this._rating}</p>
         <p class="film-card__info">
@@ -55,6 +56,7 @@ export default class Card {
             Mark as favorite
           </button>
         </form>
-      </article>`;
+      </article>
+    `;
   }
 }
