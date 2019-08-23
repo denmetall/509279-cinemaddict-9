@@ -48,40 +48,40 @@ const renderFilm = (filmCard, container) => {
     }
   };
 
+  const  onClickCard = () => {
+    render(footerElement, popup.getElement(), `afterend`);
 
+    const commentsContainer = popup.getElement().querySelector(`.film-details__comments-list`);
+    filmCard.comments.forEach((comment) => {
+      render(commentsContainer, new Comment(comment).getElement());
+    });
 
-  card.getElement()
-    .querySelector(`.film-card__poster`)
-    .addEventListener(`click`, () => {
-      render(footerElement, popup.getElement(), `afterend`);
+    document.addEventListener(`keydown`, onEscKeyDown);
 
-      const commentsContainer = popup.getElement().querySelector(`.film-details__comments-list`);
-      filmCard.comments.forEach((comment) => {
-        render(commentsContainer, new Comment(comment).getElement());
+    popup.getElement()
+      .querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        unrender(popup.getElement());
+        popup.removeElement();
       });
 
-      document.addEventListener(`keydown`, onEscKeyDown);
+    popup.getElement()
+      .querySelector(`.film-details__comment-input`)
+      .addEventListener(`focus`, (evt) => {
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
 
-      popup.getElement()
-        .querySelector(`.film-details__close-btn`)
-        .addEventListener(`click`, (evt) => {
-          evt.preventDefault();
-          unrender(popup.getElement());
-          popup.removeElement();
-        });
+    popup.getElement()
+      .querySelector(`.film-details__comment-input`)
+      .addEventListener(`blur`, (evt) => {
+        document.addEventListener(`keydown`, onEscKeyDown);
+      });
+  };
 
-      popup.getElement()
-        .querySelector(`.film-details__comment-input`)
-        .addEventListener(`focus`, (evt) => {
-          document.removeEventListener(`keydown`, onEscKeyDown);
-        });
-
-      popup.getElement()
-        .querySelector(`.film-details__comment-input`)
-        .addEventListener(`blur`, (evt) => {
-          document.addEventListener(`keydown`, onEscKeyDown);
-        });
-    });
+  card.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, onClickCard);
+  card.getElement().querySelector(`.film-card__title`).addEventListener(`click`, onClickCard);
+  card.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, onClickCard);
 
   render(container, card.getElement());
 };
