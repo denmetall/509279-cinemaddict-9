@@ -26,8 +26,7 @@ export default class Popup {
   }
 
   getTemplate() {
-    return `
-      <section class="film-details">
+    return `<section class="film-details">
         <form class="film-details__inner" action="" method="get">
           <div class="form-details__top-container">
             <div class="film-details__close">
@@ -110,7 +109,6 @@ export default class Popup {
       
               <ul class="film-details__comments-list">
                 
-                <!--комменты-->
   
               </ul>
       
@@ -146,7 +144,6 @@ export default class Popup {
             </section>
           </div>
         </form>
-      </section>
-    `.trim();
+      </section>`;
   }
 }

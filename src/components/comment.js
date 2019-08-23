@@ -22,8 +22,7 @@ export default class Comment {
   }
 
   getTemplate() {
-    return `
-      <li class="film-details__comment">
+    return `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${this._smile}" width="55" height="55" alt="emoji">
         </span>
@@ -35,7 +34,6 @@ export default class Comment {
             <button class="film-details__comment-delete">Delete</button>
           </p>
         </div>
-      </li>
-    `.trim();
+      </li>`;
   }
 }

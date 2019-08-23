@@ -18,8 +18,6 @@ export default class BtnMore {
   }
 
   getTemplate() {
-    return `
-      <button id="load-more" class="films-list__show-more">Show more</button>
-    `.trim();
+    return `<button id="load-more" class="films-list__show-more">Show more</button>`;
   }
 }
