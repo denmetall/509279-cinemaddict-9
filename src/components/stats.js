@@ -1,15 +1,7 @@
 import data from '../data/cards.js';
 const dataFilms = data;
 
-export const getNumberFilmsStat = (control) => {
-  return dataFilms.reduce((count, film) => {
-    if (film.controls[control]) {
-      return count + 1;
-    } else {
-      return count;
-    }
-  }, 0);
-};
+export const getNumberFilmsStat = (control) => dataFilms.reduce((count, film) => (film.controls[control] ? count + 1 : count), 0);
 
 export default {
   get allFilmsNumber() {
