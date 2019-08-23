@@ -40,6 +40,16 @@ const renderFilm = (filmCard, container) => {
   const card = new Card(filmCard);
   const popup = new Popup(filmCard);
 
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      unrender(popup.getElement());
+      popup.removeElement();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+
+
   card.getElement()
     .querySelector(`.film-card__poster`)
     .addEventListener(`click`, () => {
@@ -50,13 +60,27 @@ const renderFilm = (filmCard, container) => {
         render(commentsContainer, new Comment(comment).getElement());
       });
 
+      document.addEventListener(`keydown`, onEscKeyDown);
+
       popup.getElement()
         .querySelector(`.film-details__close-btn`)
         .addEventListener(`click`, (evt) => {
           evt.preventDefault();
           unrender(popup.getElement());
           popup.removeElement();
-        })
+        });
+
+      popup.getElement()
+        .querySelector(`.film-details__comment-input`)
+        .addEventListener(`focus`, (evt) => {
+          document.removeEventListener(`keydown`, onEscKeyDown);
+        });
+
+      popup.getElement()
+        .querySelector(`.film-details__comment-input`)
+        .addEventListener(`blur`, (evt) => {
+          document.addEventListener(`keydown`, onEscKeyDown);
+        });
     });
 
   render(container, card.getElement());
