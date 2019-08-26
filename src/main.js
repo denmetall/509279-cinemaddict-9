@@ -10,7 +10,7 @@ import Footer from "./components/footer";
 import Popup from "./components/popup";
 import Comment from "./components/comment";
 import filmCards from "./data/cards";
-import {render, unrender} from './components/utils';
+import {KEY_CODE_ESCAPE, render, unrender} from './components/utils';
 
 const NUMBER_SHOW_FILMS = 5;
 const NUMBER_SHOW_TOP_RATED_FILMS = 2;
@@ -48,7 +48,7 @@ if (filmCards.length) {
     const popup = new Popup(filmCard);
 
     const onEscKeyDown = (evt) => {
-      if (evt.keyCode === 27) {
+      if (evt.keyCode === KEY_CODE_ESCAPE) {
         unrender(popup.getElement());
         popup.removeElement();
         document.removeEventListener(`keydown`, onEscKeyDown);
