@@ -1,3 +1,5 @@
+const KEY_CODE_ESCAPE = 27;
+
 const Position = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
@@ -33,5 +35,6 @@ const unrender = (element) => {
 export {
   createElement,
   render,
-  unrender
+  unrender,
+  KEY_CODE_ESCAPE
 };
