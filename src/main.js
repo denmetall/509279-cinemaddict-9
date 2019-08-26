@@ -48,7 +48,7 @@ if (filmCards.length) {
     const popup = new Popup(filmCard);
 
     const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
+      if (evt.keyCode === 27) {
         unrender(popup.getElement());
         popup.removeElement();
         document.removeEventListener(`keydown`, onEscKeyDown);
@@ -120,7 +120,7 @@ if (filmCards.length) {
         renderFilm(film, allFilmsContainer);
       });
 
-      if (filmsForAdded.length < 5) {
+      if (filmsForAdded.length < NUMBER_SHOW_FILMS) {
         unrender(btnMore.getElement());
         btnMore.removeElement();
       }
