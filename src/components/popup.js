@@ -1,8 +1,8 @@
-import {createElement} from "./utils";
+import AbstractComponent from "./abstract-component";
 
-export default class Popup {
+export default class Popup extends AbstractComponent {
   constructor({title, rating, year, duration, genre, posterLink, description, numberComments}) {
-    this._element = null;
+    super();
     this._title = title;
     this._rating = rating;
     this._year = year;
@@ -11,18 +11,6 @@ export default class Popup {
     this._posterLink = posterLink;
     this._description = description;
     this._numberComments = numberComments;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {
