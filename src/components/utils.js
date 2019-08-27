@@ -1,4 +1,7 @@
 const KEY_CODE_ESCAPE = 27;
+const NUMBER_SHOW_FILMS = 5;
+const NUMBER_SHOW_TOP_RATED_FILMS = 2;
+const NUMBER_SHOW_MOST_COMMENTED_FILMS = 2;
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
@@ -36,5 +39,8 @@ export {
   createElement,
   render,
   unrender,
-  KEY_CODE_ESCAPE
+  KEY_CODE_ESCAPE,
+  NUMBER_SHOW_FILMS,
+  NUMBER_SHOW_TOP_RATED_FILMS,
+  NUMBER_SHOW_MOST_COMMENTED_FILMS
 };
