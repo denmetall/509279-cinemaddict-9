@@ -60,8 +60,8 @@ export default class PageController {
         btnMore.getElement().addEventListener(`click`, (evt) => {
           evt.preventDefault();
 
-          let filmsCount = filmsListElement.querySelectorAll(`.film-card`).length;
-          let filmsForAdded = this._cards.slice(filmsCount, filmsCount + NUMBER_SHOW_FILMS);
+          const filmsCount = filmsListElement.querySelectorAll(`.film-card`).length;
+          const filmsForAdded = this._cards.slice(filmsCount, filmsCount + NUMBER_SHOW_FILMS);
 
           filmsForAdded.forEach((film) => {
             this._renderFilm(film, allFilmsContainer);
