@@ -1,24 +1,12 @@
-import {createElement} from "./utils";
+import AbstractComponent from "./abstract-component";
 
-export default class Comment {
+export default class Comment extends AbstractComponent {
   constructor({smile, text, author, date}) {
-    this._element = null;
+    super();
     this._smile = smile;
     this._text = text;
     this._author = author;
     this._date = date;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {
