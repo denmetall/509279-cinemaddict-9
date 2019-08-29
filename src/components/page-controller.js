@@ -156,12 +156,12 @@ export default class PageController {
 
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
-        this._sortedFilm = this._cards.slice().sort((a, b) => a.year - b.year);
+        this._sortedFilm = this._cards.slice().sort((a, b) => b.year - a.year);
         const sortedByDateUpFilms = this._sortedFilm.slice(0, countCurrentCards);
         sortedByDateUpFilms.forEach((film) => this._renderFilm(film, allFilmsContainer));
         break;
       case `sort-rating`:
-        this._sortedFilm = this._cards.slice().sort((a, b) => a.rating - b.rating);
+        this._sortedFilm = this._cards.slice().sort((a, b) => b.rating - a.rating);
         const sortedByRatingFilms = this._sortedFilm.slice(0, countCurrentCards);
         sortedByRatingFilms.forEach((film) => this._renderFilm(film, allFilmsContainer));
         break;
