@@ -65,18 +65,12 @@ export default class Page {
         this._btnMore.getElement().addEventListener(`click`, (evt) => {
           evt.preventDefault();
 
-          const filmsCount = this._getCountCurrentCards();
-
           const cards = this._sortedFilm.length > 0 ? this._sortedFilm : this._cards;
-          const filmsForAdded = cards.slice(0, filmsCount + NUMBER_SHOW_FILMS);
+          const filmsForAdded = cards.slice(0, this._getCountCurrentCards() + NUMBER_SHOW_FILMS);
 
-          allFilmsContainer.innerHTML = ``;
+          this._renderFilms(filmsForAdded, allFilmsContainer);
 
-          filmsForAdded.forEach((film) => {
-            this._renderFilm(film, allFilmsContainer);
-          });
-
-          if (filmsForAdded.length - filmsCount < NUMBER_SHOW_FILMS) {
+          if (filmsForAdded.length - this._getCountCurrentCards() < NUMBER_SHOW_FILMS) {
             unrender(this._btnMore.getElement());
             this._btnMore.removeElement();
           }
@@ -87,6 +81,11 @@ export default class Page {
 
   _getCountCurrentCards() {
     return this._container.querySelector(`#all-films`).querySelectorAll(`.film-card`).length;
+  }
+
+  _renderFilms(filmsData, container) {
+    container.innerHTML = ``;
+    filmsData.forEach((film) => this._renderFilm(film, container));
   }
 
   _renderFilm(filmCard, container) {
@@ -101,25 +100,23 @@ export default class Page {
       return;
     }
 
-    const countCurrentCards = this._getCountCurrentCards();
     const allFilmsContainer = this._container.querySelector(`#all-films`);
-    allFilmsContainer.innerHTML = ``;
 
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
         this._sortedFilm = this._cards.slice().sort((a, b) => b.year - a.year);
-        const sortedByDateUpFilms = this._sortedFilm.slice(0, countCurrentCards);
-        sortedByDateUpFilms.forEach((film) => this._renderFilm(film, allFilmsContainer));
+        const sortedByDateUpFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
+        this._renderFilms(sortedByDateUpFilms, allFilmsContainer);
         break;
       case `sort-rating`:
         this._sortedFilm = this._cards.slice().sort((a, b) => b.rating - a.rating);
-        const sortedByRatingFilms = this._sortedFilm.slice(0, countCurrentCards);
-        sortedByRatingFilms.forEach((film) => this._renderFilm(film, allFilmsContainer));
+        const sortedByRatingFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
+        this._renderFilms(sortedByRatingFilms, allFilmsContainer);
         break;
       case `default`:
         this._sortedFilm = [];
-        const sortedByDefaultFilms = this._cards.slice(0, countCurrentCards);
-        sortedByDefaultFilms.forEach((film) => this._renderFilm(film, allFilmsContainer));
+        const sortedByDefaultFilms = this._cards.slice(0, this._getCountCurrentCards());
+        this._renderFilms(sortedByDefaultFilms, allFilmsContainer);
         break;
     }
   }
