@@ -22,11 +22,13 @@ export default class Page {
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
+
+    this._subscriptions = [];
   }
 
   init() {
     const filmAllCardsData = this._cards.slice(0, NUMBER_SHOW_FILMS);
-    const filmTopCardsData = this._cards.slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
+    const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
     const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
 
     render(this._container, this._menu.getElement());
@@ -91,6 +93,23 @@ export default class Page {
   _renderFilm(filmCard, container) {
     const movieController = new MovieController(container, filmCard);
     movieController.init();
+  }
+
+  _onChangeView() {
+    this._subscriptions.forEach((it) => it());
+  }
+
+  _onDataChange(newData, oldData) {
+    const countCurrentCards = this._getCountCurrentCards();
+
+    if (this._sortedFilm.length) {
+      this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)] = newData;
+      this._cards[this._cards.findIndex((it) => it === oldData)] = newData;
+      this._renderFilms(this._sortedFilm.slice(0, countCurrentCards));
+    } else {
+      this._cards[this._cards.findIndex((it) => it === oldData)] = newData;
+      this._renderFilms(this._cards.slice(0, countCurrentCards));
+    }
   }
 
   _onSortLinkClick(evt) {

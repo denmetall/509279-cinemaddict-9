@@ -4,9 +4,11 @@ import {KEY_CODE_ESCAPE, render, unrender} from "../components/utils";
 import Comment from "../components/comment";
 
 export default class MovieController {
-  constructor(container, data) {
+  constructor(container, data, onDataChange, onChangeView) {
     this._container = container;
     this._data = data;
+    this._onChangeView = onChangeView;
+    this._onDataChange = onDataChange;
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
   }
