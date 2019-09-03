@@ -24,6 +24,7 @@ export default class Page {
     this._sortedFilm = [];
 
     this._subscriptions = [];
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
@@ -91,7 +92,7 @@ export default class Page {
   }
 
   _renderFilm(filmCard, container) {
-    const movieController = new MovieController(container, filmCard);
+    const movieController = new MovieController(container, filmCard, this._onDataChange);
     movieController.init();
   }
 
@@ -99,16 +100,24 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData) {
+  _onDataChange(newData, oldData, isPopupOpen = false) {
+    if (isPopupOpen) {
+      return;
+    } else {
+      this._renderAfterOnDataChange(newData, oldData);
+    }
+  }
+
+  _renderAfterOnDataChange(newData, oldData) {
     const countCurrentCards = this._getCountCurrentCards();
 
     if (this._sortedFilm.length) {
-      this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)] = newData;
-      this._cards[this._cards.findIndex((it) => it === oldData)] = newData;
-      this._renderFilms(this._sortedFilm.slice(0, countCurrentCards));
+      this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
+      this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
+      this._renderFilms(this._sortedFilm.slice(0, countCurrentCards), this._container.querySelector(`#all-films`));
     } else {
-      this._cards[this._cards.findIndex((it) => it === oldData)] = newData;
-      this._renderFilms(this._cards.slice(0, countCurrentCards));
+      this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
+      this._renderFilms(this._cards.slice(0, countCurrentCards), this._container.querySelector(`#all-films`));
     }
   }
 

@@ -11,6 +11,8 @@ export default class MovieController {
     this._onDataChange = onDataChange;
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
+
+    this._onClickControls();
   }
 
   init() {
@@ -60,5 +62,36 @@ export default class MovieController {
     this._card.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, onClickCard);
 
     render(this._container, this._card.getElement());
+  }
+
+  _onClickControls() {
+    this._card.getElement()
+      .querySelector(`.film-card__controls`).addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        const entry = {
+          controls: {
+            isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
+            isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
+            isFavorite: this._data.controls.isFavorite
+          }
+        };
+
+        if (evt.target.classList.contains(`film-card__controls-item--add-to-watchlist`)) {
+          this._card.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
+          entry.controls.isAddedToWatchlist = !this._data.controls.isAddedToWatchlist;
+        }
+
+        if (evt.target.classList.contains(`film-card__controls-item--mark-as-watched`)) {
+          this._card.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
+          entry.controls.isMarkedAsWatched = !this._data.controls.isMarkedAsWatched;
+        }
+
+        if (evt.target.classList.contains(`film-card__controls-item--favorite`)) {
+          this._card.getElement().querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
+          entry.controls.isFavorite = !this._data.controls.isFavorite;
+        }
+
+        this._onDataChange(entry, this._data);
+      });
   }
 }
