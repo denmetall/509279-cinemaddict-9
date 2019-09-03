@@ -36,6 +36,9 @@ export default class MovieController {
 
       document.addEventListener(`keydown`, onEscKeyDown);
 
+      // this._popup.getElement()
+      //   .querySelector(`.film-details__controls`).addEventListener(`click`, this._onClickControlsInPopup);
+
       this._popup.getElement()
         .querySelector(`.film-details__close-btn`)
         .addEventListener(`click`, (evt) => {
@@ -94,4 +97,32 @@ export default class MovieController {
         this._onDataChange(entry, this._data);
       });
   }
+
+  // _onClickControlsInPopup(evt) {
+  //   evt.preventDefault();
+  //   const entry = {
+  //     controls: {
+  //       isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
+  //       isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
+  //       isFavorite: this._data.controls.isFavorite
+  //     }
+  //   };
+  //
+  //   if (evt.target.classList.contains(`film-details__control-label--watchlist`)) {
+  //     this._popup.getElement().querySelector(`#watchlist`).checked = !this._popup.getElement().querySelector(`#watchlist`).checked;
+  //     entry.controls.isAddedToWatchlist = !this._data.controls.isAddedToWatchlist;
+  //   }
+  //
+  //   if (evt.target.classList.contains(`film-details__control-label--watched`)) {
+  //     this._card.getElement().querySelector(`#watched`).checked = !this._popup.getElement().querySelector(`#watched`).checked;
+  //     entry.controls.isMarkedAsWatched = !this._data.controls.isMarkedAsWatched;
+  //   }
+  //
+  //   if (evt.target.classList.contains(`film-details__control-label--favorite`)) {
+  //     this._card.getElement().querySelector(`#favorite`).checked = !this._popup.getElement().querySelector(`#favorite`).checked;
+  //     entry.controls.isFavorite = !this._data.controls.isFavorite;
+  //   }
+  //
+  //   this._onDataChange(entry, this._data);
+  // }
 }
