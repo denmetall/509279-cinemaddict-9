@@ -42,8 +42,9 @@ export default class Page {
       .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
 
     if (this._cards.length) {
+      const isStartApp = true;
       render(this._container, this._films.getElement());
-      this._renderBoardFilms(true);
+      this._renderBoardFilms(isStartApp);
     } else {
       render(this._container, this._noFilms.getElement());
     }
