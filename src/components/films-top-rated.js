@@ -9,10 +9,7 @@ export default class FilmsTopRated extends AbstractComponent {
     return `
       <section class="films-list--extra">
         <h2 class="films-list__title">Top rated</h2>
-  
-        <div id="top-rated-films" class="films-list__container">
-
-        </div>
+        <div id="top-rated-films" class="films-list__container"></div>
       </section>
     `;
   }
