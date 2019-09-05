@@ -2,6 +2,7 @@ import Card from "../components/film-card";
 import Popup from "../components/popup";
 import {KEY_CODE_ESCAPE, render, unrender} from "../components/utils";
 import Comment from "../components/comment";
+import UserRatingBlock from "../components/user-rating-block";
 
 export default class MovieController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -11,6 +12,7 @@ export default class MovieController {
     this._onDataChange = onDataChange;
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
+    this._userRatingBlock = new UserRatingBlock();
 
     this._onClickControlsCard();
   }
@@ -27,6 +29,10 @@ export default class MovieController {
     this._onChangeView();
     const footerElement = document.querySelector(`footer`);
     render(footerElement, this._popup.getElement(), `afterend`);
+
+    if (this._getState().controls.isMarkedAsWatched) {
+      this._renderUserRatingBlock();
+    }
 
     const commentsContainer = this._popup.getElement().querySelector(`.film-details__comments-list`);
     this._data.comments.forEach((comment) => {
@@ -67,6 +73,13 @@ export default class MovieController {
       });
   }
 
+  _renderUserRatingBlock() {
+    unrender(this._userRatingBlock.getElement());
+    this._userRatingBlock.removeElement();
+
+    render(this._popup.getElement().querySelector(`.form-details__top-container`), this._userRatingBlock.getElement(), `afterend`);
+  }
+
   _getState() {
     return {
       controls: {
@@ -85,17 +98,17 @@ export default class MovieController {
 
         if (evt.target.classList.contains(`film-card__controls-item--add-to-watchlist`)) {
           this._card.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isAddedToWatchlist = !this._data.controls.isAddedToWatchlist;
+          entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
         }
 
         if (evt.target.classList.contains(`film-card__controls-item--mark-as-watched`)) {
           this._card.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isMarkedAsWatched = !this._data.controls.isMarkedAsWatched;
+          entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
         }
 
         if (evt.target.classList.contains(`film-card__controls-item--favorite`)) {
           this._card.getElement().querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isFavorite = !this._data.controls.isFavorite;
+          entry.controls.isFavorite = !entry.controls.isFavorite;
         }
 
         this._onDataChange(entry, this._data);
@@ -115,17 +128,17 @@ export default class MovieController {
 
     if (evt.target.classList.contains(`film-details__control-label--watchlist`)) {
       this._popup.getElement().querySelector(`#watchlist`).checked = !this._popup.getElement().querySelector(`#watchlist`).checked;
-      entry.controls.isAddedToWatchlist = !this._data.controls.isAddedToWatchlist;
+      entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
     }
 
     if (evt.target.classList.contains(`film-details__control-label--watched`)) {
       this._popup.getElement().querySelector(`#watched`).checked = !this._popup.getElement().querySelector(`#watched`).checked;
-      entry.controls.isMarkedAsWatched = !this._data.controls.isMarkedAsWatched;
+      entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
     }
 
     if (evt.target.classList.contains(`film-details__control-label--favorite`)) {
       this._popup.getElement().querySelector(`#favorite`).checked = !this._popup.getElement().querySelector(`#favorite`).checked;
-      entry.controls.isFavorite = !this._data.controls.isFavorite;
+      entry.controls.isFavorite = !entry.controls.isFavorite;
     }
 
     this._onDataChange(entry, this._data);
