@@ -30,6 +30,7 @@ export default class Page {
     this._sortedFilm = [];
 
     this._subscriptions = [];
+    this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
   }
 
@@ -87,8 +88,9 @@ export default class Page {
   }
 
   _renderFilm(filmCard, container) {
-    const movieController = new MovieController(container, filmCard, this._onDataChange);
+    const movieController = new MovieController(container, filmCard, this._onDataChange, this._onChangeView);
     movieController.init();
+    this._subscriptions.push(movieController.setDefaultView.bind(movieController));
   }
 
   _renderBtnMore() {
