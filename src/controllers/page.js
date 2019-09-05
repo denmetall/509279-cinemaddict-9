@@ -126,15 +126,7 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData, isPopupOpen = false) {
-    if (isPopupOpen) {
-      this._renderAfterOnDataChange(newData, oldData);
-    } else {
-      this._renderAfterOnDataChange(newData, oldData);
-    }
-  }
-
-  _renderAfterOnDataChange(newData, oldData) {
+  _onDataChange(newData, oldData) {
     if (this._sortedFilm.length) {
       this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
       this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;

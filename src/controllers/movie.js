@@ -73,8 +73,7 @@ export default class MovieController {
         isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
         isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
         isFavorite: this._data.controls.isFavorite
-      },
-      isOpenPopup: false
+      }
     };
   }
 
