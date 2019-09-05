@@ -12,7 +12,7 @@ export default class MovieController {
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
 
-    this._onClickControls();
+    this._onClickControlsCard();
   }
 
   init() {
@@ -67,17 +67,22 @@ export default class MovieController {
     render(this._container, this._card.getElement());
   }
 
-  _onClickControls() {
+  _getState() {
+    return {
+      controls: {
+        isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
+        isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
+        isFavorite: this._data.controls.isFavorite
+      },
+      isOpenPopup: false
+    };
+  }
+
+  _onClickControlsCard() {
     this._card.getElement()
       .querySelector(`.film-card__controls`).addEventListener(`click`, (evt) => {
         evt.preventDefault();
-        const entry = {
-          controls: {
-            isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
-            isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
-            isFavorite: this._data.controls.isFavorite
-          }
-        };
+        const entry = this._getState();
 
         if (evt.target.classList.contains(`film-card__controls-item--add-to-watchlist`)) {
           this._card.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
@@ -100,13 +105,7 @@ export default class MovieController {
 
   // _onClickControlsInPopup(evt) {
   //   evt.preventDefault();
-  //   const entry = {
-  //     controls: {
-  //       isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
-  //       isMarkedAsWatched: this._data.controls.isMarkedAsWatched,
-  //       isFavorite: this._data.controls.isFavorite
-  //     }
-  //   };
+  //   const entry = this._getState();
   //
   //   if (evt.target.classList.contains(`film-details__control-label--watchlist`)) {
   //     this._popup.getElement().querySelector(`#watchlist`).checked = !this._popup.getElement().querySelector(`#watchlist`).checked;
