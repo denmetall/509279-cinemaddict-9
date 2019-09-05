@@ -42,13 +42,18 @@ export default class Page {
 
     if (this._cards.length) {
       render(this._container, this._films.getElement());
-      this._renderBoardFilms();
+      this._renderBoardFilms(true);
     } else {
       render(this._container, this._noFilms.getElement());
     }
   }
 
-  _renderBoardFilms() {
+  _renderBoardFilms(isStartApp = false) {
+    const cards = this._checkSortedOrStartData();
+    const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
+    const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
+    const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
+
     unrender(this._filmsAllList.getElement());
     unrender(this._filmsTopRated.getElement());
     unrender(this._mostCommentedFilms.getElement());
@@ -56,10 +61,6 @@ export default class Page {
     this._filmsAllList.removeElement();
     this._filmsTopRated.removeElement();
     this._mostCommentedFilms.removeElement();
-
-    const filmAllCardsData = this._cards.slice(0, NUMBER_SHOW_FILMS);
-    const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
-    const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
 
     render(this._films.getElement(), this._filmsAllList.getElement());
 
@@ -107,7 +108,7 @@ export default class Page {
 
       const countCurrentCards = this._getCountCurrentCards();
 
-      const cards = this._sortedFilm.length > 0 ? this._sortedFilm : this._cards;
+      const cards = this._checkSortedOrStartData();
       const filmsForAdded = cards.slice(0, countCurrentCards + NUMBER_SHOW_FILMS);
 
       this._renderFilms(filmsForAdded, this._filmsAllList.getElement().querySelector(`#all-films`));
@@ -123,6 +124,10 @@ export default class Page {
     return this._container.querySelector(`#all-films`).querySelectorAll(`.film-card`).length;
   }
 
+  _checkSortedOrStartData() {
+    return (this._sortedFilm.length > 0) ? this._sortedFilm : this._cards;
+  }
+
   _onChangeView() {
     this._subscriptions.forEach((it) => it());
   }
@@ -136,15 +141,13 @@ export default class Page {
   }
 
   _renderAfterOnDataChange(newData, oldData) {
-    const countCurrentCards = this._getCountCurrentCards();
-
     if (this._sortedFilm.length) {
       this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
       this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-      this._renderFilms(this._sortedFilm.slice(0, countCurrentCards), this._container.querySelector(`#all-films`));
+      this._renderBoardFilms();
     } else {
       this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-      this._renderFilms(this._cards.slice(0, countCurrentCards), this._container.querySelector(`#all-films`));
+      this._renderBoardFilms();
     }
   }
 
@@ -155,7 +158,7 @@ export default class Page {
       return;
     }
 
-    const allFilmsContainer = this._container.querySelector(`#all-films`);
+    const allFilmsContainer = this._filmsAllList.getElement().querySelector(`#all-films`);
 
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
