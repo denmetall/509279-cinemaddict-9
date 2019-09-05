@@ -11,6 +11,8 @@ import BtnMore from "../components/btn-more";
 import Menu from "../components/menu";
 import Sort from "../components/sort";
 import MovieController from "./movie";
+import FilmsTopRated from "../components/films-top-rated";
+import MostCommentedFilms from "../components/most-commented-films";
 
 export default class Page {
   constructor(container, cards) {
@@ -19,6 +21,8 @@ export default class Page {
     this._menu = new Menu();
     this._sort = new Sort();
     this._films = new Films();
+    this._filmsTopRated = new FilmsTopRated();
+    this._mostCommentedFilms = new MostCommentedFilms();
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
@@ -47,40 +51,27 @@ export default class Page {
     const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
     const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
 
-    const allFilmsContainer = this._container.querySelector(`#all-films`);
-    const topRatedFilmsContainer = this._container.querySelector(`#top-rated-films`);
-    const mostCommentedFilmsContainer = this._container.querySelector(`#most-commented-films`);
-
     filmAllCardsData.forEach((filmCard) => {
-      this._renderFilm(filmCard, allFilmsContainer);
+      this._renderFilm(filmCard, this._films.getElement().querySelector(`#all-films`));
     });
 
-    filmTopCardsData.forEach((filmCard) => {
-      this._renderFilm(filmCard, topRatedFilmsContainer);
-    });
+    if (filmTopCardsData.length) {
+      render(this._films.getElement(), this._filmsTopRated.getElement());
 
-    filmMostCardsData.forEach((filmCard) => {
-      this._renderFilm(filmCard, mostCommentedFilmsContainer);
-    });
-
-    if (this._cards.length > NUMBER_SHOW_FILMS) {
-      const filmsListElement = this._container.querySelector(`#films-list`);
-      render(filmsListElement, this._btnMore.getElement());
-
-      this._btnMore.getElement().addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-
-        const cards = this._sortedFilm.length > 0 ? this._sortedFilm : this._cards;
-        const filmsForAdded = cards.slice(0, this._getCountCurrentCards() + NUMBER_SHOW_FILMS);
-
-        this._renderFilms(filmsForAdded, allFilmsContainer);
-
-        if (filmsForAdded.length - this._getCountCurrentCards() < NUMBER_SHOW_FILMS) {
-          unrender(this._btnMore.getElement());
-          this._btnMore.removeElement();
-        }
+      filmTopCardsData.forEach((filmCard) => {
+        this._renderFilm(filmCard, this._filmsTopRated.getElement().querySelector(`#top-rated-films`));
       });
     }
+
+    if (filmMostCardsData.length) {
+      render(this._films.getElement(), this._mostCommentedFilms.getElement());
+
+      filmMostCardsData.forEach((filmCard) => {
+        this._renderFilm(filmCard, this._mostCommentedFilms.getElement().querySelector(`#most-commented-films`));
+      });
+    }
+
+    this._renderBtnMore();
   }
 
   _renderFilms(filmsData, container) {
@@ -91,6 +82,29 @@ export default class Page {
   _renderFilm(filmCard, container) {
     const movieController = new MovieController(container, filmCard, this._onDataChange);
     movieController.init();
+  }
+
+  _renderBtnMore() {
+    if (this._cards.length > NUMBER_SHOW_FILMS) {
+      const filmsListElement = this._films.getElement().querySelector(`#films-list`);
+      render(filmsListElement, this._btnMore.getElement());
+
+      this._btnMore.getElement().addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        const countCurrentCards = this._getCountCurrentCards();
+
+        const cards = this._sortedFilm.length > 0 ? this._sortedFilm : this._cards;
+        const filmsForAdded = cards.slice(0, countCurrentCards + NUMBER_SHOW_FILMS);
+
+        this._renderFilms(filmsForAdded, this._films.getElement().querySelector(`#all-films`));
+
+        if (filmsForAdded.length - countCurrentCards < NUMBER_SHOW_FILMS) {
+          unrender(this._btnMore.getElement());
+          this._btnMore.removeElement();
+        }
+      });
+    }
   }
 
   _getCountCurrentCards() {

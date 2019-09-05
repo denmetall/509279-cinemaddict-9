@@ -16,22 +16,6 @@ export default class Films extends AbstractComponent {
           </div>
   
         </section>
-    
-        <section class="films-list--extra">
-          <h2 class="films-list__title">Top rated</h2>
-    
-          <div id="top-rated-films" class="films-list__container">
-  
-          </div>
-        </section>
-    
-        <section class="films-list--extra">
-          <h2 class="films-list__title">Most commented</h2>
-    
-          <div id="most-commented-films" class="films-list__container">
-  
-          </div>
-        </section>
       </section>
     `;
   }
