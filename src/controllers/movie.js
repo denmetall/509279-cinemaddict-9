@@ -78,6 +78,7 @@ export default class MovieController {
     this._userRatingBlock.removeElement();
 
     render(this._popup.getElement().querySelector(`.form-details__top-container`), this._userRatingBlock.getElement(), `afterend`);
+    this._onClickRatingScoreBlock();
   }
 
   _getState() {
@@ -149,5 +150,13 @@ export default class MovieController {
     }
 
     this._onDataChange(entry, this._data);
+  }
+
+  _onClickRatingScoreBlock() {
+    this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      // Значение рейтинга выводим через evt.target.control.value
+    });
   }
 }
