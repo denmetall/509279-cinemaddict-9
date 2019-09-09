@@ -18,39 +18,46 @@ export default class MovieController {
   }
 
   init() {
-    this._card.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._renderPopup.bind(this, MovieController));
-    this._card.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._renderPopup.bind(this, MovieController));
-    this._card.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._renderPopup.bind(this, MovieController));
+    const cardElement = this._card.getElement();
+    const cardPoster = cardElement.querySelector(`.film-card__poster`);
+    const cardTitle = cardElement.querySelector(`.film-card__title`);
+    const cardComments = cardElement.querySelector(`.film-card__comments`);
 
-    render(this._container, this._card.getElement());
+    cardPoster.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
+    cardTitle.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
+    cardComments.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
+
+    render(this._container, cardElement);
   }
 
   _renderPopup() {
     this._onChangeView();
+
+    const popupElement = this._popup.getElement();
     const footerElement = document.querySelector(`footer`);
-    render(footerElement, this._popup.getElement(), `afterend`);
+    render(footerElement, popupElement, `afterend`);
 
     if (this._getState().controls.isMarkedAsWatched) {
       this._renderUserRatingBlock();
     }
 
-    const commentsContainer = this._popup.getElement().querySelector(`.film-details__comments-list`);
+    const commentsContainer = popupElement.querySelector(`.film-details__comments-list`);
     this._data.comments.forEach((comment) => {
       render(commentsContainer, new Comment(comment).getElement());
     });
 
-    this._popup.getElement().querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
+    popupElement.querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
       el.addEventListener(`click`, () => {
         const img = el.querySelector(`img`);
-        this._popup.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
-        this._popup.getElement().querySelector(`.film-details__add-emoji-label`)
+        popupElement.querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
+        popupElement.querySelector(`.film-details__add-emoji-label`)
           .appendChild(createElement(`<img src="${img.src}" width="55" height="55" alt="emoji">`));
       });
     });
 
     const onEscKeyDown = (evt) => {
       if (evt.keyCode === KEY_CODE_ESCAPE) {
-        unrender(this._popup.getElement());
+        unrender(popupElement);
         this._popup.removeElement();
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
@@ -58,28 +65,25 @@ export default class MovieController {
 
     document.addEventListener(`keydown`, onEscKeyDown);
 
-    this._popup.getElement()
-      .querySelector(`.film-details__controls`).addEventListener(`click`, (evt) => this._onClickControlsInPopup(evt));
+    popupElement.querySelector(`.film-details__controls`)
+      .addEventListener(`click`, (evt) => this._onClickControlsInPopup(evt));
 
-    this._popup.getElement()
-      .querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => this._sendComment(evt));
+    popupElement.querySelector(`.film-details__comment-input`)
+      .addEventListener(`keydown`, (evt) => this._sendComment(evt));
 
-    this._popup.getElement()
-      .querySelector(`.film-details__close-btn`)
+    popupElement.querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
-        unrender(this._popup.getElement());
+        unrender(popupElement);
         this._popup.removeElement();
       });
 
-    this._popup.getElement()
-      .querySelector(`.film-details__comment-input`)
+    popupElement.querySelector(`.film-details__comment-input`)
       .addEventListener(`focus`, () => {
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
 
-    this._popup.getElement()
-      .querySelector(`.film-details__comment-input`)
+    popupElement.querySelector(`.film-details__comment-input`)
       .addEventListener(`blur`, () => {
         document.addEventListener(`keydown`, onEscKeyDown);
       });
@@ -110,23 +114,25 @@ export default class MovieController {
   }
 
   _onClickControlsCard() {
-    this._card.getElement()
+    const cardElement = this._card.getElement();
+
+    cardElement
       .querySelector(`.film-card__controls`).addEventListener(`click`, (evt) => {
         evt.preventDefault();
         const entry = this._getState();
 
         if (evt.target.classList.contains(`film-card__controls-item--add-to-watchlist`)) {
-          this._card.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
+          cardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
           entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
         }
 
         if (evt.target.classList.contains(`film-card__controls-item--mark-as-watched`)) {
-          this._card.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
+          cardElement.querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
           entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
         }
 
         if (evt.target.classList.contains(`film-card__controls-item--favorite`)) {
-          this._card.getElement().querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
+          cardElement.querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
           entry.controls.isFavorite = !entry.controls.isFavorite;
         }
 
@@ -142,19 +148,21 @@ export default class MovieController {
   }
 
   _onClickControlsInPopup(evt) {
+    const popupElement = this._popup.getElement();
+
     evt.preventDefault();
     const entry = this._getState();
 
     if (evt.target.classList.contains(`film-details__control-label--watchlist`)) {
-      this._popup.getElement().querySelector(`#watchlist`).checked = !this._popup.getElement().querySelector(`#watchlist`).checked;
+      popupElement.querySelector(`#watchlist`).checked = !popupElement.querySelector(`#watchlist`).checked;
       entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
     }
 
     if (evt.target.classList.contains(`film-details__control-label--watched`)) {
-      this._popup.getElement().querySelector(`#watched`).checked = !this._popup.getElement().querySelector(`#watched`).checked;
+      popupElement.querySelector(`#watched`).checked = !popupElement.querySelector(`#watched`).checked;
       entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
 
-      if (this._popup.getElement().querySelector(`#watched`).checked) {
+      if (popupElement.querySelector(`#watched`).checked) {
         this._renderUserRatingBlock();
       } else {
         unrender(this._userRatingBlock.getElement());
@@ -163,7 +171,7 @@ export default class MovieController {
     }
 
     if (evt.target.classList.contains(`film-details__control-label--favorite`)) {
-      this._popup.getElement().querySelector(`#favorite`).checked = !this._popup.getElement().querySelector(`#favorite`).checked;
+      popupElement.querySelector(`#favorite`).checked = !popupElement.querySelector(`#favorite`).checked;
       entry.controls.isFavorite = !entry.controls.isFavorite;
     }
 
@@ -172,13 +180,15 @@ export default class MovieController {
 
   _sendComment(evt) {
     if (evt.keyCode === KEY_CODE_ENTER) {
-      const commentsList = this._popup.getElement().querySelector(`.film-details__comments-list`);
-      const commentTextarea = this._popup.getElement().querySelector(`.film-details__comment-input`);
+      const popupElement = this._popup.getElement();
+
+      const commentsList = popupElement.querySelector(`.film-details__comments-list`);
+      const commentTextarea = popupElement.querySelector(`.film-details__comment-input`);
 
       let smileImg = `smile.png`;
 
-      if (this._popup.getElement().querySelector(`.film-details__add-emoji-label img`)) {
-        const smileSrc = this._popup.getElement().querySelector(`.film-details__add-emoji-label img`).src || `/smile.png`;
+      if (popupElement.querySelector(`.film-details__add-emoji-label img`)) {
+        const smileSrc = popupElement.querySelector(`.film-details__add-emoji-label img`).src || `/smile.png`;
         smileImg = smileSrc.substr(smileSrc.lastIndexOf(`/`) + 1);
       }
 
