@@ -30,7 +30,7 @@ export default class MovieController {
     const footerElement = document.querySelector(`footer`);
     render(footerElement, this._popup.getElement(), `afterend`);
 
-    if (this._getState().controls.isMarkedAsWatched) {
+    if (this._popup.getElement().querySelector(`#watched`).checked) {
       this._renderUserRatingBlock();
     }
 
@@ -134,6 +134,13 @@ export default class MovieController {
     if (evt.target.classList.contains(`film-details__control-label--watched`)) {
       this._popup.getElement().querySelector(`#watched`).checked = !this._popup.getElement().querySelector(`#watched`).checked;
       entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
+
+      if (this._popup.getElement().querySelector(`#watched`).checked) {
+        this._renderUserRatingBlock();
+      } else {
+        unrender(this._userRatingBlock.getElement());
+        this._userRatingBlock.removeElement();
+      }
     }
 
     if (evt.target.classList.contains(`film-details__control-label--favorite`)) {
