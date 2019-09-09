@@ -30,7 +30,7 @@ export default class MovieController {
     const footerElement = document.querySelector(`footer`);
     render(footerElement, this._popup.getElement(), `afterend`);
 
-    if (this._popup.getElement().querySelector(`#watched`).checked) {
+    if (this._getState().controls.isMarkedAsWatched) {
       this._renderUserRatingBlock();
     }
 
@@ -90,7 +90,13 @@ export default class MovieController {
     this._userRatingBlock.removeElement();
 
     render(this._popup.getElement().querySelector(`.form-details__top-container`), this._userRatingBlock.getElement(), `afterend`);
-    this._onClickRatingScoreBlock();
+
+    this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      // console.log(evt.target.control.value);
+      // Нам нужно создавать отдельное поле в наших данных для хранения рейтинга пользователя?
+      // Как я понимаю рейтинг фильма создается не из оценки одного пользователя
+    });
   }
 
   _getState() {
@@ -162,15 +168,6 @@ export default class MovieController {
     }
 
     this._onDataChange(entry, this._data);
-  }
-
-  _onClickRatingScoreBlock() {
-    this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      // console.log(evt.target.control.value);
-      // Нам нужно создавать отдельное поле в наших данных для хранения рейтинга пользователя?
-      // Как я понимаю рейтинг фильма создается не из оценки одного пользователя
-    });
   }
 
   _sendComment(evt) {

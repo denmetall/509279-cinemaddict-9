@@ -127,7 +127,7 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData, isNewComment = `false`) {
+  _onDataChange(newData, oldData, isNewComment = false) {
     if (isNewComment) {
       this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
     } else {
