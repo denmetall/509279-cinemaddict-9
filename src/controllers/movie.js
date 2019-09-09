@@ -12,7 +12,7 @@ export default class MovieController {
     this._onDataChange = onDataChange;
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
-    this._userRatingBlock = new UserRatingBlock();
+    this._userRatingBlock = new UserRatingBlock(this._data);
 
     this._onClickControlsCard();
   }
