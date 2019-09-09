@@ -1,6 +1,6 @@
 import Card from "../components/film-card";
 import Popup from "../components/popup";
-import {KEY_CODE_ESCAPE, render, unrender, createElement} from "../components/utils";
+import {KEY_CODE_ESCAPE, KEY_CODE_ENTER, render, unrender, createElement} from "../components/utils";
 import Comment from "../components/comment";
 import UserRatingBlock from "../components/user-rating-block";
 
@@ -60,6 +60,9 @@ export default class MovieController {
 
     this._popup.getElement()
       .querySelector(`.film-details__controls`).addEventListener(`click`, (evt) => this._onClickControlsInPopup(evt));
+
+    this._popup.getElement()
+      .querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => this._sendComment(evt));
 
     this._popup.getElement()
       .querySelector(`.film-details__close-btn`)
@@ -164,8 +167,36 @@ export default class MovieController {
   _onClickRatingScoreBlock() {
     this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
-      // Значение рейтинга выводим через evt.target.control.value
+      // console.log(evt.target.control.value);
+      // Нам нужно создавать отдельное поле в наших данных для хранения рейтинга пользователя?
+      // Как я понимаю рейтинг фильма создается не из оценки одного пользователя
     });
+  }
+
+  _sendComment(evt) {
+    if (evt.keyCode === KEY_CODE_ENTER) {
+      const commentsList = this._popup.getElement().querySelector(`.film-details__comments-list`);
+      const commentTextarea = this._popup.getElement().querySelector(`.film-details__comment-input`);
+
+      let smileImg = `smile.png`;
+
+      if (this._popup.getElement().querySelector(`.film-details__add-emoji-label img`)) {
+        const smileSrc = this._popup.getElement().querySelector(`.film-details__add-emoji-label img`).src || `/smile.png`;
+        smileImg = smileSrc.substr(smileSrc.lastIndexOf(`/`) + 1);
+      }
+
+      const commentData = {
+        author: `Evstratchik denis`,
+        text: commentTextarea.value,
+        date: new Date(Date.now()),
+        smile: smileImg,
+      };
+
+      render(commentsList, new Comment(commentData).getElement());
+
+      commentTextarea.value = ``;
+      const isNewComment = true;
+      this._onDataChange(commentData, this._data, isNewComment);
+    }
   }
 }

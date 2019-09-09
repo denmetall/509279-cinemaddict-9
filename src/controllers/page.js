@@ -127,14 +127,18 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData) {
-    if (this._sortedFilm.length) {
-      this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
-      this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-      this._renderBoardFilms();
+  _onDataChange(newData, oldData, isNewComment = `false`) {
+    if (isNewComment) {
+      this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
     } else {
-      this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-      this._renderBoardFilms();
+      if (this._sortedFilm.length) {
+        this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
+        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
+        this._renderBoardFilms();
+      } else {
+        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
+        this._renderBoardFilms();
+      }
     }
   }
 
