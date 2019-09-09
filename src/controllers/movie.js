@@ -1,6 +1,6 @@
 import Card from "../components/film-card";
 import Popup from "../components/popup";
-import {KEY_CODE_ESCAPE, render, unrender} from "../components/utils";
+import {KEY_CODE_ESCAPE, render, unrender, createElement} from "../components/utils";
 import Comment from "../components/comment";
 import UserRatingBlock from "../components/user-rating-block";
 
@@ -37,6 +37,15 @@ export default class MovieController {
     const commentsContainer = this._popup.getElement().querySelector(`.film-details__comments-list`);
     this._data.comments.forEach((comment) => {
       render(commentsContainer, new Comment(comment).getElement());
+    });
+
+    this._popup.getElement().querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
+      el.addEventListener(`click`, () => {
+        const img = el.querySelector(`img`);
+        this._popup.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
+        this._popup.getElement().querySelector(`.film-details__add-emoji-label`)
+          .appendChild(createElement(`<img src="${img.src}" width="55" height="55" alt="emoji">`));
+      });
     });
 
     const onEscKeyDown = (evt) => {
