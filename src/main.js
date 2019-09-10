@@ -3,7 +3,7 @@ import Profile from "./components/profile";
 import Footer from "./components/footer";
 import filmCards from "./data/cards";
 import {render} from './components/utils';
-import PageController from "./components/page-controller";
+import Page from "./controllers/page";
 
 const headerElement = document.querySelector(`#header`);
 render(headerElement, new Search().getElement());
@@ -13,5 +13,5 @@ const mainElement = document.querySelector(`#main`);
 
 render(mainElement, new Footer().getElement(), `afterend`);
 
-const controllerContent = new PageController(mainElement, filmCards);
+const controllerContent = new Page(mainElement, filmCards);
 controllerContent.init();
