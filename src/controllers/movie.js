@@ -3,6 +3,7 @@ import Popup from "../components/popup";
 import {KEY_CODE_ESCAPE, KEY_CODE_ENTER, render, unrender, createElement} from "../components/utils";
 import Comment from "../components/comment";
 import UserRatingBlock from "../components/user-rating-block";
+import moment from "moment";
 
 export default class MovieController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -97,9 +98,6 @@ export default class MovieController {
 
     this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
       evt.preventDefault();
-      // console.log(evt.target.control.value);
-      // Нам нужно создавать отдельное поле в наших данных для хранения рейтинга пользователя?
-      // Как я понимаю рейтинг фильма создается не из оценки одного пользователя
     });
   }
 
@@ -195,7 +193,7 @@ export default class MovieController {
       const commentData = {
         author: `Evstratchik denis`,
         text: commentTextarea.value,
-        date: new Date(Date.now()),
+        date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
         smile: smileImg,
       };
 
