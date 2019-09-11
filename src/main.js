@@ -23,7 +23,6 @@ render(mainElement, statistic);
 
 render(mainElement, new Footer().getElement(), `afterend`);
 
-
 menu.addEventListener(`click`, (evt) => {
   evt.preventDefault();
 
