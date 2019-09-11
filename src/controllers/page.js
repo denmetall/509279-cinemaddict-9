@@ -47,6 +47,16 @@ export default class Page {
     }
   }
 
+  hidePage() {
+    this._sort.getElement().classList.add(`visually-hidden`);
+    this._films.getElement().classList.add(`visually-hidden`);
+  }
+
+  showPage() {
+    this._sort.getElement().classList.remove(`visually-hidden`);
+    this._films.getElement().classList.remove(`visually-hidden`);
+  }
+
   _renderBoardFilms(isStartApp = false) {
     const cards = this._checkSortedOrStartData();
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
