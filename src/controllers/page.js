@@ -8,7 +8,6 @@ import {
 import Films from "../components/films";
 import NoFilms from "../components/no-flims";
 import BtnMore from "../components/btn-more";
-import Menu from "../components/menu";
 import Sort from "../components/sort";
 import MovieController from "./movie";
 import FilmsTopRated from "../components/films-top-rated";
@@ -19,7 +18,6 @@ export default class Page {
   constructor(container, cards) {
     this._container = container;
     this._cards = cards;
-    this._menu = new Menu();
     this._sort = new Sort();
     this._films = new Films();
     this._filmsAllList = new FilmsAllList();
@@ -35,7 +33,6 @@ export default class Page {
   }
 
   init() {
-    render(this._container, this._menu.getElement());
     render(this._container, this._sort.getElement());
 
     this._sort.getElement()
