@@ -138,10 +138,9 @@ export default class Page {
     if (isChangeCommentsList) {
 
       if (commentId) {
-        debugger;
         const commentsListData = this._cards[this._cards.findIndex((it) => it === oldData)].comments;
         const indexInCards = this._cards.findIndex((it) => it === oldData);
-        const indexInArrayCommentsList = commentsListData.findIndex(comment => comment.id == commentId);
+        const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
         this._cards[indexInCards].comments.splice(indexInArrayCommentsList, 1);
       } else {
         this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);

@@ -112,7 +112,7 @@ export default class MovieController {
 
         const isChangeCommentsList = true;
 
-        this._onDataChange(null, this._data, isChangeCommentsList, commentId);
+        this._onDataChange(null, this._data, isChangeCommentsList, +commentId);
       });
     });
   }
