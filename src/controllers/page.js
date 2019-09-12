@@ -134,9 +134,16 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData, isNewComment = false) {
-    if (isNewComment) {
-      this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
+  _onDataChange(newData, oldData, isChangeCommentsList = false) {
+    if (isChangeCommentsList) {
+      if (newData === null) {
+        debugger;
+        console.log(`Как мне найти комментарий, который нужно удалить?`);
+      } else {
+        this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
+      }
+      this._renderBoardFilms();
+
     } else {
       if (this._sortedFilm.length) {
         this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;

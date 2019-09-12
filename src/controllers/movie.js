@@ -4,6 +4,7 @@ import {KEY_CODE_ESCAPE, KEY_CODE_ENTER, render, unrender, createElement} from "
 import Comment from "../components/comment";
 import UserRatingBlock from "../components/user-rating-block";
 import moment from "moment";
+import CommentsList from "../components/comments-list";
 
 export default class MovieController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -14,6 +15,7 @@ export default class MovieController {
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
     this._userRatingBlock = new UserRatingBlock(this._data);
+    this._commentsList = new CommentsList();
 
     this._onClickControlsCard();
   }
@@ -29,6 +31,10 @@ export default class MovieController {
     cardComments.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
 
     render(this._container, cardElement);
+
+    if (document.querySelector(`.film-details`)) {
+      this._renderPopup();
+    }
   }
 
   _renderPopup() {
@@ -42,10 +48,7 @@ export default class MovieController {
       this._renderUserRatingBlock();
     }
 
-    const commentsContainer = popupElement.querySelector(`.film-details__comments-list`);
-    this._data.comments.forEach((comment) => {
-      render(commentsContainer, new Comment(comment).getElement());
-    });
+    this._renderComments(this._data.comments);
 
     popupElement.querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
       el.addEventListener(`click`, () => {
@@ -88,6 +91,33 @@ export default class MovieController {
       .addEventListener(`blur`, () => {
         document.addEventListener(`keydown`, onEscKeyDown);
       });
+  }
+
+  _renderComments(commentsData) {
+    unrender(this._commentsList.getElement());
+    this._commentsList.removeElement();
+
+    const formTitle = this._popup.getElement().querySelector(`.film-details__comments-title`);
+    render(formTitle, this._commentsList.getElement(), `afterend`);
+
+    commentsData.forEach((commentData) => {
+      const comment = new Comment(commentData);
+      render(this._commentsList.getElement(), comment.getElement());
+
+      const btnDelete = comment.getElement().querySelector(`.film-details__comment-delete`);
+
+      btnDelete.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        // Я могу удалить текущий коммент, но в данных нужно удалять через this._onDataChange и перерендеринга попапа
+        // unrender(comment.getElement());
+        // comment.removeElement();
+
+        const isChangeCommentsList = true;
+
+        this._onDataChange(null, this._data, isChangeCommentsList);
+      });
+    });
   }
 
   _renderUserRatingBlock() {
@@ -180,7 +210,6 @@ export default class MovieController {
     if (evt.keyCode === KEY_CODE_ENTER) {
       const popupElement = this._popup.getElement();
 
-      const commentsList = popupElement.querySelector(`.film-details__comments-list`);
       const commentTextarea = popupElement.querySelector(`.film-details__comment-input`);
 
       let smileImg = `smile.png`;
@@ -197,11 +226,9 @@ export default class MovieController {
         smile: smileImg,
       };
 
-      render(commentsList, new Comment(commentData).getElement());
-
       commentTextarea.value = ``;
-      const isNewComment = true;
-      this._onDataChange(commentData, this._data, isNewComment);
+      const isChangeCommentsList = true;
+      this._onDataChange(commentData, this._data, isChangeCommentsList);
     }
   }
 }
