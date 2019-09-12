@@ -57,18 +57,21 @@ export const generateFilmData = () => {
     },
     comments: [
       {
+        id: Math.random(),
         smile: `smile.png`,
         text: `Interesting setting and a good cast`,
         author: `Tim Macoveev`,
         date: `3 days ago`
       },
       {
+        id: Math.random(),
         smile: `sleeping.png`,
         text: `Booooooooooring`,
         author: `ohn Doe`,
         date: `1 days ago`
       },
       {
+        id: Math.random(),
         smile: `puke.png`,
         text: `Very very old. Meh`,
         author: `John Doe`,

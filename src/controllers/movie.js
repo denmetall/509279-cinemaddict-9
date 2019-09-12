@@ -108,14 +108,11 @@ export default class MovieController {
 
       btnDelete.addEventListener(`click`, (evt) => {
         evt.preventDefault();
-
-        // Я могу удалить текущий коммент, но в данных нужно удалять через this._onDataChange и перерендеринга попапа
-        // unrender(comment.getElement());
-        // comment.removeElement();
+        const commentId = comment.getElement().dataset.commentId;
 
         const isChangeCommentsList = true;
 
-        this._onDataChange(null, this._data, isChangeCommentsList);
+        this._onDataChange(null, this._data, isChangeCommentsList, commentId);
       });
     });
   }
@@ -220,6 +217,7 @@ export default class MovieController {
       }
 
       const commentData = {
+        id: Math.random(),
         author: `Evstratchik denis`,
         text: commentTextarea.value,
         date: moment(Date.now()).format(`YY/MM/DD HH:MM`),

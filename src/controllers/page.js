@@ -134,14 +134,19 @@ export default class Page {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData, isChangeCommentsList = false) {
+  _onDataChange(newData, oldData, isChangeCommentsList = false, commentId = false) {
     if (isChangeCommentsList) {
-      if (newData === null) {
+
+      if (commentId) {
         debugger;
-        console.log(`Как мне найти комментарий, который нужно удалить?`);
+        const commentsListData = this._cards[this._cards.findIndex((it) => it === oldData)].comments;
+        const indexInCards = this._cards.findIndex((it) => it === oldData);
+        const indexInArrayCommentsList = commentsListData.findIndex(comment => comment.id == commentId);
+        this._cards[indexInCards].comments.splice(indexInArrayCommentsList, 1);
       } else {
         this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
       }
+
       this._renderBoardFilms();
 
     } else {
