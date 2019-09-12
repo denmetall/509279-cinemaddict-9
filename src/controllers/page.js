@@ -136,27 +136,35 @@ export default class Page {
 
   _onDataChange(newData, oldData, isChangeCommentsList = false, commentId = false) {
     if (isChangeCommentsList) {
-
-      if (commentId) {
-        const commentsListData = this._cards[this._cards.findIndex((it) => it === oldData)].comments;
-        const indexInCards = this._cards.findIndex((it) => it === oldData);
-        const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-        this._cards[indexInCards].comments.splice(indexInArrayCommentsList, 1);
-      } else {
-        this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
-      }
-
-      this._renderBoardFilms();
-
+      this._onDataChangeComments(newData, oldData, commentId);
     } else {
-      if (this._sortedFilm.length) {
-        this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._renderBoardFilms();
-      } else {
-        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._renderBoardFilms();
-      }
+      this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
+      // if (this._sortedFilm.length) {
+      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
+      // }
+    }
+    this._renderBoardFilms();
+  }
+
+  _onDataChangeComments(newData, oldData, commentId) {
+    if (commentId) {
+      const commentsListData = this._cards[this._cards.findIndex((it) => it === oldData)].comments;
+      const indexInCards = this._cards.findIndex((it) => it === oldData);
+      const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      this._cards[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      //
+      // if (this._sortedFilm.length) {
+      //   const commentsListData = this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments;
+      //   const indexInCards = this._sortedFilm.findIndex((it) => it === oldData);
+      //   const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      //   this._sortedFilm[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      // }
+    } else {
+      this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
+      //
+      // if (this._sortedFilm.length) {
+      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments.push(newData);
+      // }
     }
   }
 

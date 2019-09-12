@@ -32,6 +32,7 @@ export default class MovieController {
 
     render(this._container, cardElement);
 
+    // Нужно доработать эту проверку на открытый попап
     if (document.querySelector(`.film-details`)) {
       this._renderPopup();
     }
