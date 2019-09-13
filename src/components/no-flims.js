@@ -1,8 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
 export default class NoFilms extends AbstractComponent {
-  constructor() {
+  constructor(textInfo = `There are no movies in our database.`) {
     super();
+    this._textInfo = textInfo;
   }
 
   getTemplate() {
@@ -12,10 +13,11 @@ export default class NoFilms extends AbstractComponent {
           <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
     
           <div class="no-result">
-            There are no movies in our database.
+            ${this._textInfo}
           </div>
         </section>
       </section>
     `;
   }
 }
+
