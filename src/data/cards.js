@@ -49,7 +49,6 @@ export const generateFilmData = () => {
             .split(`. `)[Math.floor(Math.random() * 11)]
         )
         .join(`. `),
-    numberComments: Math.floor(Math.random() * 10),
     controls: {
       isAddedToWatchlist: Boolean(Math.round(Math.random())),
       isMarkedAsWatched: Boolean(Math.round(Math.random())),

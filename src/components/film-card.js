@@ -1,7 +1,7 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Card extends AbstractComponent {
-  constructor({title, rating, year, duration, genre, posterLink, description, numberComments, controls}) {
+  constructor({title, rating, year, duration, genre, posterLink, description, controls, comments}) {
     super();
     this._title = title;
     this._rating = rating;
@@ -10,8 +10,8 @@ export default class Card extends AbstractComponent {
     this._genre = genre;
     this._posterLink = posterLink;
     this._description = description;
-    this._numberComments = numberComments;
     this._controls = controls;
+    this._comments = comments;
   }
 
   getTemplate() {
@@ -26,7 +26,7 @@ export default class Card extends AbstractComponent {
         </p>
         <img src="./images/posters/${this._posterLink}" alt="" class="film-card__poster">
         <p class="film-card__description">${this._description}</p>
-        <a class="film-card__comments">${this._numberComments} comments</a>
+        <a class="film-card__comments">${this._comments.length} comments</a>
         <form class="film-card__controls">
           <button 
             class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${(this._controls.isAddedToWatchlist) ? `film-card__controls-item--active` : ``}"
