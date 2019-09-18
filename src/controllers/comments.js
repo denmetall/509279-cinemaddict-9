@@ -31,6 +31,9 @@ export default class CommentsController {
         const isChangeCommentsList = true;
 
         this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
+
+        unrender(comment.getElement());
+        comment.removeElement();
       });
     });
 
@@ -65,6 +68,8 @@ export default class CommentsController {
         date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
         smile: smileImg,
       };
+
+      render(this._commentsList.getElement(), new Comment(commentData).getElement());
 
       commentTextarea.value = ``;
       const isChangeCommentsList = true;
