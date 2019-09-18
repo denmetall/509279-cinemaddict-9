@@ -9,6 +9,7 @@ export default class CommentsController {
     this._dataCard = dataCard;
     this._onDataChange = onDataChange;
     this._commentsList = new CommentsList();
+    this._commentsNumber = this._container.querySelector(`.film-details__comments-count`);
   }
 
   init() {
@@ -22,19 +23,7 @@ export default class CommentsController {
       const comment = new Comment(commentData);
       render(this._commentsList.getElement(), comment.getElement());
 
-      const btnDelete = comment.getElement().querySelector(`.film-details__comment-delete`);
-
-      btnDelete.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        const commentId = comment.getElement().dataset.commentId;
-
-        const isChangeCommentsList = true;
-
-        this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
-
-        unrender(comment.getElement());
-        comment.removeElement();
-      });
+      this._btnRemoveComment(comment);
     });
 
     this._container.querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
@@ -69,11 +58,34 @@ export default class CommentsController {
         smile: smileImg,
       };
 
-      render(this._commentsList.getElement(), new Comment(commentData).getElement());
+      const newComment = new Comment(commentData);
+
+      render(this._commentsList.getElement(), newComment.getElement());
+      this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
+
+      this._btnRemoveComment(newComment);
 
       commentTextarea.value = ``;
       const isChangeCommentsList = true;
       this._onDataChange(commentData, this._dataCard, isChangeCommentsList);
     }
+  }
+
+  _btnRemoveComment(currentComment) {
+    const btnDelete = currentComment.getElement().querySelector(`.film-details__comment-delete`);
+
+    btnDelete.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      const commentId = currentComment.getElement().dataset.commentId;
+
+      const isChangeCommentsList = true;
+
+      this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
+
+      unrender(currentComment.getElement());
+      currentComment.removeElement();
+
+      this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+    });
   }
 }
