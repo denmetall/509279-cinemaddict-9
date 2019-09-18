@@ -8,7 +8,9 @@ import {render} from './components/utils';
 import Page from "./controllers/page";
 
 const headerElement = document.querySelector(`#header`);
-render(headerElement, new Search().getElement());
+const search = new Search();
+render(headerElement, search.getElement());
+
 render(headerElement, new Profile().getElement());
 
 const mainElement = document.querySelector(`#main`);
@@ -63,4 +65,12 @@ menu.addEventListener(`click`, (evt) => {
     default:
       break;
   }
+});
+
+search.getElement().addEventListener(`submit`, (evt) => {
+  evt.preventDefault();
+  controllerContent.hidePage();
+  statistic.classList.add(`visually-hidden`);
+
+  //Выводим отображение карточек
 });
