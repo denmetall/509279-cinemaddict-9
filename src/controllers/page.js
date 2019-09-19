@@ -44,13 +44,18 @@ export default class Page {
   }
 
   hidePage() {
-    this._sort.getElement().classList.add(`visually-hidden`);
-    this._films.getElement().classList.add(`visually-hidden`);
+    unrender(this._sort.getElement());
+    unrender(this._films.getElement());
+    this._sort.removeElement();
+    this._films.removeElement();
+    // this._sort.getElement().classList.add(`visually-hidden`);
+    // this._films.getElement().classList.add(`visually-hidden`);
   }
 
   showPage() {
-    this._sort.getElement().classList.remove(`visually-hidden`);
-    this._films.getElement().classList.remove(`visually-hidden`);
+    this.init();
+    // this._sort.getElement().classList.remove(`visually-hidden`);
+    // this._films.getElement().classList.remove(`visually-hidden`);
   }
 
   _renderBoardFilms(isStartApp = false) {
