@@ -1,10 +1,10 @@
 import MovieController from "./movie";
 
-export default class FilmsListController {
-  constructor(container, dataFilmsForRendering, primaryDataFilms, renderBoardFilms) {
+export default class FilmsList {
+  constructor(filmsData, container, primaryFilmsData, renderBoardFilms) {
+    this._filmsData = filmsData;
     this._container = container;
-    this._dataFilmsForRendering = dataFilmsForRendering;
-    this._primaryDataFilms = primaryDataFilms;
+    this._primaryFilmsData = primaryFilmsData;
     this._renderBoardFilms = renderBoardFilms;
 
     this._subscriptions = [];
@@ -14,7 +14,7 @@ export default class FilmsListController {
 
   init() {
     this._container.innerHTML = ``;
-    this._dataFilmsForRendering.forEach((film) => this._renderFilm(film, this._container));
+    this._filmsData.forEach((film) => this._renderFilm(film, this._container));
   }
 
   _renderFilm(filmCard, container) {
@@ -31,23 +31,33 @@ export default class FilmsListController {
     if (isChangeCommentsList) {
       this._onDataChangeComments(newData, oldData, commentId);
     } else {
-      // Раньше это был объект this._card (который остался в pageController)
-      // Я попробовал его передать с названием this._primaryDataFilms (так как объект передается по ссылке))
-      // Но теперь при добавлении или удалении комментария удаляются все комменты во всех карточках((
-      // Причем я сначала вынес CommentsController все работало, а когда вынес еще и FilmsListController перестало работать
-      this._primaryDataFilms[this._primaryDataFilms.findIndex((it) => it === oldData)].controls = newData.controls;
+      this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].controls = newData.controls;
+      // if (this._sortedFilm.length) {
+      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
+      // }
     }
     this._renderBoardFilms();
   }
 
   _onDataChangeComments(newData, oldData, commentId) {
     if (commentId) {
-      const commentsListData = this._primaryDataFilms[this._primaryDataFilms.findIndex((it) => it === oldData)].comments;
-      const indexInCards = this._primaryDataFilms.findIndex((it) => it === oldData);
+      const commentsListData = this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments;
+      const indexInCards = this._primaryFilmsData.findIndex((it) => it === oldData);
       const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-      this._primaryDataFilms[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      this._primaryFilmsData[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      //
+      // if (this._sortedFilm.length) {
+      //   const commentsListData = this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments;
+      //   const indexInCards = this._sortedFilm.findIndex((it) => it === oldData);
+      //   const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      //   this._sortedFilm[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      // }
     } else {
-      this._primaryDataFilms[this._primaryDataFilms.findIndex((it) => it === oldData)].comments.push(newData);
+      this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments.push(newData);
+      //
+      // if (this._sortedFilm.length) {
+      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments.push(newData);
+      // }
     }
   }
 }

@@ -1,7 +1,7 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Popup extends AbstractComponent {
-  constructor({title, rating, year, duration, genre, posterLink, description, numberComments, controls}) {
+  constructor({title, rating, year, duration, genre, posterLink, description, controls, comments}) {
     super();
     this._title = title;
     this._rating = rating;
@@ -10,8 +10,8 @@ export default class Popup extends AbstractComponent {
     this._genre = genre;
     this._posterLink = posterLink;
     this._description = description;
-    this._numberComments = numberComments;
     this._controls = controls;
+    this._comments = comments;
   }
 
   getTemplate() {
@@ -95,7 +95,7 @@ export default class Popup extends AbstractComponent {
       
           <div class="form-details__bottom-container">
             <section class="film-details__comments-wrap">
-              <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._numberComments}</span></h3>
+              <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._comments.length}</span></h3>
            
               <div class="film-details__new-comment">
                 <div for="add-emoji" class="film-details__add-emoji-label"></div>

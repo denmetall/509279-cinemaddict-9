@@ -6,9 +6,12 @@ import Footer from "./components/footer";
 import filmCards from "./data/cards";
 import {render} from './components/utils';
 import Page from "./controllers/page";
+import SearchInfo from "./components/search-info";
 
 const headerElement = document.querySelector(`#header`);
-render(headerElement, new Search().getElement());
+const search = new Search();
+render(headerElement, search.getElement());
+
 render(headerElement, new Profile().getElement());
 
 const mainElement = document.querySelector(`#main`);
@@ -63,4 +66,16 @@ menu.addEventListener(`click`, (evt) => {
     default:
       break;
   }
+});
+
+const searchInfo = new SearchInfo();
+
+search.getElement().addEventListener(`submit`, (evt) => {
+  evt.preventDefault();
+  controllerContent.hidePage();
+  statistic.classList.add(`visually-hidden`);
+
+  render(mainElement, searchInfo.getElement());
+
+  // Выводим отображение карточек
 });

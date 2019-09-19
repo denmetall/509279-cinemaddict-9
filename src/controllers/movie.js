@@ -31,11 +31,6 @@ export default class MovieController {
     cardComments.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
 
     render(this._container, cardElement);
-
-    // Нужно доработать эту проверку на открытый попап
-    if (document.querySelector(`.film-details`)) {
-      this._renderPopup();
-    }
   }
 
   _renderPopup() {

@@ -12,7 +12,7 @@ import Sort from "../components/sort";
 import FilmsTopRated from "../components/films-top-rated";
 import MostCommentedFilms from "../components/most-commented-films";
 import FilmsAllList from "../components/films-all-list";
-import FilmsListController from "./films-list";
+import FilmsList from "./films-list";
 
 export default class Page {
   constructor(container, cards) {
@@ -26,8 +26,6 @@ export default class Page {
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
-
-    this._renderBoardFilms = this._renderBoardFilms.bind(this);
   }
 
   init() {
@@ -89,7 +87,7 @@ export default class Page {
   }
 
   _renderFilms(filmsData, container) {
-    const filmsListController = new FilmsListController(container, filmsData, this._cards, this._renderBoardFilms);
+    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this));
     filmsListController.init();
   }
 
