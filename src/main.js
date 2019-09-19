@@ -77,5 +77,5 @@ search.getElement().addEventListener(`submit`, (evt) => {
 
   render(mainElement, searchInfo.getElement());
 
-  //Выводим отображение карточек
+  // Выводим отображение карточек
 });
