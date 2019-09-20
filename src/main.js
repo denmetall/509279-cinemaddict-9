@@ -3,7 +3,7 @@ import Profile from "./components/profile";
 import Menu from "./components/menu";
 import Footer from "./components/footer";
 import filmCards from "./data/cards";
-import {render} from './utils';
+import {render, getStats} from './utils';
 import Page from "./controllers/page";
 import SearchController from "./controllers/serarch";
 import StatsController from "./controllers/stats";
@@ -12,10 +12,12 @@ const headerElement = document.querySelector(`#header`);
 const search = new Search();
 render(headerElement, search.getElement());
 
-render(headerElement, new Profile().getElement());
+const stats = getStats(filmCards);
+
+render(headerElement, new Profile(stats).getElement());
 
 const mainElement = document.querySelector(`#main`);
-const menu = new Menu().getElement();
+const menu = new Menu(stats).getElement();
 render(mainElement, menu);
 
 const controllerContent = new Page(mainElement, filmCards);
@@ -23,7 +25,7 @@ controllerContent.init();
 
 const statsController = new StatsController(mainElement, filmCards);
 
-render(mainElement, new Footer().getElement(), `afterend`);
+render(mainElement, new Footer(stats).getElement(), `afterend`);
 
 menu.addEventListener(`click`, (evt) => {
   evt.preventDefault();

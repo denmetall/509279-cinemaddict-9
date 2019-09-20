@@ -1,5 +1,3 @@
-import data from './data/cards.js';
-
 const KEY_CODE_ESCAPE = 27;
 const KEY_CODE_ENTER = 13;
 const NUMBER_SHOW_FILMS = 5;
@@ -38,20 +36,22 @@ const unrender = (element) => {
   }
 };
 
-const getNumberFilmsStat = (control) => data.reduce((count, film) => (film.controls[control] ? count + 1 : count), 0);
+const getNumberFilmsStat = (control, data) => data.reduce((count, film) => (film.controls[control] ? count + 1 : count), 0);
 
-const stats = {
-  get allFilmsNumber() {
-    return data.length;
-  },
-  get watchlistNumber() {
-    return getNumberFilmsStat(`isAddedToWatchlist`);
-  },
-  get historyNumber() {
-    return getNumberFilmsStat(`isMarkedAsWatched`);
-  },
-  get favoritesNumber() {
-    return getNumberFilmsStat(`isFavorite`);
+const getStats = (data) => {
+  return {
+    get allFilmsNumber() {
+      return data.length;
+    },
+    get watchlistNumber() {
+      return getNumberFilmsStat(`isAddedToWatchlist`, data);
+    },
+    get historyNumber() {
+      return getNumberFilmsStat(`isMarkedAsWatched`, data);
+    },
+    get favoritesNumber() {
+      return getNumberFilmsStat(`isFavorite`, data);
+    }
   }
 };
 
@@ -64,5 +64,5 @@ export {
   NUMBER_SHOW_FILMS,
   NUMBER_SHOW_TOP_RATED_FILMS,
   NUMBER_SHOW_MOST_COMMENTED_FILMS,
-  stats
+  getStats
 };

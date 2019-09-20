@@ -1,8 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Statistic extends AbstractComponent {
-  constructor() {
+  constructor(stats) {
     super();
+    this._stats = stats;
   }
 
   getTemplate() {
@@ -36,7 +37,7 @@ export default class Statistic extends AbstractComponent {
         <ul class="statistic__text-list">
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">You watched</h4>
-            <p class="statistic__item-text">22 <span class="statistic__item-description">movies</span></p>
+            <p class="statistic__item-text">${this._stats.historyNumber} <span class="statistic__item-description">movies</span></p>
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Total duration</h4>

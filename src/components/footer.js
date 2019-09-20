@@ -1,9 +1,9 @@
-import {stats} from '../utils';
 import AbstractComponent from "./abstract-component";
 
 export default class Footer extends AbstractComponent {
-  constructor() {
+  constructor(stats) {
     super();
+    this._stats = stats;
   }
 
   getTemplate() {
@@ -11,7 +11,7 @@ export default class Footer extends AbstractComponent {
       <footer id="footer" class="footer">
         <section class="footer__logo logo logo--smaller">Cinemaddict</section>
         <section class="footer__statistics">
-          <p>${stats.allFilmsNumber} movies inside</p>
+          <p>${this._stats.allFilmsNumber} movies inside</p>
         </section>
       </footer>
     `;
