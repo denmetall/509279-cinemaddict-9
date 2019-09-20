@@ -1,5 +1,5 @@
 import Statistic from "../components/statistic";
-import {render} from "../utils";
+import {render, getStats} from "../utils";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -7,7 +7,7 @@ export default class StatsController {
   constructor(container, data) {
     this._container = container;
     this._data = data;
-    this._statistic = new Statistic();
+    this._statistic = new Statistic(getStats(this._data));
   }
 
   init() {
