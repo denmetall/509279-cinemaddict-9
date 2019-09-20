@@ -24,14 +24,13 @@ export const generateFilmData = () => {
     year: (1980 + Math.floor(Math.random() * 37)),
     duration: `2h ${Math.floor(Math.random() * 55)}m`,
     genre: [
-      `Ужасы`,
-      `Боевик`,
-      `Драма`,
-      `Комедия`,
-      `Приключения`,
-      `Драма`,
-      `Криминал`,
-      `Фантастика`
+      `horrors`,
+      `militant`,
+      `drama`,
+      `comedy`,
+      `adventures`,
+      `criminal`,
+      `fantasy`
     ][Math.floor(Math.random() * 7)],
     posterLink: [
       `made-for-each-other.png`,
