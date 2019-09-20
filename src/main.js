@@ -7,6 +7,7 @@ import filmCards from "./data/cards";
 import {render} from './components/utils';
 import Page from "./controllers/page";
 import SearchController from "./controllers/serarch";
+import StatsController from "./controllers/stats";
 
 const headerElement = document.querySelector(`#header`);
 const search = new Search();
@@ -21,8 +22,7 @@ render(mainElement, menu);
 const controllerContent = new Page(mainElement, filmCards);
 controllerContent.init();
 
-const statistic = new Statistic().getElement();
-render(mainElement, statistic);
+const statsController = new StatsController(mainElement, filmCards);
 
 render(mainElement, new Footer().getElement(), `afterend`);
 
@@ -47,7 +47,8 @@ menu.addEventListener(`click`, (evt) => {
 
   switch (conditionSwitch) {
     case `all`:
-      statistic.classList.add(`visually-hidden`);
+      statsController.hideStats();
+      controllerSearch.hideSearchResult();
       controllerContent.showPage();
       break;
     case `watchlist`:
@@ -61,7 +62,8 @@ menu.addEventListener(`click`, (evt) => {
       break;
     case `stats`:
       controllerContent.hidePage();
-      statistic.classList.remove(`visually-hidden`);
+      controllerSearch.hideSearchResult();
+      statsController.init();
       break;
     default:
       break;
@@ -76,7 +78,7 @@ search.getElement().querySelector(`.search__field`).addEventListener(`input`, (e
   const query = search.getElement().querySelector(`.search__field`).value;
   if(query.length > 3) {
     controllerContent.hidePage();
-    statistic.classList.add(`visually-hidden`);
+    statsController.hideStats();
     controllerSearch.init(query);
   }
 });
@@ -85,7 +87,7 @@ search.getElement().addEventListener(`reset`, (evt) => {
   evt.preventDefault();
   controllerContent.showPage();
   controllerSearch.hideSearchResult();
-  statistic.classList.add(`visually-hidden`);
+  statsController.hideStats();
 });
 
 
