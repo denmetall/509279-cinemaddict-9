@@ -4,7 +4,7 @@ import {
   NUMBER_SHOW_MOST_COMMENTED_FILMS,
   render,
   unrender
-} from "../components/utils";
+} from "../utils";
 import Films from "../components/films";
 import NoFilms from "../components/no-flims";
 import BtnMore from "../components/btn-more";

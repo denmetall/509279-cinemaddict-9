@@ -1,4 +1,4 @@
-import stats from "./stats";
+import {stats} from '../utils';
 import AbstractComponent from "./abstract-component";
 
 export default class Menu extends AbstractComponent {

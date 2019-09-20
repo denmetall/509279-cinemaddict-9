@@ -1,6 +1,6 @@
 import Card from "../components/film-card";
 import Popup from "../components/popup";
-import {KEY_CODE_ESCAPE, render, unrender} from "../components/utils";
+import {KEY_CODE_ESCAPE, render, unrender} from "../utils";
 import UserRatingBlock from "../components/user-rating-block";
 import CommentsController from "./comments";
 

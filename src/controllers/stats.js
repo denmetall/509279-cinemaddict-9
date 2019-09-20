@@ -1,5 +1,5 @@
 import Statistic from "../components/statistic";
-import {render} from "../components/utils";
+import {render} from "../utils";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
