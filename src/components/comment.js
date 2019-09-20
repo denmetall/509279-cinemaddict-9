@@ -1,8 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Comment extends AbstractComponent {
-  constructor({smile, text, author, date}) {
+  constructor({id, smile, text, author, date}) {
     super();
+    this._id = id;
     this._smile = smile;
     this._text = text;
     this._author = author;
@@ -11,7 +12,7 @@ export default class Comment extends AbstractComponent {
 
   getTemplate() {
     return `
-      <li class="film-details__comment">
+      <li class="film-details__comment" data-comment-id="${this._id}">
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${this._smile}" width="55" height="55" alt="emoji">
         </span>

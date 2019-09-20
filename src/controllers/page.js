@@ -8,18 +8,16 @@ import {
 import Films from "../components/films";
 import NoFilms from "../components/no-flims";
 import BtnMore from "../components/btn-more";
-import Menu from "../components/menu";
 import Sort from "../components/sort";
-import MovieController from "./movie";
 import FilmsTopRated from "../components/films-top-rated";
 import MostCommentedFilms from "../components/most-commented-films";
 import FilmsAllList from "../components/films-all-list";
+import FilmsList from "./films-list";
 
 export default class Page {
   constructor(container, cards) {
     this._container = container;
     this._cards = cards;
-    this._menu = new Menu();
     this._sort = new Sort();
     this._films = new Films();
     this._filmsAllList = new FilmsAllList();
@@ -28,14 +26,9 @@ export default class Page {
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
-
-    this._subscriptions = [];
-    this._onChangeView = this._onChangeView.bind(this);
-    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
-    render(this._container, this._menu.getElement());
     render(this._container, this._sort.getElement());
 
     this._sort.getElement()
@@ -48,6 +41,21 @@ export default class Page {
     } else {
       render(this._container, this._noFilms.getElement());
     }
+  }
+
+  hidePage() {
+    unrender(this._sort.getElement());
+    unrender(this._films.getElement());
+    this._sort.removeElement();
+    this._films.removeElement();
+    // this._sort.getElement().classList.add(`visually-hidden`);
+    // this._films.getElement().classList.add(`visually-hidden`);
+  }
+
+  showPage() {
+    this.init();
+    // this._sort.getElement().classList.remove(`visually-hidden`);
+    // this._films.getElement().classList.remove(`visually-hidden`);
   }
 
   _renderBoardFilms(isStartApp = false) {
@@ -84,14 +92,8 @@ export default class Page {
   }
 
   _renderFilms(filmsData, container) {
-    container.innerHTML = ``;
-    filmsData.forEach((film) => this._renderFilm(film, container));
-  }
-
-  _renderFilm(filmCard, container) {
-    const movieController = new MovieController(container, filmCard, this._onDataChange, this._onChangeView);
-    movieController.init();
-    this._subscriptions.push(movieController.setDefaultView.bind(movieController));
+    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this));
+    filmsListController.init();
   }
 
   _renderBtnMore() {
@@ -121,25 +123,6 @@ export default class Page {
 
   _checkSortedOrStartData() {
     return (this._sortedFilm.length > 0) ? this._sortedFilm : this._cards;
-  }
-
-  _onChangeView() {
-    this._subscriptions.forEach((it) => it());
-  }
-
-  _onDataChange(newData, oldData, isNewComment = false) {
-    if (isNewComment) {
-      this._cards[this._cards.findIndex((it) => it === oldData)].comments.push(newData);
-    } else {
-      if (this._sortedFilm.length) {
-        this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._renderBoardFilms();
-      } else {
-        this._cards[this._cards.findIndex((it) => it === oldData)].controls = newData.controls;
-        this._renderBoardFilms();
-      }
-    }
   }
 
   _onSortLinkClick(evt) {

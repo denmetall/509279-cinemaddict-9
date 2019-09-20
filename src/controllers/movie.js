@@ -1,9 +1,8 @@
 import Card from "../components/film-card";
 import Popup from "../components/popup";
-import {KEY_CODE_ESCAPE, KEY_CODE_ENTER, render, unrender, createElement} from "../components/utils";
-import Comment from "../components/comment";
+import {KEY_CODE_ESCAPE, render, unrender} from "../components/utils";
 import UserRatingBlock from "../components/user-rating-block";
-import moment from "moment";
+import CommentsController from "./comments";
 
 export default class MovieController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -14,6 +13,9 @@ export default class MovieController {
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
     this._userRatingBlock = new UserRatingBlock(this._data);
+
+    this._popupBottomContainer = this._popup.getElement().querySelector(`.form-details__bottom-container`);
+    this._commentsController = new CommentsController(this._popupBottomContainer, this._data, this._onDataChange);
 
     this._onClickControlsCard();
   }
@@ -42,19 +44,7 @@ export default class MovieController {
       this._renderUserRatingBlock();
     }
 
-    const commentsContainer = popupElement.querySelector(`.film-details__comments-list`);
-    this._data.comments.forEach((comment) => {
-      render(commentsContainer, new Comment(comment).getElement());
-    });
-
-    popupElement.querySelectorAll(`.film-details__emoji-label`).forEach((el) => {
-      el.addEventListener(`click`, () => {
-        const img = el.querySelector(`img`);
-        popupElement.querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
-        popupElement.querySelector(`.film-details__add-emoji-label`)
-          .appendChild(createElement(`<img src="${img.src}" width="55" height="55" alt="emoji">`));
-      });
-    });
+    this._commentsController.init();
 
     const onEscKeyDown = (evt) => {
       if (evt.keyCode === KEY_CODE_ESCAPE) {
@@ -68,9 +58,6 @@ export default class MovieController {
 
     popupElement.querySelector(`.film-details__controls`)
       .addEventListener(`click`, (evt) => this._onClickControlsInPopup(evt));
-
-    popupElement.querySelector(`.film-details__comment-input`)
-      .addEventListener(`keydown`, (evt) => this._sendComment(evt));
 
     popupElement.querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, (evt) => {
@@ -174,34 +161,5 @@ export default class MovieController {
     }
 
     this._onDataChange(entry, this._data);
-  }
-
-  _sendComment(evt) {
-    if (evt.keyCode === KEY_CODE_ENTER) {
-      const popupElement = this._popup.getElement();
-
-      const commentsList = popupElement.querySelector(`.film-details__comments-list`);
-      const commentTextarea = popupElement.querySelector(`.film-details__comment-input`);
-
-      let smileImg = `smile.png`;
-
-      if (popupElement.querySelector(`.film-details__add-emoji-label img`)) {
-        const smileSrc = popupElement.querySelector(`.film-details__add-emoji-label img`).src || `/smile.png`;
-        smileImg = smileSrc.substr(smileSrc.lastIndexOf(`/`) + 1);
-      }
-
-      const commentData = {
-        author: `Evstratchik denis`,
-        text: commentTextarea.value,
-        date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
-        smile: smileImg,
-      };
-
-      render(commentsList, new Comment(commentData).getElement());
-
-      commentTextarea.value = ``;
-      const isNewComment = true;
-      this._onDataChange(commentData, this._data, isNewComment);
-    }
   }
 }
