@@ -7,7 +7,7 @@ export default class StatsController {
   constructor(container, data) {
     this._container = container;
     this._data = data;
-    this._statistic = new Statistic(getStats(this._data));
+    this._statistic = new Statistic(getStats(this._data), this._getTopGenre());
   }
 
   init() {
@@ -67,5 +67,20 @@ export default class StatsController {
     });
 
     return genresCounter;
+  }
+
+  _getTopGenre() {
+    const countGenres = this._getCountGenres(this._data);
+    let maxCount = 0;
+    let topGenre = ``;
+
+    for (let genre in countGenres) {
+      if (countGenres[genre] > maxCount) {
+        maxCount = countGenres[genre];
+        topGenre = genre;
+      }
+    }
+
+    return topGenre;
   }
 }

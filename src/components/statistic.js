@@ -1,9 +1,10 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Statistic extends AbstractComponent {
-  constructor(stats) {
+  constructor(stats, topGenre = ``) {
     super();
     this._stats = stats;
+    this._topGenre = topGenre;
   }
 
   getTemplate() {
@@ -45,7 +46,7 @@ export default class Statistic extends AbstractComponent {
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Top genre</h4>
-            <p class="statistic__item-text">Sci-Fi</p>
+            <p class="statistic__item-text">${this._topGenre}</p>
           </li>
         </ul>
       
