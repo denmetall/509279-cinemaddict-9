@@ -9,9 +9,11 @@ export default class SearchController {
     this._container = container;
     this._films = new Films();
     this._noFilms = new NoFilms(`Поиск не дал результатов`);
-    this._searchInfo = new SearchInfo();
     this._cards = cards;
     this._filmsList = [];
+    // как мне передать кол-во найденных фильмов, если оно будет известно только на 26 строке
+    // если объявить класс в функции init, то я потом не смогу сделать unrender этого класса.
+    this._searchInfo = new SearchInfo();
   }
 
   init(query = null) {

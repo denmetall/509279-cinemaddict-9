@@ -70,19 +70,21 @@ menu.addEventListener(`click`, (evt) => {
 
 const controllerSearch = new SearchController(mainElement, filmCards);
 
-search.getElement().addEventListener(`submit`, (evt) => {
+search.getElement().querySelector(`.search__field`).addEventListener(`input`, (evt) => {
   evt.preventDefault();
-  controllerContent.hidePage();
-  statistic.classList.add(`visually-hidden`);
 
   const query = search.getElement().querySelector(`.search__field`).value;
-
-  controllerSearch.init(query);
+  if(query.length > 3) {
+    controllerContent.hidePage();
+    statistic.classList.add(`visually-hidden`);
+    controllerSearch.init(query);
+  }
 });
 
 search.getElement().addEventListener(`reset`, (evt) => {
   evt.preventDefault();
   controllerContent.showPage();
+  controllerSearch.hideSearchResult();
   statistic.classList.add(`visually-hidden`);
 });
 
