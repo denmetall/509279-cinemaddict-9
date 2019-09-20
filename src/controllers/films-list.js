@@ -1,11 +1,11 @@
 import MovieController from "./movie";
 
 export default class FilmsList {
-  constructor(filmsData, container, primaryFilmsData, renderBoardFilms) {
+  constructor(filmsData, container, primaryFilmsData, renderUpdate) {
     this._filmsData = filmsData;
     this._container = container;
     this._primaryFilmsData = primaryFilmsData;
-    this._renderBoardFilms = renderBoardFilms;
+    this._renderUpdate = renderUpdate;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -36,7 +36,7 @@ export default class FilmsList {
       //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
       // }
     }
-    this._renderBoardFilms();
+    this._renderUpdate();
   }
 
   _onDataChangeComments(newData, oldData, commentId) {

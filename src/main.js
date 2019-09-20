@@ -6,7 +6,7 @@ import Footer from "./components/footer";
 import filmCards from "./data/cards";
 import {render} from './components/utils';
 import Page from "./controllers/page";
-import SearchInfo from "./components/search-info";
+import SearchController from "./controllers/serarch";
 
 const headerElement = document.querySelector(`#header`);
 const search = new Search();
@@ -68,14 +68,22 @@ menu.addEventListener(`click`, (evt) => {
   }
 });
 
-const searchInfo = new SearchInfo();
+const controllerSearch = new SearchController(mainElement, filmCards);
 
 search.getElement().addEventListener(`submit`, (evt) => {
   evt.preventDefault();
   controllerContent.hidePage();
   statistic.classList.add(`visually-hidden`);
 
-  render(mainElement, searchInfo.getElement());
+  const query = search.getElement().querySelector(`.search__field`).value;
 
-  // Выводим отображение карточек
+  controllerSearch.init(query);
 });
+
+search.getElement().addEventListener(`reset`, (evt) => {
+  evt.preventDefault();
+  controllerContent.showPage();
+  statistic.classList.add(`visually-hidden`);
+});
+
+
