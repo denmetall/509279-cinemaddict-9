@@ -26,6 +26,7 @@ export default class Page {
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
+    this._filter = `all`;
   }
 
   init() {
@@ -52,14 +53,36 @@ export default class Page {
     // this._films.getElement().classList.add(`visually-hidden`);
   }
 
-  showPage() {
+  showPage(filter = `all`) {
+    this._filter = filter;
     this.init();
     // this._sort.getElement().classList.remove(`visually-hidden`);
     // this._films.getElement().classList.remove(`visually-hidden`);
   }
 
+  _setFilter(cards) {
+    switch (this._filter) {
+      case `all`:
+        return cards;
+      case `watchlist`:
+        return cards.filter((card) => {
+          return card.controls.isAddedToWatchlist;
+        });
+      case `history`:
+        return cards.filter((card) => {
+          return card.controls.isMarkedAsWatched;
+        });
+      case `favorites`:
+        return cards.filter((card) => {
+          return card.controls.isFavorite;
+        });
+      default:
+        return cards;
+    }
+  }
+
   _renderBoardFilms(isStartApp = false) {
-    const cards = this._checkSortedOrStartData();
+    const cards = this._checkSortedOrStartDataAndFilter();
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
     const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
     const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
@@ -86,7 +109,7 @@ export default class Page {
       this._renderFilms(filmMostCardsData, this._mostCommentedFilms.getElement().querySelector(`#most-commented-films`));
     }
 
-    if ((this._cards.length - this._getCountCurrentCards()) > 0) {
+    if ((cards.length - this._getCountCurrentCards()) > 0) {
       this._renderBtnMore();
     }
   }
@@ -105,7 +128,7 @@ export default class Page {
 
       const countCurrentCards = this._getCountCurrentCards();
 
-      const cards = this._checkSortedOrStartData();
+      const cards = this._checkSortedOrStartDataAndFilter();
       const filmsForAdded = cards.slice(0, countCurrentCards + NUMBER_SHOW_FILMS);
 
       this._renderFilms(filmsForAdded, this._filmsAllList.getElement().querySelector(`#all-films`));
@@ -121,8 +144,9 @@ export default class Page {
     return this._container.querySelector(`#all-films`).querySelectorAll(`.film-card`).length;
   }
 
-  _checkSortedOrStartData() {
-    return (this._sortedFilm.length > 0) ? this._sortedFilm : this._cards;
+  _checkSortedOrStartDataAndFilter() {
+    const sortedOrNotSortedCards = (this._sortedFilm.length > 0) ? this._sortedFilm : this._cards;
+    return this._setFilter(sortedOrNotSortedCards);
   }
 
   _onSortLinkClick(evt) {

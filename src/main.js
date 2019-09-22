@@ -50,16 +50,19 @@ menu.addEventListener(`click`, (evt) => {
     case `all`:
       statsController.hideStats();
       controllerSearch.hideSearchResult();
-      controllerContent.showPage();
+      controllerContent.showPage(`all`);
       break;
     case `watchlist`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`watchlist`);
+      statsController.hideStats();
       break;
     case `history`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`history`);
+      statsController.hideStats();
       break;
     case `favorites`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`favorites`);
+      statsController.hideStats();
       break;
     case `stats`:
       controllerContent.hidePage();
@@ -77,7 +80,7 @@ search.getElement().querySelector(`.search__field`).addEventListener(`input`, (e
   evt.preventDefault();
 
   const query = search.getElement().querySelector(`.search__field`).value;
-  if(query.length > 3) {
+  if (query.length > 3) {
     controllerContent.hidePage();
     statsController.hideStats();
     controllerSearch.init(query);

@@ -52,7 +52,7 @@ const getStats = (data) => {
     get favoritesNumber() {
       return getNumberFilmsStat(`isFavorite`, data);
     }
-  }
+  };
 };
 
 export {
