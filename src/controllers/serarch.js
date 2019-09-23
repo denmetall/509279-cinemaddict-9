@@ -1,4 +1,4 @@
-import {render, unrender} from '../components/utils';
+import {render, unrender} from '../utils';
 import Films from "../components/films";
 import SearchInfo from "../components/search-info";
 import FilmsList from "./films-list";

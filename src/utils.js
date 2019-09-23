@@ -36,6 +36,25 @@ const unrender = (element) => {
   }
 };
 
+const getNumberFilmsStat = (control, data) => data.reduce((count, film) => (film.controls[control] ? count + 1 : count), 0);
+
+const getStats = (data) => {
+  return {
+    get allFilmsNumber() {
+      return data.length;
+    },
+    get watchlistNumber() {
+      return getNumberFilmsStat(`isAddedToWatchlist`, data);
+    },
+    get historyNumber() {
+      return getNumberFilmsStat(`isMarkedAsWatched`, data);
+    },
+    get favoritesNumber() {
+      return getNumberFilmsStat(`isFavorite`, data);
+    }
+  };
+};
+
 export {
   createElement,
   render,
@@ -44,5 +63,6 @@ export {
   KEY_CODE_ENTER,
   NUMBER_SHOW_FILMS,
   NUMBER_SHOW_TOP_RATED_FILMS,
-  NUMBER_SHOW_MOST_COMMENTED_FILMS
+  NUMBER_SHOW_MOST_COMMENTED_FILMS,
+  getStats
 };

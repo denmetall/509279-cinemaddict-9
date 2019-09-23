@@ -1,4 +1,4 @@
-import {createElement, KEY_CODE_ENTER, render, unrender} from "../components/utils";
+import {createElement, KEY_CODE_ENTER, render, unrender} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comments-list";
 import moment from "moment";

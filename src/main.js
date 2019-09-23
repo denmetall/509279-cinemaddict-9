@@ -1,30 +1,31 @@
 import Search from "./components/search";
 import Profile from "./components/profile";
 import Menu from "./components/menu";
-import Statistic from "./components/statistic";
 import Footer from "./components/footer";
 import filmCards from "./data/cards";
-import {render} from './components/utils';
+import {render, getStats} from './utils';
 import Page from "./controllers/page";
 import SearchController from "./controllers/serarch";
+import StatsController from "./controllers/stats";
 
 const headerElement = document.querySelector(`#header`);
 const search = new Search();
 render(headerElement, search.getElement());
 
-render(headerElement, new Profile().getElement());
+const stats = getStats(filmCards);
+
+render(headerElement, new Profile(stats).getElement());
 
 const mainElement = document.querySelector(`#main`);
-const menu = new Menu().getElement();
+const menu = new Menu(stats).getElement();
 render(mainElement, menu);
 
 const controllerContent = new Page(mainElement, filmCards);
 controllerContent.init();
 
-const statistic = new Statistic().getElement();
-render(mainElement, statistic);
+const statsController = new StatsController(mainElement, filmCards);
 
-render(mainElement, new Footer().getElement(), `afterend`);
+render(mainElement, new Footer(stats).getElement(), `afterend`);
 
 menu.addEventListener(`click`, (evt) => {
   evt.preventDefault();
@@ -47,21 +48,26 @@ menu.addEventListener(`click`, (evt) => {
 
   switch (conditionSwitch) {
     case `all`:
-      statistic.classList.add(`visually-hidden`);
-      controllerContent.showPage();
+      statsController.hideStats();
+      controllerSearch.hideSearchResult();
+      controllerContent.showPage(`all`);
       break;
     case `watchlist`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`watchlist`);
+      statsController.hideStats();
       break;
     case `history`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`history`);
+      statsController.hideStats();
       break;
     case `favorites`:
-      // statistic.classList.add(`visually-hidden`);
+      controllerContent.showPage(`favorites`);
+      statsController.hideStats();
       break;
     case `stats`:
       controllerContent.hidePage();
-      statistic.classList.remove(`visually-hidden`);
+      controllerSearch.hideSearchResult();
+      statsController.init();
       break;
     default:
       break;
@@ -74,9 +80,9 @@ search.getElement().querySelector(`.search__field`).addEventListener(`input`, (e
   evt.preventDefault();
 
   const query = search.getElement().querySelector(`.search__field`).value;
-  if(query.length > 3) {
+  if (query.length > 3) {
     controllerContent.hidePage();
-    statistic.classList.add(`visually-hidden`);
+    statsController.hideStats();
     controllerSearch.init(query);
   }
 });
@@ -85,7 +91,7 @@ search.getElement().addEventListener(`reset`, (evt) => {
   evt.preventDefault();
   controllerContent.showPage();
   controllerSearch.hideSearchResult();
-  statistic.classList.add(`visually-hidden`);
+  statsController.hideStats();
 });
 
 
