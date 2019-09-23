@@ -7,6 +7,14 @@ import {render, getStats} from './utils';
 import Page from "./controllers/page";
 import SearchController from "./controllers/serarch";
 import StatsController from "./controllers/stats";
+import API from "./api/api";
+
+
+const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=${Math.random()}`;
+const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
+
+const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+
 
 const headerElement = document.querySelector(`#header`);
 const search = new Search();
@@ -20,8 +28,10 @@ const mainElement = document.querySelector(`#main`);
 const menu = new Menu(stats).getElement();
 render(mainElement, menu);
 
-const controllerContent = new Page(mainElement, filmCards);
-controllerContent.init();
+api.getFilms().then((films) => new Page(mainElement, films).init());
+//
+// const controllerContent = new Page(mainElement, filmCards);
+// controllerContent.init();
 
 const statsController = new StatsController(mainElement, filmCards);
 
