@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default class ModelFilm {
   constructor(data) {
     this.id = data[`id`] || null;
@@ -12,6 +14,15 @@ export default class ModelFilm {
       isMarkedAsWatched: Boolean(data[`user_details`][`already_watched`]) || false,
       isFavorite: Boolean(data[`user_details`][`favorite`]) || false
     };
+    this.alternativeTitle = data[`film_info`][`alternative_title`] || ``;
+    this.totalRating = data[`film_info`][`total_rating`] || 0;
+    this.releaseCountry = data[`film_info`][`release`][`release_country`] || ``;
+    this.director = data[`film_info`][`director`] || ``;
+    this.ageRating = data[`film_info`][`age_rating`] || 0;
+    this.actors = data[`film_info`][`actors`] || [];
+    this.writers = data[`film_info`][`writers`] || [];
+
+    // Временные комменты, чтобы код работал
     this.comments = [
       {
         id: Math.random(),
@@ -35,6 +46,10 @@ export default class ModelFilm {
         date: `today`
       }
     ];
+    // this.comments = data[`comments`];
+
+    this.personalRating = data[`user_details`][`personal_rating`] || ``;
+    this.watchingDate = moment(data[`user_details`][`watching_date`]).format() || null;
   }
 
   static parseFilm(data) {

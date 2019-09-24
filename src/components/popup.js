@@ -1,10 +1,10 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Popup extends AbstractComponent {
-  constructor({title, rating, year, duration, genre, posterLink, description, controls, comments}) {
+  constructor({title, totalRating, year, duration, genre, posterLink, description, controls, comments, alternativeTitle, releaseCountry, ageRating, actors, writers}) {
     super();
     this._title = title;
-    this._rating = rating;
+    this._totalRating = totalRating;
     this._year = year;
     this._duration = duration;
     this._genre = genre;
@@ -12,6 +12,11 @@ export default class Popup extends AbstractComponent {
     this._description = description;
     this._controls = controls;
     this._comments = comments;
+    this._alternativeTitle = alternativeTitle;
+    this._releaseCountry = releaseCountry;
+    this._ageRating = ageRating;
+    this._actors = actors;
+    this._writers = writers;
   }
 
   getTemplate() {
@@ -24,20 +29,20 @@ export default class Popup extends AbstractComponent {
             </div>
             <div class="film-details__info-wrap">
               <div class="film-details__poster">
-                <img class="film-details__poster-img" src="./images/posters/${this._posterLink}" alt="">
+                <img class="film-details__poster-img" src="${this._posterLink}" alt="">
       
-                <p class="film-details__age">18+</p>
+                <p class="film-details__age">${this._ageRating}+</p>
               </div>
       
               <div class="film-details__info">
                 <div class="film-details__info-head">
                   <div class="film-details__title-wrap">
                     <h3 class="film-details__title">${this._title}</h3>
-                    <p class="film-details__title-original">Original: The Great Flamarion</p>
+                    <p class="film-details__title-original">Original: ${this._alternativeTitle}</p>
                   </div>
       
                   <div class="film-details__rating">
-                    <p class="film-details__total-rating">${this._rating}</p>
+                    <p class="film-details__total-rating">${this._totalRating}</p>
                   </div>
                 </div>
       
@@ -48,11 +53,11 @@ export default class Popup extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Writers</td>
-                    <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                    <td class="film-details__cell">${this._writers}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Actors</td>
-                    <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                    <td class="film-details__cell">${this._actors}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
@@ -64,7 +69,7 @@ export default class Popup extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
-                    <td class="film-details__cell">USA</td>
+                    <td class="film-details__cell">${this._releaseCountry}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Genres</td>

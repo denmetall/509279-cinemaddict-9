@@ -1,10 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
 export default class Card extends AbstractComponent {
-  constructor({title, rating, year, duration, genre, posterLink, description, controls, comments}) {
+  constructor({title, year, duration, genre, posterLink, description, controls, comments, totalRating}) {
     super();
     this._title = title;
-    this._rating = rating;
     this._year = year;
     this._duration = duration;
     this._genre = genre;
@@ -12,13 +11,14 @@ export default class Card extends AbstractComponent {
     this._description = description;
     this._controls = controls;
     this._comments = comments;
+    this._totalRating = totalRating;
   }
 
   getTemplate() {
     return `
       <article class="film-card">
         <h3 class="film-card__title">${this._title}</h3>
-        <p class="film-card__rating">${this._rating}</p>
+        <p class="film-card__rating">${this._totalRating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${this._year}</span>
           <span class="film-card__duration">${this._duration}</span>

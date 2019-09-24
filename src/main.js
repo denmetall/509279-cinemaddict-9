@@ -24,6 +24,7 @@ const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
 api.getFilms()
   .then((films) => {
+    // console.log(films);
     unrender(loading.getElement());
     loading.removeElement();
 
