@@ -29,7 +29,7 @@ api.getFilms()
 
     const stats = getStats(films);
 
-    render(headerElement, new Profile(stats).getElement());
+    render(headerElement, new Profile(stats.historyNumber).getElement());
 
     const menu = new Menu(stats).getElement();
     render(mainElement, menu);
