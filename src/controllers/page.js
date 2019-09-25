@@ -84,8 +84,8 @@ export default class Page {
   _renderBoardFilms(isStartApp = false) {
     const cards = this._checkSortedOrStartDataAndFilter();
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
-    const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
-    const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
+    const filmTopCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
+    const filmMostCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
 
     unrender(this._filmsAllList.getElement());
     unrender(this._filmsTopRated.getElement());

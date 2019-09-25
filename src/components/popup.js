@@ -1,4 +1,6 @@
 import AbstractComponent from "./abstract-component";
+import moment from 'moment';
+import 'moment-duration-format';
 
 export default class Popup extends AbstractComponent {
   constructor({title, totalRating, year, duration, genre, posterLink, description, controls, comments, alternativeTitle, releaseCountry, ageRating, actors, writers}) {
@@ -61,11 +63,11 @@ export default class Popup extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
-                    <td class="film-details__cell">30 March ${this._year}</td>
+                    <td class="film-details__cell">${moment(this._year).format(`DD MMM YYYY`)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${this._duration}</td>
+                    <td class="film-details__cell">${moment.duration(this._duration, `minutes`).format(`h[h] m[m]`)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
