@@ -11,9 +11,18 @@ export default class StatsController {
   }
 
   init() {
+    this._getAllListGenres(this._data);
     this._statistic.getElement().classList.remove(`visually-hidden`);
     render(this._container, this._statistic.getElement());
     this._renderCharts();
+  }
+
+  _getAllListGenres(data) {
+    const genres = new Set([]);
+    data.forEach((film) => {
+      genres.add(...film.genre);
+    });
+    return Array.from(genres);
   }
 
   hideStats() {
@@ -52,18 +61,17 @@ export default class StatsController {
   }
 
   _getCountGenres(films) {
-    const genresCounter = {
-      horrors: 0,
-      militant: 0,
-      drama: 0,
-      comedy: 0,
-      adventures: 0,
-      criminal: 0,
-      fantasy: 0
-    };
+    const listGenresArray = this._getAllListGenres(films);
+    const genresCounter = {};
+
+    listGenresArray.forEach((genre) => {
+      genresCounter[genre] = 0;
+    });
 
     films.forEach((film) => {
-      genresCounter[film.genre] += 1;
+      film.genre.forEach((item) => {
+        genresCounter[item] += 1;
+      });
     });
 
     return genresCounter;

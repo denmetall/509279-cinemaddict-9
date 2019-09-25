@@ -32,9 +32,6 @@ export default class FilmsList {
       this._onDataChangeComments(newData, oldData, commentId);
     } else {
       this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].controls = newData.controls;
-      // if (this._sortedFilm.length) {
-      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].controls = newData.controls;
-      // }
     }
     this._renderUpdate();
   }
@@ -45,19 +42,8 @@ export default class FilmsList {
       const indexInCards = this._primaryFilmsData.findIndex((it) => it === oldData);
       const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
       this._primaryFilmsData[indexInCards].comments.splice(indexInArrayCommentsList, 1);
-      //
-      // if (this._sortedFilm.length) {
-      //   const commentsListData = this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments;
-      //   const indexInCards = this._sortedFilm.findIndex((it) => it === oldData);
-      //   const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-      //   this._sortedFilm[indexInCards].comments.splice(indexInArrayCommentsList, 1);
-      // }
     } else {
       this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments.push(newData);
-      //
-      // if (this._sortedFilm.length) {
-      //   this._sortedFilm[this._sortedFilm.findIndex((it) => it === oldData)].comments.push(newData);
-      // }
     }
   }
 }
