@@ -1,4 +1,6 @@
 import MovieController from "./movie";
+import API from "../api/api";
+import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class FilmsList {
   constructor(filmsData, container, primaryFilmsData, renderUpdate) {
@@ -10,6 +12,8 @@ export default class FilmsList {
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
+
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
   }
 
   init() {

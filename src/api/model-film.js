@@ -34,4 +34,35 @@ export default class ModelFilm {
   static parseFilms(data) {
     return data.map(ModelFilm.parseFilm);
   }
+
+  toRAW() {
+    return {
+      'film_info': {
+        'poster': this.posterLink,
+        'title': this.title,
+        'alternative_title': this.alternativeTitle,
+        'description': this.description,
+        'runtime': this.duration,
+        'total_rating': parseInt(this.totalRating, 10),
+        'release': {
+          'date': new Date(this.year),
+          'release_country': this.releaseCountry,
+        },
+        'genre': [...this.genre.values()],
+        'age_rating': this.ageRating,
+        'actors': this.actors,
+        'director': this.director,
+        'writers': this.writers,
+      },
+      'user_details': {
+        'already_watched': this.controls.isMarkedAsWatched,
+        'favorite': this.controls.isFavorite,
+        'watchlist': this.controls.isAddedToWatchlist,
+        'personal_rating': parseInt(this.personalRating, 10) || 0,
+        'watching_date': new Date(this.watchingDate) || null,
+      },
+      'comments': this.comments,
+    };
+  }
 }
+
