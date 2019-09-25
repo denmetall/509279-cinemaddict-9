@@ -7,7 +7,7 @@ export default class StatsController {
   constructor(container, data) {
     this._container = container;
     this._data = data;
-    this._statistic = new Statistic(getStats(this._data), this._getTopGenre());
+    this._statistic = new Statistic(getStats(this._data), this._getTopGenre(), this._data);
   }
 
   init() {

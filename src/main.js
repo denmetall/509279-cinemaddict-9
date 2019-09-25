@@ -8,6 +8,7 @@ import SearchController from "./controllers/serarch";
 import StatsController from "./controllers/stats";
 import API from "./api/api";
 import NoFilms from "./components/no-flims";
+import {END_POINT, AUTHORIZATION} from "./config";
 
 const headerElement = document.querySelector(`#header`);
 const search = new Search();
@@ -16,9 +17,6 @@ render(headerElement, search.getElement());
 const mainElement = document.querySelector(`#main`);
 const loading = new NoFilms(`Loading`);
 render(mainElement, loading.getElement());
-
-const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=${Math.random()}`;
-const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
 
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 

@@ -55,6 +55,20 @@ const getStats = (data) => {
   };
 };
 
+const getNameUser = (historyNumber) => {
+  let userName = 0;
+
+  if (historyNumber > 0 && historyNumber < 10) {
+    userName = `Novice`;
+  } else if (historyNumber > 10 && historyNumber < 21) {
+    userName = `Fan`;
+  } else {
+    userName = `Movie Buff`;
+  }
+
+  return userName;
+};
+
 export {
   createElement,
   render,
@@ -64,5 +78,6 @@ export {
   NUMBER_SHOW_FILMS,
   NUMBER_SHOW_TOP_RATED_FILMS,
   NUMBER_SHOW_MOST_COMMENTED_FILMS,
-  getStats
+  getStats,
+  getNameUser
 };
