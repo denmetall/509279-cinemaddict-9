@@ -21,32 +21,7 @@ export default class ModelFilm {
     this.ageRating = data[`film_info`][`age_rating`] || 0;
     this.actors = data[`film_info`][`actors`] || [];
     this.writers = data[`film_info`][`writers`] || [];
-
-    // Временные комменты, чтобы код работал
-    this.comments = [
-      {
-        id: Math.random(),
-        smile: `smile.png`,
-        text: `Interesting setting and a good cast`,
-        author: `Tim Macoveev`,
-        date: `3 days ago`
-      },
-      {
-        id: Math.random(),
-        smile: `sleeping.png`,
-        text: `Booooooooooring`,
-        author: `ohn Doe`,
-        date: `1 days ago`
-      },
-      {
-        id: Math.random(),
-        smile: `puke.png`,
-        text: `Very very old. Meh`,
-        author: `John Doe`,
-        date: `today`
-      }
-    ];
-    // this.comments = data[`comments`];
+    this.comments = data[`comments`];
 
     this.personalRating = data[`user_details`][`personal_rating`] || ``;
     this.watchingDate = moment(data[`user_details`][`watching_date`]).format() || null;

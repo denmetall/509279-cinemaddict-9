@@ -31,6 +31,11 @@ const API = class {
       .then(ModelFilm.parseFilms);
   }
 
+  getComments(filmId) {
+    return this._load({url: `comments/${filmId}`})
+      .then(toJSON);
+  }
+
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 

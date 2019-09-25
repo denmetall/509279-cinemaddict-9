@@ -3,6 +3,8 @@ import Popup from "../components/popup";
 import {KEY_CODE_ESCAPE, render, unrender} from "../utils";
 import UserRatingBlock from "../components/user-rating-block";
 import CommentsController from "./comments";
+import API from "../api/api";
+import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class MovieController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -15,7 +17,7 @@ export default class MovieController {
     this._userRatingBlock = new UserRatingBlock(this._data);
 
     this._popupBottomContainer = this._popup.getElement().querySelector(`.form-details__bottom-container`);
-    this._commentsController = new CommentsController(this._popupBottomContainer, this._data, this._onDataChange);
+
 
     this._onClickControlsCard();
   }
@@ -44,7 +46,12 @@ export default class MovieController {
       this._renderUserRatingBlock();
     }
 
-    this._commentsController.init();
+    const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+    api.getComments(this._data.id)
+      .then((comments) => {
+        const commentsController = new CommentsController(this._popupBottomContainer, this._data, this._onDataChange, comments);
+        commentsController.init();
+      });
 
     const onEscKeyDown = (evt) => {
       if (evt.keyCode === KEY_CODE_ESCAPE) {
