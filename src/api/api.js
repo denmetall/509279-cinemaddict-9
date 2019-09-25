@@ -47,6 +47,20 @@ const API = class {
       .then(toJSON);
   }
 
+  createComment({comment, filmId}) {
+    return this._load({
+      url: `comments/${filmId}`,
+      method: `POST`,
+      body: JSON.stringify(comment),
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then(toJSON);
+  }
+
+  deleteComment({commentId}) {
+    return this._load({url: `comments/${commentId}`, method: `DELETE`});
+  }
+
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
