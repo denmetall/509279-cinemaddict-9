@@ -90,8 +90,12 @@ export default class MovieController {
 
     render(this._popup.getElement().querySelector(`.form-details__top-container`), this._userRatingBlock.getElement(), `afterend`);
 
-    this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`).addEventListener(`click`, (evt) => {
-      evt.preventDefault();
+    const rateInputs = this._userRatingBlock.getElement().querySelectorAll(`.film-details__user-rating-input`);
+
+    rateInputs.forEach((input) => {
+      input.addEventListener(`change`, () => {
+
+      });
     });
   }
 
