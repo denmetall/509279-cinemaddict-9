@@ -107,7 +107,7 @@ const startApp = (films) => {
 };
 
 const onDataChangeMain = (actionType, update) => {
-  switch(actionType) {
+  switch (actionType) {
     case `uptade`:
       api.updateFilm(({
         id: update.id,
