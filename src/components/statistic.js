@@ -11,7 +11,7 @@ export default class Statistic extends AbstractComponent {
 
   getTemplate() {
     return `
-      <section class="statistic visually-hidden">
+      <section class="statistic">
         <p class="statistic__rank">
           Your rank 
           <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35"> 

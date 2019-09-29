@@ -17,7 +17,6 @@ export default class StatsController {
     this._statistic = new Statistic(getStats(this._dataForRender), this._getTopGenre(), this._dataForRender);
 
     this._getAllListGenres(this._dataForRender);
-    this._statistic.getElement().classList.remove(`visually-hidden`);
     render(this._container, this._statistic.getElement());
     this._setFilterEvent();
 
@@ -68,7 +67,8 @@ export default class StatsController {
   }
 
   hideStats() {
-    this._statistic.getElement().classList.add(`visually-hidden`);
+    unrender(this._statistic.getElement());
+    this._statistic.removeElement();
   }
 
   _renderCharts() {

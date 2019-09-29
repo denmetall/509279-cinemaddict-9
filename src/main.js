@@ -65,14 +65,17 @@ const startApp = (films) => {
         break;
       case `watchlist`:
         controllerContent.showPage(`watchlist`);
+        controllerSearch.hideSearchResult();
         statsController.hideStats();
         break;
       case `history`:
         controllerContent.showPage(`history`);
+        controllerSearch.hideSearchResult();
         statsController.hideStats();
         break;
       case `favorites`:
         controllerContent.showPage(`favorites`);
+        controllerSearch.hideSearchResult();
         statsController.hideStats();
         break;
       case `stats`:
