@@ -3,7 +3,7 @@ import API from "../api/api";
 import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class FilmsList {
-  constructor(filmsData, container, primaryFilmsData, renderUpdate) {
+  constructor(filmsData, container, primaryFilmsData, renderUpdate, onDataChangeMain) {
     this._filmsData = filmsData;
     this._container = container;
     this._primaryFilmsData = primaryFilmsData;
@@ -14,6 +14,7 @@ export default class FilmsList {
     this._onDataChange = this._onDataChange.bind(this);
 
     this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+    this._onDataChangeMain = onDataChangeMain;
   }
 
   init() {
@@ -32,22 +33,30 @@ export default class FilmsList {
   }
 
   _onDataChange(newData, oldData, isChangeCommentsList = false, commentId = false) {
+    // debugger;
     if (isChangeCommentsList) {
       this._onDataChangeComments(newData, oldData, commentId);
     } else {
-      this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].controls = newData.controls;
+      const dataForSend = oldData;
+      dataForSend.controls = newData.controls;
+      const filmId = oldData.id;
+      this._api.updateFilm(filmId, dataForSend)
+        .then(this._onDataChangeMain());
     }
-    this._renderUpdate();
+    // this._renderUpdate();
+    // this._onDataChangeMain(`update`, newData, oldData.id);
   }
 
   _onDataChangeComments(newData, oldData, commentId) {
+    const movieId = oldData.id;
     if (commentId) {
-      const commentsListData = this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments;
-      const indexInCards = this._primaryFilmsData.findIndex((it) => it === oldData);
-      const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-      this._primaryFilmsData[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      this._api.deleteComment({commentId})
+        .then(this._onDataChangeMain());
     } else {
-      this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments.push(newData);
+      this._api.createComment(newData, movieId)
+        .then(this._onDataChangeMain());
+      // Не удается создать коммент
+      // this._primaryFilmsData[this._primaryFilmsData.findIndex((it) => it === oldData)].comments.push(newData);
     }
   }
 }

@@ -1,7 +1,7 @@
 import {createElement, KEY_CODE_ENTER, render, unrender} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comments-list";
-import moment from "moment";
+// import moment from "moment";
 
 export default class CommentsController {
   constructor(container, dataCard, onDataChange, commentsData) {
@@ -53,10 +53,11 @@ export default class CommentsController {
       }
 
       const commentData = {
-        id: Math.random(),
-        author: `Evstratchik denis`,
+        // id: Math.random(),
+        // author: `Evstratchik denis`,
         comment: commentTextarea.value,
-        date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
+        date: new Date(),
+        // date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
         emotion: smile,
       };
 

@@ -20,6 +20,8 @@ render(mainElement, loading.getElement());
 
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
+let controllerContent = null;
+
 const startApp = (films) => {
   unrender(loading.getElement());
   loading.removeElement();
@@ -31,7 +33,7 @@ const startApp = (films) => {
   const menu = new Menu(stats).getElement();
   render(mainElement, menu);
 
-  const controllerContent = new Page(mainElement, films, onDataChangeMain);
+  controllerContent = new Page(mainElement, films, onDataChangeMain);
   controllerContent.init();
 
   const statsController = new StatsController(mainElement, films);
@@ -88,7 +90,7 @@ const startApp = (films) => {
     }
   });
 
-  const controllerSearch = new SearchController(mainElement, films);
+  const controllerSearch = new SearchController(mainElement, films, onDataChangeMain);
 
   search.getElement().querySelector(`.search__field`).addEventListener(`input`, (evt) => {
     evt.preventDefault();
@@ -109,19 +111,12 @@ const startApp = (films) => {
   });
 };
 
-const onDataChangeMain = (actionType, update) => {
-  switch (actionType) {
-    case `uptade`:
-      api.updateFilm(({
-        id: update.id,
-        data: update.data.toRAW()
-      })
-        .then(() => api.getFilms())
-        .then((films) => {
-          startApp(films);
-        }));
-      break;
-  }
+const onDataChangeMain = () => {
+  api.getFilms()
+    .then((films) => {
+      const isStartApp = false;
+      controllerContent._renderBoardFilms(isStartApp, films);
+    });
 };
 
 api.getFilms()

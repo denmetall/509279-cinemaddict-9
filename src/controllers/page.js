@@ -15,7 +15,7 @@ import FilmsAllList from "../components/films-all-list";
 import FilmsList from "./films-list";
 
 export default class Page {
-  constructor(container, cards) {
+  constructor(container, cards, onDataChangeMain) {
     this._container = container;
     this._cards = cards;
     this._sort = new Sort();
@@ -27,6 +27,7 @@ export default class Page {
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
     this._filter = `all`;
+    this._onDataChangeMain = onDataChangeMain;
   }
 
   init() {
@@ -81,8 +82,14 @@ export default class Page {
     }
   }
 
-  _renderBoardFilms(isStartApp = false) {
-    const cards = this._checkSortedOrStartDataAndFilter();
+  _renderBoardFilms(isStartApp = false, dataFromServer = undefined) {
+    let cards = this._checkSortedOrStartDataAndFilter();
+
+    if (dataFromServer) {
+      cards = dataFromServer;
+      this._cards = dataFromServer;
+    }
+
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
     const filmTopCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
     const filmMostCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
@@ -115,7 +122,7 @@ export default class Page {
   }
 
   _renderFilms(filmsData, container) {
-    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this));
+    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this), this._onDataChangeMain);
     filmsListController.init();
   }
 

@@ -5,14 +5,13 @@ import FilmsList from "./films-list";
 import NoFilms from "../components/no-flims";
 
 export default class SearchController {
-  constructor(container, cards) {
+  constructor(container, cards, onDataChangeMain) {
     this._container = container;
     this._films = new Films();
     this._noFilms = new NoFilms(`Поиск не дал результатов`);
     this._cards = cards;
     this._filmsList = [];
-    // как мне передать кол-во найденных фильмов, если оно будет известно только на 26 строке
-    // если объявить класс в функции init, то я потом не смогу сделать unrender этого класса.
+    this._onDataChangeMain = onDataChangeMain;
     this._searchInfo = new SearchInfo();
   }
 
@@ -36,7 +35,7 @@ export default class SearchController {
   }
 
   _renderFilms(filmsList, container) {
-    const filmsListController = new FilmsList(filmsList, container, this._cards, this._searchUpdate.bind(this));
+    const filmsListController = new FilmsList(filmsList, container, this._cards, this._searchUpdate.bind(this), this._onDataChangeMain);
     filmsListController.init();
   }
 
