@@ -2,11 +2,13 @@ import AbstractComponent from "./abstract-component";
 import {getNameUser} from "../utils";
 
 export default class Statistic extends AbstractComponent {
-  constructor(stats, topGenre = ``, data) {
+  constructor(stats, topGenre = ``, data, filter) {
     super();
     this._stats = stats;
     this._topGenre = topGenre;
     this._data = data;
+    this._filter = filter;
+    this._setCheckedFilter(this._filter);
   }
 
   getTemplate() {
@@ -66,5 +68,9 @@ export default class Statistic extends AbstractComponent {
       
       </section>
     `;
+  }
+
+  _setCheckedFilter(filter) {
+    this.getElement().querySelector(`.statistic__filters-input[value=${filter}]`).checked = true;
   }
 }

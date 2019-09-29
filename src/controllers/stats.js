@@ -14,7 +14,7 @@ export default class StatsController {
 
   init(filter = `all-time`) {
     this._setDataForRender(filter);
-    this._statistic = new Statistic(getStats(this._dataForRender), this._getTopGenre(), this._dataForRender);
+    this._statistic = new Statistic(getStats(this._dataForRender), this._getTopGenre(), this._dataForRender, filter);
 
     this._getAllListGenres(this._dataForRender);
     render(this._container, this._statistic.getElement());
