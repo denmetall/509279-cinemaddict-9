@@ -7,13 +7,14 @@ import API from "../api/api";
 import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class MovieController {
-  constructor(container, data, onDataChange, onChangeView, onDataChangeMain) {
+  constructor(container, data, onDataChange, onChangeView, onDataChangeMain, popupIsOpen = false) {
     this._container = container;
     this._data = data;
     this._onChangeView = onChangeView;
     this._onDataChange = onDataChange;
     this._card = new Card(this._data);
     this._popup = new Popup(this._data);
+    this._popupIsOpen = popupIsOpen;
     this._userRatingBlock = new UserRatingBlock(this._data);
 
     this._popupBottomContainer = this._popup.getElement().querySelector(`.form-details__bottom-container`);
@@ -35,6 +36,11 @@ export default class MovieController {
     cardComments.addEventListener(`click`, this._renderPopup.bind(this, MovieController));
 
     render(this._container, cardElement);
+
+    if (this._popupIsOpen === this._data.id) {
+      document.querySelector(`.film-details`).remove();
+      this._renderPopup();
+    }
   }
 
   _renderPopup() {
@@ -44,7 +50,7 @@ export default class MovieController {
     const footerElement = document.querySelector(`footer`);
     render(footerElement, popupElement, `afterend`);
 
-    if (this._getState().controls.isMarkedAsWatched) {
+    if (this._getControlsValue().controls.isMarkedAsWatched) {
       this._renderUserRatingBlock();
     }
 
@@ -101,34 +107,6 @@ export default class MovieController {
     });
   }
 
-  _getState(dataFilm) {
-    return {
-      id: dataFilm.id,
-      title: dataFilm.title,
-      year: dataFilm.year,
-      duration: dataFilm.duration,
-      genre: dataFilm.genre,
-      posterLink: dataFilm.posterLink,
-      description: dataFilm.description,
-      controls: {
-        isAddedToWatchlist: dataFilm.controls.isAddedToWatchlist,
-        isMarkedAsWatched: dataFilm.controls.isMarkedAsWatched,
-        isFavorite: dataFilm.controls.isFavorite,
-      },
-      alternativeTitle: dataFilm.alternativeTitle,
-      totalRating: dataFilm.totalRating,
-      releaseCountry: dataFilm.releaseCountry,
-      director: dataFilm.director,
-      ageRating: dataFilm.ageRating,
-      actors: dataFilm.actors,
-      writers: dataFilm.writers,
-      comments: dataFilm.comments,
-
-      personalRating: dataFilm.personalRating,
-      watchingDate: dataFilm.watchingDate
-    };
-  }
-
   _getControlsValue() {
     return {
       controls: {
@@ -179,31 +157,38 @@ export default class MovieController {
   _onClickControlsInPopup(evt) {
     const popupElement = this._popup.getElement();
 
+    if (!evt.target.classList.contains(`film-details__control-label`)) {
+      return;
+    }
+
     evt.preventDefault();
-    const entry = this._getState();
+    const currentState = this._getControlsValue();
 
-    if (evt.target.classList.contains(`film-details__control-label--watchlist`)) {
-      popupElement.querySelector(`#watchlist`).checked = !popupElement.querySelector(`#watchlist`).checked;
-      entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
+    switch (evt.target.dataset.state) {
+      case `watchlist`:
+        currentState.controls.isAddedToWatchlist = !currentState.controls.isAddedToWatchlist;
+        break;
+      case `watched`:
+        currentState.controls.isMarkedAsWatched = !currentState.controls.isMarkedAsWatched;
+
+        if (popupElement.querySelector(`#watched`).checked) {
+          this._renderUserRatingBlock();
+        } else {
+          unrender(this._userRatingBlock.getElement());
+          this._userRatingBlock.removeElement();
+        }
+        break;
+      case `favorite`:
+        currentState.controls.isFavorite = !currentState.controls.isFavorite;
+        break;
     }
 
-    if (evt.target.classList.contains(`film-details__control-label--watched`)) {
-      popupElement.querySelector(`#watched`).checked = !popupElement.querySelector(`#watched`).checked;
-      entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
-
-      if (popupElement.querySelector(`#watched`).checked) {
-        this._renderUserRatingBlock();
-      } else {
-        unrender(this._userRatingBlock.getElement());
-        this._userRatingBlock.removeElement();
-      }
-    }
-
-    if (evt.target.classList.contains(`film-details__control-label--favorite`)) {
-      popupElement.querySelector(`#favorite`).checked = !popupElement.querySelector(`#favorite`).checked;
-      entry.controls.isFavorite = !entry.controls.isFavorite;
-    }
-
-    this._onDataChange(entry, this._data);
+    const dataForSend = Object.assign(this._data, currentState);
+    this._api.updateFilm(this._data.id, dataForSend)
+      .then(() => {
+        this._data = dataForSend;
+        const currentIdFilm = this._data.id;
+        this._onDataChangeMain(currentIdFilm);
+      });
   }
 }

@@ -111,11 +111,11 @@ const startApp = (films) => {
   });
 };
 
-const onDataChangeMain = () => {
+const onDataChangeMain = (popupIsOpen = false) => {
   api.getFilms()
     .then((films) => {
       const isStartApp = false;
-      controllerContent._renderBoardFilms(isStartApp, films);
+      controllerContent._renderBoardFilms(isStartApp, films, popupIsOpen);
     });
 };
 

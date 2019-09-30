@@ -82,7 +82,8 @@ export default class Page {
     }
   }
 
-  _renderBoardFilms(isStartApp = false, dataFromServer = undefined) {
+  _renderBoardFilms(isStartApp = false, dataFromServer = undefined, popupIsOpen = false) {
+
     let cards = this._checkSortedOrStartDataAndFilter();
 
     if (dataFromServer) {
@@ -104,7 +105,7 @@ export default class Page {
 
     render(this._films.getElement(), this._filmsAllList.getElement());
 
-    this._renderFilms(filmAllCardsData, this._filmsAllList.getElement().querySelector(`#all-films`));
+    this._renderFilms(filmAllCardsData, this._filmsAllList.getElement().querySelector(`#all-films`), popupIsOpen);
 
     if (filmTopCardsData.length) {
       render(this._films.getElement(), this._filmsTopRated.getElement());
@@ -121,8 +122,8 @@ export default class Page {
     }
   }
 
-  _renderFilms(filmsData, container) {
-    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this), this._onDataChangeMain);
+  _renderFilms(filmsData, container, popupIsOpen = false) {
+    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this), this._onDataChangeMain, popupIsOpen);
     filmsListController.init();
   }
 

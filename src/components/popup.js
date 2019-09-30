@@ -90,13 +90,13 @@ export default class Popup extends AbstractComponent {
       
             <section class="film-details__controls">
               <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${this._controls.isAddedToWatchlist ? `checked` : ``}>
-              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist" data-state="watchlist"">Add to watchlist</label>
       
               <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${this._controls.isMarkedAsWatched ? `checked` : ``}>
-              <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+              <label for="watched" class="film-details__control-label film-details__control-label--watched" data-state="watched">Already watched</label>
       
               <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${this._controls.isFavorite ? `checked` : ``}>
-              <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+              <label for="favorite" class="film-details__control-label film-details__control-label--favorite" data-state="favorite">Add to favorites</label>
             </section>
           </div>
       

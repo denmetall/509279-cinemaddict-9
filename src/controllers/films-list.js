@@ -3,7 +3,7 @@ import API from "../api/api";
 import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class FilmsList {
-  constructor(filmsData, container, primaryFilmsData, renderUpdate, onDataChangeMain) {
+  constructor(filmsData, container, primaryFilmsData, renderUpdate, onDataChangeMain, popupIsOpen) {
     this._filmsData = filmsData;
     this._container = container;
     this._primaryFilmsData = primaryFilmsData;
@@ -15,15 +15,17 @@ export default class FilmsList {
 
     this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
     this._onDataChangeMain = onDataChangeMain;
+
+    this._popupIsOpen = popupIsOpen;
   }
 
   init() {
     this._container.innerHTML = ``;
-    this._filmsData.forEach((film) => this._renderFilm(film, this._container));
+    this._filmsData.forEach((film) => this._renderFilm(film, this._container, this._popupIsOpen));
   }
 
-  _renderFilm(filmCard, container) {
-    const movieController = new MovieController(container, filmCard, this._onDataChange, this._onChangeView, this._onDataChangeMain);
+  _renderFilm(filmCard, container, popupIsOpen = false) {
+    const movieController = new MovieController(container, filmCard, this._onDataChange, this._onChangeView, this._onDataChangeMain, popupIsOpen);
     movieController.init();
     this._subscriptions.push(movieController.setDefaultView.bind(movieController));
   }
