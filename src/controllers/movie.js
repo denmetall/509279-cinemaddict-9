@@ -99,6 +99,7 @@ export default class MovieController {
     render(this._popup.getElement().querySelector(`.form-details__top-container`), this._userRatingBlock.getElement(), `afterend`);
 
     const rateInputs = this._userRatingBlock.getElement().querySelectorAll(`.film-details__user-rating-input`);
+    const rateResetBtn = this._userRatingBlock.getElement().querySelector(`.film-details__watched-reset`);
 
     rateInputs.forEach((input) => {
       input.addEventListener(`change`, (evt) => {
@@ -112,6 +113,17 @@ export default class MovieController {
             this._onDataChangeMain(this._data.id);
           });
       });
+    });
+
+    rateResetBtn.addEventListener(`click`, () => {
+      const currentState = this._getControlsValue();
+      currentState.controls.isMarkedAsWatched = false;
+      const dataForSend = Object.assign(this._data, currentState);
+      this._api.updateFilm(this._data.id, dataForSend)
+        .then(() => {
+          this._data = dataForSend;
+          this._onDataChangeMain(this._data.id);
+        });
     });
   }
 
