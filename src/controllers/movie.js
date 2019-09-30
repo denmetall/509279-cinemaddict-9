@@ -19,7 +19,7 @@ export default class MovieController {
     this._popupBottomContainer = this._popup.getElement().querySelector(`.form-details__bottom-container`);
 
     this._onDataChangeMain = onDataChangeMain;
-
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
     this._onClickControlsCard();
   }
@@ -101,7 +101,35 @@ export default class MovieController {
     });
   }
 
-  _getState() {
+  _getState(dataFilm) {
+    return {
+      id: dataFilm.id,
+      title: dataFilm.title,
+      year: dataFilm.year,
+      duration: dataFilm.duration,
+      genre: dataFilm.genre,
+      posterLink: dataFilm.posterLink,
+      description: dataFilm.description,
+      controls: {
+        isAddedToWatchlist: dataFilm.controls.isAddedToWatchlist,
+        isMarkedAsWatched: dataFilm.controls.isMarkedAsWatched,
+        isFavorite: dataFilm.controls.isFavorite,
+      },
+      alternativeTitle: dataFilm.alternativeTitle,
+      totalRating: dataFilm.totalRating,
+      releaseCountry: dataFilm.releaseCountry,
+      director: dataFilm.director,
+      ageRating: dataFilm.ageRating,
+      actors: dataFilm.actors,
+      writers: dataFilm.writers,
+      comments: dataFilm.comments,
+
+      personalRating: dataFilm.personalRating,
+      watchingDate: dataFilm.watchingDate
+    };
+  }
+
+  _getControlsValue() {
     return {
       controls: {
         isAddedToWatchlist: this._data.controls.isAddedToWatchlist,
@@ -117,24 +145,27 @@ export default class MovieController {
     cardElement
       .querySelector(`.film-card__controls`).addEventListener(`click`, (evt) => {
         evt.preventDefault();
-        const entry = this._getState();
 
-        if (evt.target.classList.contains(`film-card__controls-item--add-to-watchlist`)) {
-          cardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isAddedToWatchlist = !entry.controls.isAddedToWatchlist;
+        const currentState = this._getControlsValue();
+
+        switch (evt.target.dataset.state) {
+          case `watchlist`:
+            currentState.controls.isAddedToWatchlist = !currentState.controls.isAddedToWatchlist;
+            break;
+          case `watched`:
+            currentState.controls.isMarkedAsWatched = !currentState.controls.isMarkedAsWatched;
+            break;
+          case `favorite`:
+            currentState.controls.isFavorite = !currentState.controls.isFavorite;
+            break;
         }
 
-        if (evt.target.classList.contains(`film-card__controls-item--mark-as-watched`)) {
-          cardElement.querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isMarkedAsWatched = !entry.controls.isMarkedAsWatched;
-        }
-
-        if (evt.target.classList.contains(`film-card__controls-item--favorite`)) {
-          cardElement.querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
-          entry.controls.isFavorite = !entry.controls.isFavorite;
-        }
-
-        this._onDataChange(entry, this._data);
+        const dataForSend = Object.assign(this._data, currentState);
+        this._api.updateFilm(this._data.id, dataForSend)
+        .then(() => {
+          this._data = dataForSend;
+          this._onDataChangeMain();
+        });
       });
   }
 

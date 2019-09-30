@@ -36,6 +36,7 @@ export default class FilmsList {
     const dataForSend = oldData;
     dataForSend.controls = newData.controls;
     const filmId = oldData.id;
-    this._api.updateFilm(filmId, dataForSend);
+    this._api.updateFilm(filmId, dataForSend)
+      .then(this._onDataChangeMain());
   }
 }

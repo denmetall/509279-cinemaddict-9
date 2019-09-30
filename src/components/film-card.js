@@ -33,16 +33,19 @@ export default class Card extends AbstractComponent {
         <form class="film-card__controls">
           <button 
             class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${(this._controls.isAddedToWatchlist) ? `film-card__controls-item--active` : ``}"
+            data-state="watchlist"
           >
             Add to watchlist
           </button>
           <button 
             class="film-card__controls-item button film-card__controls-item--mark-as-watched ${(this._controls.isMarkedAsWatched) ? `film-card__controls-item--active` : ``}"
+            data-state="watched"
           >
             Mark as watched
           </button>
           <button 
             class="film-card__controls-item button film-card__controls-item--favorite ${(this._controls.isFavorite) ? `film-card__controls-item--active` : ``}"
+            data-state="favorite"
           >
             Mark as favorite
           </button>
