@@ -101,8 +101,16 @@ export default class MovieController {
     const rateInputs = this._userRatingBlock.getElement().querySelectorAll(`.film-details__user-rating-input`);
 
     rateInputs.forEach((input) => {
-      input.addEventListener(`change`, () => {
-
+      input.addEventListener(`change`, (evt) => {
+        const currentState = {
+          personalRating: evt.target.value
+        };
+        const dataForSend = Object.assign(this._data, currentState);
+        this._api.updateFilm(this._data.id, dataForSend)
+          .then(() => {
+            this._data = dataForSend;
+            this._onDataChangeMain(this._data.id);
+          });
       });
     });
   }
