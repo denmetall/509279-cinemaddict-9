@@ -46,7 +46,7 @@ export default class CommentsController {
   _sendComment(evt) {
     if (evt.keyCode === KEY_CODE_ENTER) {
       const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
-
+      commentTextarea.disabled = true;
       let smile = `smile`;
 
       if (this._container.querySelector(`.film-details__add-emoji-label img`)) {
@@ -73,8 +73,14 @@ export default class CommentsController {
               this._btnRemoveComment(newComment);
 
               commentTextarea.value = ``;
+              commentTextarea.disabled = false;
               this._onDataChangeMain();
             });
+        })
+        .catch(() => {
+          commentTextarea.value = ``;
+          commentTextarea.disabled = false;
+          this._shake();
         });
     }
   }
@@ -95,5 +101,16 @@ export default class CommentsController {
           this._onDataChangeMain();
         });
     });
+  }
+
+  _shake() {
+    const textarea = this._container.querySelector(`.film-details__comment-input`);
+    textarea.classList.add(`shake`);
+    textarea.style.borderColor = `red`;
+
+    setTimeout(() => {
+      textarea.classList.remove(`shake`);
+      textarea.style.borderColor = ``;
+    }, 600);
   }
 }

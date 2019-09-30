@@ -100,9 +100,11 @@ export default class MovieController {
 
     const rateInputs = this._userRatingBlock.getElement().querySelectorAll(`.film-details__user-rating-input`);
     const rateResetBtn = this._userRatingBlock.getElement().querySelector(`.film-details__watched-reset`);
+    const rateBlock = this._userRatingBlock.getElement().querySelector(`.film-details__user-rating-score`);
 
     rateInputs.forEach((input) => {
       input.addEventListener(`change`, (evt) => {
+        rateBlock.style.pointerEvents = `none`;
         const currentState = {
           personalRating: evt.target.value
         };
@@ -111,6 +113,10 @@ export default class MovieController {
           .then(() => {
             this._data = dataForSend;
             this._onDataChangeMain(this._data.id);
+          })
+          .catch(() => {
+            rateBlock.style.pointerEvents = ``;
+            this._shake();
           });
       });
     });
@@ -210,5 +216,16 @@ export default class MovieController {
         const currentIdFilm = this._data.id;
         this._onDataChangeMain(currentIdFilm);
       });
+  }
+
+  _shake() {
+    const userBlockRate = this._popup.getElement().querySelector(`.film-details__user-rating-score`);
+    userBlockRate.classList.add(`shake`);
+    userBlockRate.style.border = `1px solid red`;
+
+    setTimeout(() => {
+      userBlockRate.classList.remove(`shake`);
+      userBlockRate.style.border = ``;
+    }, 600);
   }
 }
