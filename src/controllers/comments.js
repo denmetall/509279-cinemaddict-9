@@ -1,15 +1,19 @@
 import {createElement, KEY_CODE_ENTER, render, unrender} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comments-list";
-import moment from "moment";
+import API from "../api/api";
+import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class CommentsController {
-  constructor(container, dataCard, onDataChange) {
+  constructor(container, dataCard, commentsData, onDataChangeMain) {
     this._container = container;
     this._dataCard = dataCard;
-    this._onDataChange = onDataChange;
+    this._commentsData = commentsData;
     this._commentsList = new CommentsList();
     this._commentsNumber = this._container.querySelector(`.film-details__comments-count`);
+    this._onDataChangeMain = onDataChangeMain;
+
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
   }
 
   init() {
@@ -19,7 +23,7 @@ export default class CommentsController {
     const formTitle = this._container.querySelector(`.film-details__comments-title`);
     render(formTitle, this._commentsList.getElement(), `afterend`);
 
-    this._dataCard.comments.forEach((commentData) => {
+    this._commentsData.forEach((commentData) => {
       const comment = new Comment(commentData);
       render(this._commentsList.getElement(), comment.getElement());
 
@@ -43,31 +47,35 @@ export default class CommentsController {
     if (evt.keyCode === KEY_CODE_ENTER) {
       const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
 
-      let smileImg = `smile.png`;
+      let smile = `smile`;
 
       if (this._container.querySelector(`.film-details__add-emoji-label img`)) {
         const smileSrc = this._container.querySelector(`.film-details__add-emoji-label img`).src || `/smile.png`;
-        smileImg = smileSrc.substr(smileSrc.lastIndexOf(`/`) + 1);
+        const smileImg = smileSrc.substr(smileSrc.lastIndexOf(`/`) + 1);
+        smile = smileImg.substr(0, smileImg.indexOf(`.`));
       }
 
       const commentData = {
-        id: Math.random(),
-        author: `Evstratchik denis`,
-        text: commentTextarea.value,
-        date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
-        smile: smileImg,
+        comment: commentTextarea.value,
+        date: new Date(),
+        emotion: smile,
       };
 
-      const newComment = new Comment(commentData);
+      this._api.createComment(commentData, this._dataCard.id)
+        .then(() => {
+          this._api.getComments(this._dataCard.id)
+            .then((comments) => {
+              const lastComment = comments[comments.length - 1];
+              const newComment = new Comment(lastComment);
+              render(this._commentsList.getElement(), newComment.getElement());
+              this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
 
-      render(this._commentsList.getElement(), newComment.getElement());
-      this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
+              this._btnRemoveComment(newComment);
 
-      this._btnRemoveComment(newComment);
-
-      commentTextarea.value = ``;
-      const isChangeCommentsList = true;
-      this._onDataChange(commentData, this._dataCard, isChangeCommentsList);
+              commentTextarea.value = ``;
+              this._onDataChangeMain();
+            });
+        });
     }
   }
 
@@ -78,14 +86,14 @@ export default class CommentsController {
       evt.preventDefault();
       const commentId = currentComment.getElement().dataset.commentId;
 
-      const isChangeCommentsList = true;
+      this._api.deleteComment({commentId})
+        .then(() => {
+          unrender(currentComment.getElement());
+          currentComment.removeElement();
 
-      this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
-
-      unrender(currentComment.getElement());
-      currentComment.removeElement();
-
-      this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._onDataChangeMain();
+        });
     });
   }
 }

@@ -1,10 +1,12 @@
 import AbstractComponent from "./abstract-component";
+import moment from 'moment';
+import 'moment-duration-format';
 
 export default class Popup extends AbstractComponent {
-  constructor({title, rating, year, duration, genre, posterLink, description, controls, comments}) {
+  constructor({title, totalRating, year, duration, genre, posterLink, description, controls, comments, alternativeTitle, releaseCountry, ageRating, actors, writers}) {
     super();
     this._title = title;
-    this._rating = rating;
+    this._totalRating = totalRating;
     this._year = year;
     this._duration = duration;
     this._genre = genre;
@@ -12,6 +14,11 @@ export default class Popup extends AbstractComponent {
     this._description = description;
     this._controls = controls;
     this._comments = comments;
+    this._alternativeTitle = alternativeTitle;
+    this._releaseCountry = releaseCountry;
+    this._ageRating = ageRating;
+    this._actors = actors;
+    this._writers = writers;
   }
 
   getTemplate() {
@@ -24,20 +31,20 @@ export default class Popup extends AbstractComponent {
             </div>
             <div class="film-details__info-wrap">
               <div class="film-details__poster">
-                <img class="film-details__poster-img" src="./images/posters/${this._posterLink}" alt="">
+                <img class="film-details__poster-img" src="${this._posterLink}" alt="">
       
-                <p class="film-details__age">18+</p>
+                <p class="film-details__age">${this._ageRating}+</p>
               </div>
       
               <div class="film-details__info">
                 <div class="film-details__info-head">
                   <div class="film-details__title-wrap">
                     <h3 class="film-details__title">${this._title}</h3>
-                    <p class="film-details__title-original">Original: The Great Flamarion</p>
+                    <p class="film-details__title-original">Original: ${this._alternativeTitle}</p>
                   </div>
       
                   <div class="film-details__rating">
-                    <p class="film-details__total-rating">${this._rating}</p>
+                    <p class="film-details__total-rating">${this._totalRating}</p>
                   </div>
                 </div>
       
@@ -48,23 +55,23 @@ export default class Popup extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Writers</td>
-                    <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                    <td class="film-details__cell">${this._writers}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Actors</td>
-                    <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                    <td class="film-details__cell">${this._actors}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
-                    <td class="film-details__cell">30 March ${this._year}</td>
+                    <td class="film-details__cell">${moment(this._year).format(`DD MMM YYYY`)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${this._duration}</td>
+                    <td class="film-details__cell">${moment.duration(this._duration, `minutes`).format(`h[h] m[m]`)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
-                    <td class="film-details__cell">USA</td>
+                    <td class="film-details__cell">${this._releaseCountry}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Genres</td>
@@ -83,13 +90,13 @@ export default class Popup extends AbstractComponent {
       
             <section class="film-details__controls">
               <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${this._controls.isAddedToWatchlist ? `checked` : ``}>
-              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist" data-state="watchlist"">Add to watchlist</label>
       
               <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${this._controls.isMarkedAsWatched ? `checked` : ``}>
-              <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+              <label for="watched" class="film-details__control-label film-details__control-label--watched" data-state="watched">Already watched</label>
       
               <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${this._controls.isFavorite ? `checked` : ``}>
-              <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+              <label for="favorite" class="film-details__control-label film-details__control-label--favorite" data-state="favorite">Add to favorites</label>
             </section>
           </div>
       

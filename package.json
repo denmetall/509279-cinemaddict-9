@@ -24,6 +24,7 @@
     "node": "10"
   },
   "dependencies": {
-    "moment": "2.24.0"
+    "moment": "2.24.0",
+    "moment-duration-format": "^2.3.2"
   }
 }

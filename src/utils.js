@@ -3,6 +3,7 @@ const KEY_CODE_ENTER = 13;
 const NUMBER_SHOW_FILMS = 5;
 const NUMBER_SHOW_TOP_RATED_FILMS = 2;
 const NUMBER_SHOW_MOST_COMMENTED_FILMS = 2;
+const MAX_DESCRIPTION_LENGTH = 139;
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
@@ -55,6 +56,20 @@ const getStats = (data) => {
   };
 };
 
+const getNameUser = (historyNumber) => {
+  let userName = 0;
+
+  if (historyNumber > 0 && historyNumber < 10) {
+    userName = `Novice`;
+  } else if (historyNumber > 10 && historyNumber < 21) {
+    userName = `Fan`;
+  } else {
+    userName = `Movie Buff`;
+  }
+
+  return userName;
+};
+
 export {
   createElement,
   render,
@@ -64,5 +79,7 @@ export {
   NUMBER_SHOW_FILMS,
   NUMBER_SHOW_TOP_RATED_FILMS,
   NUMBER_SHOW_MOST_COMMENTED_FILMS,
-  getStats
+  MAX_DESCRIPTION_LENGTH,
+  getStats,
+  getNameUser
 };

@@ -15,7 +15,7 @@ import FilmsAllList from "../components/films-all-list";
 import FilmsList from "./films-list";
 
 export default class Page {
-  constructor(container, cards) {
+  constructor(container, cards, onDataChangeMain) {
     this._container = container;
     this._cards = cards;
     this._sort = new Sort();
@@ -27,6 +27,7 @@ export default class Page {
     this._btnMore = new BtnMore();
     this._sortedFilm = [];
     this._filter = `all`;
+    this._onDataChangeMain = onDataChangeMain;
   }
 
   init() {
@@ -81,11 +82,18 @@ export default class Page {
     }
   }
 
-  _renderBoardFilms(isStartApp = false) {
-    const cards = this._checkSortedOrStartDataAndFilter();
+  _renderBoardFilms(isStartApp = false, dataFromServer = undefined, popupIsOpen = false) {
+
+    let cards = this._checkSortedOrStartDataAndFilter();
+
+    if (dataFromServer) {
+      cards = dataFromServer;
+      this._cards = dataFromServer;
+    }
+
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
-    const filmTopCardsData = this._cards.slice().sort((a, b) => b.rating - a.rating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
-    const filmMostCardsData = this._cards.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
+    const filmTopCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
+    const filmMostCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
 
     unrender(this._filmsAllList.getElement());
     unrender(this._filmsTopRated.getElement());
@@ -97,7 +105,7 @@ export default class Page {
 
     render(this._films.getElement(), this._filmsAllList.getElement());
 
-    this._renderFilms(filmAllCardsData, this._filmsAllList.getElement().querySelector(`#all-films`));
+    this._renderFilms(filmAllCardsData, this._filmsAllList.getElement().querySelector(`#all-films`), popupIsOpen);
 
     if (filmTopCardsData.length) {
       render(this._films.getElement(), this._filmsTopRated.getElement());
@@ -114,8 +122,8 @@ export default class Page {
     }
   }
 
-  _renderFilms(filmsData, container) {
-    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this));
+  _renderFilms(filmsData, container, popupIsOpen = false) {
+    const filmsListController = new FilmsList(filmsData, container, this._cards, this._renderBoardFilms.bind(this), this._onDataChangeMain, popupIsOpen);
     filmsListController.init();
   }
 
@@ -160,12 +168,12 @@ export default class Page {
 
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
-        this._sortedFilm = this._cards.slice().sort((a, b) => b.year - a.year);
+        this._sortedFilm = this._cards.slice().sort((a, b) => new Date(b.year) - new Date(a.year));
         const sortedByDateUpFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByDateUpFilms, allFilmsContainer);
         break;
       case `sort-rating`:
-        this._sortedFilm = this._cards.slice().sort((a, b) => b.rating - a.rating);
+        this._sortedFilm = this._cards.slice().sort((a, b) => b.totalRating - a.totalRating);
         const sortedByRatingFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByRatingFilms, allFilmsContainer);
         break;

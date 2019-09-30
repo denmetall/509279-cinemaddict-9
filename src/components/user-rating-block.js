@@ -1,10 +1,11 @@
 import AbstractComponent from "./abstract-component";
 
 export default class UserRatingBlock extends AbstractComponent {
-  constructor({posterLink, title}) {
+  constructor({posterLink, title, personalRating}) {
     super();
     this._posterLink = posterLink;
     this._title = title;
+    this._personalRating = personalRating;
   }
 
   getTemplate() {
@@ -17,7 +18,7 @@ export default class UserRatingBlock extends AbstractComponent {
   
           <div class="film-details__user-score">
             <div class="film-details__user-rating-poster">
-              <img src="./images/posters/${this._posterLink}" alt="film-poster" class="film-details__user-rating-img">
+              <img src="${this._posterLink}" alt="film-poster" class="film-details__user-rating-img">
             </div>
   
             <section class="film-details__user-rating-inner">
@@ -26,38 +27,24 @@ export default class UserRatingBlock extends AbstractComponent {
               <p class="film-details__user-rating-feelings">How you feel it?</p>
   
               <div class="film-details__user-rating-score">
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="1" id="rating-1">
-                <label class="film-details__user-rating-label" for="rating-1">1</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="2" id="rating-2">
-                <label class="film-details__user-rating-label" for="rating-2">2</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="3" id="rating-3">
-                <label class="film-details__user-rating-label" for="rating-3">3</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="4" id="rating-4">
-                <label class="film-details__user-rating-label" for="rating-4">4</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="5" id="rating-5">
-                <label class="film-details__user-rating-label" for="rating-5">5</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="6" id="rating-6">
-                <label class="film-details__user-rating-label" for="rating-6">6</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="7" id="rating-7">
-                <label class="film-details__user-rating-label" for="rating-7">7</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="8" id="rating-8">
-                <label class="film-details__user-rating-label" for="rating-8">8</label>
-  
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="9" id="rating-9" checked>
-                <label class="film-details__user-rating-label" for="rating-9">9</label>
-  
+                ${this._setUserRating(this._personalRating)};
               </div>
             </section>
           </div>
         </section>
       </div>
     `;
+  }
+
+  _setUserRating(personalRating) {
+    const rate = parseInt(personalRating, 10);
+    const templateUserRatingBlock = Array(9).fill(``).map((item, index) => {
+
+      const i = index + 1;
+      return `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${(i === rate) ? `checked` : ``}><label class="film-details__user-rating-label" for="rating-${i}">${i}</label>`;
+    })
+      .join(` `);
+
+    return templateUserRatingBlock;
   }
 }
