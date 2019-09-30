@@ -7,7 +7,7 @@ import API from "../api/api";
 import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class MovieController {
-  constructor(container, data, onDataChange, onChangeView) {
+  constructor(container, data, onDataChange, onChangeView, onDataChangeMain) {
     this._container = container;
     this._data = data;
     this._onChangeView = onChangeView;
@@ -17,6 +17,8 @@ export default class MovieController {
     this._userRatingBlock = new UserRatingBlock(this._data);
 
     this._popupBottomContainer = this._popup.getElement().querySelector(`.form-details__bottom-container`);
+
+    this._onDataChangeMain = onDataChangeMain;
 
 
     this._onClickControlsCard();
@@ -49,7 +51,7 @@ export default class MovieController {
     const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
     api.getComments(this._data.id)
       .then((comments) => {
-        const commentsController = new CommentsController(this._popupBottomContainer, this._data, this._onDataChange, comments);
+        const commentsController = new CommentsController(this._popupBottomContainer, this._data, comments, this._onDataChangeMain);
         commentsController.init();
       });
 

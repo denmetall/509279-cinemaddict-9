@@ -1,16 +1,19 @@
 import {createElement, KEY_CODE_ENTER, render, unrender} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comments-list";
-// import moment from "moment";
+import API from "../api/api";
+import {AUTHORIZATION, END_POINT} from "../config";
 
 export default class CommentsController {
-  constructor(container, dataCard, onDataChange, commentsData) {
+  constructor(container, dataCard, commentsData, onDataChangeMain) {
     this._container = container;
     this._dataCard = dataCard;
     this._commentsData = commentsData;
-    this._onDataChange = onDataChange;
     this._commentsList = new CommentsList();
     this._commentsNumber = this._container.querySelector(`.film-details__comments-count`);
+    this._onDataChangeMain = onDataChangeMain;
+
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
   }
 
   init() {
@@ -53,24 +56,26 @@ export default class CommentsController {
       }
 
       const commentData = {
-        // id: Math.random(),
-        // author: `Evstratchik denis`,
         comment: commentTextarea.value,
         date: new Date(),
-        // date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
         emotion: smile,
       };
 
-      const newComment = new Comment(commentData);
+      this._api.createComment(commentData, this._dataCard.id)
+        .then(() => {
+          this._api.getComments(this._dataCard.id)
+            .then((comments) => {
+              const lastComment = comments[comments.length - 1];
+              const newComment = new Comment(lastComment);
+              render(this._commentsList.getElement(), newComment.getElement());
+              this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
 
-      render(this._commentsList.getElement(), newComment.getElement());
-      this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
+              this._btnRemoveComment(newComment);
 
-      this._btnRemoveComment(newComment);
-
-      commentTextarea.value = ``;
-      const isChangeCommentsList = true;
-      this._onDataChange(commentData, this._dataCard, isChangeCommentsList);
+              commentTextarea.value = ``;
+              this._onDataChangeMain();
+            });
+        });
     }
   }
 
@@ -81,14 +86,14 @@ export default class CommentsController {
       evt.preventDefault();
       const commentId = currentComment.getElement().dataset.commentId;
 
-      const isChangeCommentsList = true;
+      this._api.deleteComment({commentId})
+        .then(() => {
+          unrender(currentComment.getElement());
+          currentComment.removeElement();
 
-      this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
-
-      unrender(currentComment.getElement());
-      currentComment.removeElement();
-
-      this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._onDataChangeMain();
+        });
     });
   }
 }
