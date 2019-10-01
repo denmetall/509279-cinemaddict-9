@@ -97,6 +97,7 @@ const startApp = (films) => {
 
     const query = search.getElement().querySelector(`.search__field`).value;
     if (query.length > 3) {
+      debugger;
       controllerContent.hidePage();
       statsController.hideStats();
       controllerSearch.init(query);
