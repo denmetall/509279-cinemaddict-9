@@ -164,20 +164,31 @@ export default class Page {
       return;
     }
 
+    const removeActiveItem = () => {
+      this._sort.getElement().querySelectorAll(`.sort__button`).forEach((item) => {
+        item.classList.remove(`sort__button--active`);
+      });
+    };
+
+    removeActiveItem();
+
     const allFilmsContainer = this._filmsAllList.getElement().querySelector(`#all-films`);
 
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
+        evt.target.classList.add(`sort__button--active`);
         this._sortedFilm = this._cards.slice().sort((a, b) => new Date(b.year) - new Date(a.year));
         const sortedByDateUpFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByDateUpFilms, allFilmsContainer);
         break;
       case `sort-rating`:
+        evt.target.classList.add(`sort__button--active`);
         this._sortedFilm = this._cards.slice().sort((a, b) => b.totalRating - a.totalRating);
         const sortedByRatingFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByRatingFilms, allFilmsContainer);
         break;
       case `default`:
+        evt.target.classList.add(`sort__button--active`);
         this._sortedFilm = [];
         const sortedByDefaultFilms = this._cards.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByDefaultFilms, allFilmsContainer);

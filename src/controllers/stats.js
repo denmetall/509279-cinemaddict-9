@@ -67,8 +67,10 @@ export default class StatsController {
   }
 
   hideStats() {
-    unrender(this._statistic.getElement());
-    this._statistic.removeElement();
+    if (this._statistic !== null) {
+      unrender(this._statistic.getElement());
+      this._statistic.removeElement();
+    }
   }
 
   _renderCharts() {
