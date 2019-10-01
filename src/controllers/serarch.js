@@ -25,6 +25,7 @@ export default class SearchController {
     }
 
     render(this._container, this._searchInfo.getElement());
+    this._searchInfo.getElement().querySelector(`.result__count`).textContent = this._filmsList.length;
 
     if (this._filmsList.length) {
       render(this._container, this._films.getElement());
