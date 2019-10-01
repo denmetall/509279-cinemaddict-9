@@ -4,7 +4,6 @@ import {getNameUser} from "../utils";
 export default class Statistic extends AbstractComponent {
   constructor(stats, topGenre = ``, data, filter) {
     super();
-    debugger;
     this._stats = stats;
     this._topGenre = topGenre;
     this._data = data;
