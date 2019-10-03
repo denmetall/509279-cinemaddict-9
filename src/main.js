@@ -45,10 +45,25 @@ const startApp = (films) => {
   controllerMenu = new MenuController(mainElement, films, statsController, controllerSearch, controllerContent);
   controllerMenu.init();
 
-  search.getElement().querySelector(`.search__field`).addEventListener(`input`, (evt) => {
-    evt.preventDefault();
+  const searchField = search.getElement().querySelector(`.search__field`);
 
+  const resetSearch = (evt) => {
+    evt.preventDefault();
+    controllerContent.showPage();
+    controllerSearch.hideSearchResult();
+    statsController.hideStats();
+    searchField.value = ``;
+  };
+
+  searchField.addEventListener(`input`, (evt) => {
+    evt.preventDefault();
     const query = search.getElement().querySelector(`.search__field`).value;
+
+    if (query.length === 0) {
+      resetSearch(evt);
+      return;
+    }
+
     if (query.length > 3) {
       controllerContent.hidePage();
       statsController.hideStats();
@@ -56,12 +71,7 @@ const startApp = (films) => {
     }
   });
 
-  search.getElement().addEventListener(`reset`, (evt) => {
-    evt.preventDefault();
-    controllerContent.showPage();
-    controllerSearch.hideSearchResult();
-    statsController.hideStats();
-  });
+  search.getElement().addEventListener(`reset`, resetSearch);
 };
 
 const onDataChangeMain = (popupIsOpen = false) => {
