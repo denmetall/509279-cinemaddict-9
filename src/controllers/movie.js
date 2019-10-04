@@ -43,6 +43,13 @@ export default class MovieController {
     }
   }
 
+  setDefaultView() {
+    if (document.body.contains(this._popup.getElement())) {
+      unrender(this._popup.getElement());
+      this._popup.removeElement();
+    }
+  }
+
   _renderPopup() {
     this._onChangeView();
 
@@ -171,13 +178,6 @@ export default class MovieController {
           this._onDataChangeMain();
         });
       });
-  }
-
-  setDefaultView() {
-    if (document.body.contains(this._popup.getElement())) {
-      unrender(this._popup.getElement());
-      this._popup.removeElement();
-    }
   }
 
   _onClickControlsInPopup(evt) {

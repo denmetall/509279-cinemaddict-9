@@ -25,6 +25,13 @@ export default class StatsController {
     }
   }
 
+  hideStats() {
+    if (this._statistic !== null) {
+      unrender(this._statistic.getElement());
+      this._statistic.removeElement();
+    }
+  }
+
   _setFilterEvent() {
     const allFilterInput = this._statistic.getElement().querySelectorAll(`.statistic__filters-input`);
     allFilterInput.forEach((input) => {
@@ -66,13 +73,6 @@ export default class StatsController {
     });
     const genres = new Set([...genresWithDoubles]);
     return Array.from(genres);
-  }
-
-  hideStats() {
-    if (this._statistic !== null) {
-      unrender(this._statistic.getElement());
-      this._statistic.removeElement();
-    }
   }
 
   _renderCharts() {
