@@ -80,6 +80,7 @@ const onDataChangeMain = (popupIsOpen = false) => {
       const isStartApp = false;
       controllerContent._renderBoardFilms(isStartApp, films, popupIsOpen);
       controllerMenu.remove();
+      statsController = new StatsController(mainElement, films);
       controllerMenu = new MenuController(mainElement, films, statsController, controllerSearch, controllerContent);
       controllerMenu.init();
     });

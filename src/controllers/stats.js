@@ -20,7 +20,9 @@ export default class StatsController {
     render(this._container, this._statistic.getElement());
     this._setFilterEvent();
 
-    this._renderCharts();
+    if (this._dataForRender.length) {
+      this._renderCharts();
+    }
   }
 
   _setFilterEvent() {
