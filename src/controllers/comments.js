@@ -1,4 +1,4 @@
-import {createElement, KEY_CODE_ENTER, render, unrender} from "../utils";
+import {createElement, KeyCode, render, unrender, TIME_REMOVE_ANIMATION_INFO} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comments-list";
 import API from "../api/api";
@@ -44,7 +44,7 @@ export default class CommentsController {
   }
 
   _sendComment(evt) {
-    if (evt.keyCode === KEY_CODE_ENTER) {
+    if (evt.keyCode === KeyCode.ENTER) {
       const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
       commentTextarea.disabled = true;
       let smile = `smile`;
@@ -111,6 +111,6 @@ export default class CommentsController {
     setTimeout(() => {
       textarea.classList.remove(`shake`);
       textarea.style.borderColor = ``;
-    }, 600);
+    }, TIME_REMOVE_ANIMATION_INFO);
   }
 }

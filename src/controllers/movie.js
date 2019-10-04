@@ -1,6 +1,6 @@
 import Card from "../components/film-card";
 import Popup from "../components/popup";
-import {KEY_CODE_ESCAPE, render, unrender} from "../utils";
+import {KeyCode, TIME_REMOVE_ANIMATION_INFO, render, unrender, Filters} from "../utils";
 import UserRatingBlock from "../components/user-rating-block";
 import CommentsController from "./comments";
 import API from "../api/api";
@@ -62,7 +62,7 @@ export default class MovieController {
       });
 
     const onEscKeyDown = (evt) => {
-      if (evt.keyCode === KEY_CODE_ESCAPE) {
+      if (evt.keyCode === KeyCode.ESCAPE) {
         unrender(popupElement);
         this._popup.removeElement();
         document.removeEventListener(`keydown`, onEscKeyDown);
@@ -153,13 +153,13 @@ export default class MovieController {
         const currentState = this._getControlsValue();
 
         switch (evt.target.dataset.state) {
-          case `watchlist`:
+          case Filters.WATCHLIST:
             currentState.controls.isAddedToWatchlist = !currentState.controls.isAddedToWatchlist;
             break;
-          case `watched`:
+          case Filters.HISTORY:
             currentState.controls.isMarkedAsWatched = !currentState.controls.isMarkedAsWatched;
             break;
-          case `favorite`:
+          case Filters.FAVORITES:
             currentState.controls.isFavorite = !currentState.controls.isFavorite;
             break;
         }
@@ -191,10 +191,10 @@ export default class MovieController {
     const currentState = this._getControlsValue();
 
     switch (evt.target.dataset.state) {
-      case `watchlist`:
+      case Filters.WATCHLIST:
         currentState.controls.isAddedToWatchlist = !currentState.controls.isAddedToWatchlist;
         break;
-      case `watched`:
+      case Filters.HISTORY:
         currentState.controls.isMarkedAsWatched = !currentState.controls.isMarkedAsWatched;
 
         if (popupElement.querySelector(`#watched`).checked) {
@@ -204,7 +204,7 @@ export default class MovieController {
           this._userRatingBlock.removeElement();
         }
         break;
-      case `favorite`:
+      case Filters.FAVORITES:
         currentState.controls.isFavorite = !currentState.controls.isFavorite;
         break;
     }
@@ -226,6 +226,6 @@ export default class MovieController {
     setTimeout(() => {
       userBlockRate.classList.remove(`shake`);
       userBlockRate.style.border = ``;
-    }, 600);
+    }, TIME_REMOVE_ANIMATION_INFO);
   }
 }

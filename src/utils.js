@@ -1,14 +1,21 @@
-const KEY_CODE_ESCAPE = 27;
-const KEY_CODE_ENTER = 13;
-const NUMBER_SHOW_FILMS = 5;
-const NUMBER_SHOW_TOP_RATED_FILMS = 2;
-const NUMBER_SHOW_MOST_COMMENTED_FILMS = 2;
 const MAX_DESCRIPTION_LENGTH = 139;
+const TIME_REMOVE_ANIMATION_INFO = 600;
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`
+};
+
+const KeyCode = {
+  ESCAPE: 27,
+  ENTER: 13
+};
+
+const NumberShow = {
+  FILMS: 5,
+  TOP_RATED_FILMS: 2,
+  MOST_COMMENTED_FILMS: 2
 };
 
 const Status = {
@@ -35,6 +42,21 @@ const Nickname = {
   NOVICE: 10,
   FAN: 20,
   MOVIE_BUFF: 21
+};
+
+const Filters = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`
+};
+
+const StatFilters = {
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
 };
 
 const createElement = (template) => {
@@ -100,15 +122,15 @@ export {
   createElement,
   render,
   unrender,
-  KEY_CODE_ESCAPE,
-  KEY_CODE_ENTER,
-  NUMBER_SHOW_FILMS,
-  NUMBER_SHOW_TOP_RATED_FILMS,
-  NUMBER_SHOW_MOST_COMMENTED_FILMS,
   MAX_DESCRIPTION_LENGTH,
+  TIME_REMOVE_ANIMATION_INFO,
   getStats,
   getNameUser,
   Status,
   RatingDefault,
-  TimeBreakpoint
+  TimeBreakpoint,
+  Filters,
+  StatFilters,
+  KeyCode,
+  NumberShow
 };

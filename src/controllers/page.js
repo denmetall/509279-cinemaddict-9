@@ -1,9 +1,8 @@
 import {
-  NUMBER_SHOW_FILMS,
-  NUMBER_SHOW_TOP_RATED_FILMS,
-  NUMBER_SHOW_MOST_COMMENTED_FILMS,
+  NumberShow,
   render,
-  unrender
+  unrender,
+  Filters
 } from "../utils";
 import Films from "../components/films";
 import NoFilms from "../components/no-flims";
@@ -26,7 +25,7 @@ export default class Page {
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
     this._sortFilms = [];
-    this._filter = `all`;
+    this._filter = Filters.ALL;
     this._onDataChangeMain = onDataChangeMain;
   }
 
@@ -52,24 +51,24 @@ export default class Page {
     this._films.removeElement();
   }
 
-  showPage(filter = `all`) {
+  showPage(filter = Filters.ALL) {
     this._filter = filter;
     this.init();
   }
 
   _setFilter(cards) {
     switch (this._filter) {
-      case `all`:
+      case Filters.ALL:
         return cards;
-      case `watchlist`:
+      case Filters.WATCHLIST:
         return cards.filter((card) => {
           return card.controls.isAddedToWatchlist;
         });
-      case `history`:
+      case Filters.HISTORY:
         return cards.filter((card) => {
           return card.controls.isMarkedAsWatched;
         });
-      case `favorites`:
+      case Filters.FAVORITES:
         return cards.filter((card) => {
           return card.controls.isFavorite;
         });
@@ -87,13 +86,13 @@ export default class Page {
       this._cards = dataFilmsFromServer;
     }
 
-    const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
+    const filmAllCardsData = isStartApp ? cards.slice(0, NumberShow.FILMS) : cards.slice(0, this._getCountCurrentCards());
 
     const filmRatingSortCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating);
-    const filmTopCardsData = filmRatingSortCardsData.slice(0, NUMBER_SHOW_TOP_RATED_FILMS).filter((film) => film.totalRating);
+    const filmTopCardsData = filmRatingSortCardsData.slice(0, NumberShow.TOP_RATED_FILMS).filter((film) => film.totalRating);
 
     const filmCountCommentsSortCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length);
-    const filmMostCardsData = filmCountCommentsSortCardsData.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS).filter((film) => film.comments.length);
+    const filmMostCardsData = filmCountCommentsSortCardsData.slice(0, NumberShow.MOST_COMMENTED_FILMS).filter((film) => film.comments.length);
 
     unrender(this._filmsAllList.getElement());
     unrender(this._filmsTopRated.getElement());
@@ -137,11 +136,11 @@ export default class Page {
       const countCurrentCards = this._getCountCurrentCards();
 
       const cards = this._checkSortedOrStartDataAndFilter();
-      const filmsForAdded = cards.slice(0, countCurrentCards + NUMBER_SHOW_FILMS);
+      const filmsForAdded = cards.slice(0, countCurrentCards + NumberShow.FILMS);
 
       this._renderFilms(filmsForAdded, this._filmsAllList.getElement().querySelector(`#all-films`));
 
-      if (filmsForAdded.length - countCurrentCards < NUMBER_SHOW_FILMS) {
+      if (filmsForAdded.length - countCurrentCards < NumberShow.FILMS) {
         unrender(this._btnMore.getElement());
         this._btnMore.removeElement();
       }

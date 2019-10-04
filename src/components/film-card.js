@@ -1,7 +1,7 @@
 import AbstractComponent from "./abstract-component";
 import moment from "moment";
 import "moment-duration-format";
-import {MAX_DESCRIPTION_LENGTH} from "../utils";
+import {MAX_DESCRIPTION_LENGTH, Filters} from "../utils";
 
 export default class Card extends AbstractComponent {
   constructor({title, year, duration, genre, posterLink, description, controls, comments, totalRating}) {
@@ -33,19 +33,19 @@ export default class Card extends AbstractComponent {
         <form class="film-card__controls">
           <button 
             class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${(this._controls.isAddedToWatchlist) ? `film-card__controls-item--active` : ``}"
-            data-state="watchlist"
+            data-state="${Filters.WATCHLIST}"
           >
             Add to watchlist
           </button>
           <button 
             class="film-card__controls-item button film-card__controls-item--mark-as-watched ${(this._controls.isMarkedAsWatched) ? `film-card__controls-item--active` : ``}"
-            data-state="watched"
+            data-state="${Filters.HISTORY}"
           >
             Mark as watched
           </button>
           <button 
             class="film-card__controls-item button film-card__controls-item--favorite ${(this._controls.isFavorite) ? `film-card__controls-item--active` : ``}"
-            data-state="favorite"
+            data-state="${Filters.FAVORITES}"
           >
             Mark as favorite
           </button>
