@@ -105,17 +105,15 @@ const getStats = (films) => {
 };
 
 const getNameUser = (historyNumber) => {
-  let userName = 0;
-
   if (historyNumber > 0 && historyNumber < Nickname.NOVICE) {
-    userName = `Novice`;
+    return `Novice`;
   } else if (historyNumber > Nickname.NOVICE && historyNumber <= Nickname.FAN) {
-    userName = `Fan`;
+    return `Fan`;
+  } else if (historyNumber >= Nickname.MOVIE_BUFF) {
+    return `Movie Buff`;
   } else {
-    userName = `Movie Buff`;
+    return 0;
   }
-
-  return userName;
 };
 
 export {
