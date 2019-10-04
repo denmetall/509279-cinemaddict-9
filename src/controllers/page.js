@@ -92,8 +92,12 @@ export default class Page {
     }
 
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());
-    const filmTopCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, NUMBER_SHOW_TOP_RATED_FILMS);
-    const filmMostCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS);
+
+    const filmRatingSortCardsData = cards.slice().sort((a, b) => b.totalRating - a.totalRating);
+    const filmTopCardsData = filmRatingSortCardsData.slice(0, NUMBER_SHOW_TOP_RATED_FILMS).filter((film) => film.totalRating);
+
+    const filmCountCommentsSortCardsData = cards.slice().sort((a, b) => b.comments.length - a.comments.length);
+    const filmMostCardsData = filmCountCommentsSortCardsData.slice(0, NUMBER_SHOW_MOST_COMMENTED_FILMS).filter((film) => film.comments.length);
 
     unrender(this._filmsAllList.getElement());
     unrender(this._filmsTopRated.getElement());
