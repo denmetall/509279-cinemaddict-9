@@ -25,7 +25,7 @@ export default class Page {
     this._mostCommentedFilms = new MostCommentedFilms();
     this._noFilms = new NoFilms();
     this._btnMore = new BtnMore();
-    this._sortedFilm = [];
+    this._sortFilms = [];
     this._filter = `all`;
     this._onDataChangeMain = onDataChangeMain;
   }
@@ -50,15 +50,11 @@ export default class Page {
     unrender(this._films.getElement());
     this._sort.removeElement();
     this._films.removeElement();
-    // this._sort.getElement().classList.add(`visually-hidden`);
-    // this._films.getElement().classList.add(`visually-hidden`);
   }
 
   showPage(filter = `all`) {
     this._filter = filter;
     this.init();
-    // this._sort.getElement().classList.remove(`visually-hidden`);
-    // this._films.getElement().classList.remove(`visually-hidden`);
   }
 
   _setFilter(cards) {
@@ -157,7 +153,7 @@ export default class Page {
   }
 
   _checkSortedOrStartDataAndFilter() {
-    const sortedOrNotSortedCards = (this._sortedFilm.length > 0) ? this._sortedFilm : this._cards;
+    const sortedOrNotSortedCards = (this._sortFilms.length > 0) ? this._sortFilms : this._cards;
     return this._setFilter(sortedOrNotSortedCards);
   }
 
@@ -181,19 +177,19 @@ export default class Page {
     switch (evt.target.dataset.sortType) {
       case `sort-date`:
         evt.target.classList.add(`sort__button--active`);
-        this._sortedFilm = this._cards.slice().sort((a, b) => new Date(b.year) - new Date(a.year));
-        const sortedByDateUpFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
+        this._sortFilms = this._cards.slice().sort((a, b) => new Date(b.year) - new Date(a.year));
+        const sortedByDateUpFilms = this._sortFilms.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByDateUpFilms, allFilmsContainer);
         break;
       case `sort-rating`:
         evt.target.classList.add(`sort__button--active`);
-        this._sortedFilm = this._cards.slice().sort((a, b) => b.totalRating - a.totalRating);
-        const sortedByRatingFilms = this._sortedFilm.slice(0, this._getCountCurrentCards());
+        this._sortFilms = this._cards.slice().sort((a, b) => b.totalRating - a.totalRating);
+        const sortedByRatingFilms = this._sortFilms.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByRatingFilms, allFilmsContainer);
         break;
       case `default`:
         evt.target.classList.add(`sort__button--active`);
-        this._sortedFilm = [];
+        this._sortFilms = [];
         const sortedByDefaultFilms = this._cards.slice(0, this._getCountCurrentCards());
         this._renderFilms(sortedByDefaultFilms, allFilmsContainer);
         break;
