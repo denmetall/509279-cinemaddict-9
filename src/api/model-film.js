@@ -1,38 +1,38 @@
 import moment from "moment";
 
 export default class ModelFilm {
-  constructor(data) {
-    this.id = data[`id`] || null;
-    this.title = data[`film_info`][`title`] || ``;
-    this.year = data[`film_info`][`release`][`date`] || null;
-    this.duration = data[`film_info`][`runtime`] || null;
-    this.genre = data[`film_info`][`genre`] || [];
-    this.posterLink = `./${data[`film_info`][`poster`]}` || ``;
-    this.description = data[`film_info`][`description`] || ``;
+  constructor(dataFilm) {
+    this.id = dataFilm[`id`] || null;
+    this.title = dataFilm[`film_info`][`title`] || ``;
+    this.year = dataFilm[`film_info`][`release`][`date`] || null;
+    this.duration = dataFilm[`film_info`][`runtime`] || null;
+    this.genre = dataFilm[`film_info`][`genre`] || [];
+    this.posterLink = `./${dataFilm[`film_info`][`poster`]}` || ``;
+    this.description = dataFilm[`film_info`][`description`] || ``;
     this.controls = {
-      isAddedToWatchlist: Boolean(data[`user_details`][`watchlist`]) || false,
-      isMarkedAsWatched: Boolean(data[`user_details`][`already_watched`]) || false,
-      isFavorite: Boolean(data[`user_details`][`favorite`]) || false
+      isAddedToWatchlist: Boolean(dataFilm[`user_details`][`watchlist`]) || false,
+      isMarkedAsWatched: Boolean(dataFilm[`user_details`][`already_watched`]) || false,
+      isFavorite: Boolean(dataFilm[`user_details`][`favorite`]) || false
     };
-    this.alternativeTitle = data[`film_info`][`alternative_title`] || ``;
-    this.totalRating = data[`film_info`][`total_rating`] || 0;
-    this.releaseCountry = data[`film_info`][`release`][`release_country`] || ``;
-    this.director = data[`film_info`][`director`] || ``;
-    this.ageRating = data[`film_info`][`age_rating`] || 0;
-    this.actors = data[`film_info`][`actors`] || [];
-    this.writers = data[`film_info`][`writers`] || [];
-    this.comments = data[`comments`];
+    this.alternativeTitle = dataFilm[`film_info`][`alternative_title`] || ``;
+    this.totalRating = dataFilm[`film_info`][`total_rating`] || 0;
+    this.releaseCountry = dataFilm[`film_info`][`release`][`release_country`] || ``;
+    this.director = dataFilm[`film_info`][`director`] || ``;
+    this.ageRating = dataFilm[`film_info`][`age_rating`] || 0;
+    this.actors = dataFilm[`film_info`][`actors`] || [];
+    this.writers = dataFilm[`film_info`][`writers`] || [];
+    this.comments = dataFilm[`comments`];
 
-    this.personalRating = data[`user_details`][`personal_rating`] || ``;
-    this.watchingDate = moment(data[`user_details`][`watching_date`]).format() || null;
+    this.personalRating = dataFilm[`user_details`][`personal_rating`] || ``;
+    this.watchingDate = moment(dataFilm[`user_details`][`watching_date`]).format() || null;
   }
 
-  static parseFilm(data) {
-    return new ModelFilm(data);
+  static parseFilm(dataFilm) {
+    return new ModelFilm(dataFilm);
   }
 
-  static parseFilms(data) {
-    return data.map(ModelFilm.parseFilm);
+  static parseFilms(dataFilm) {
+    return dataFilm.map(ModelFilm.parseFilm);
   }
 
   toRAW() {

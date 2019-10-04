@@ -31,11 +31,11 @@ export default class API {
       .then(ModelFilm.parseFilms);
   }
 
-  updateFilm(id, data) {
+  updateFilm(id, dataFilm) {
     return this._load({
       url: `movies/${id}`,
       method: `PUT`,
-      body: JSON.stringify(data.toRAW()),
+      body: JSON.stringify(dataFilm.toRAW()),
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then(toJSON)

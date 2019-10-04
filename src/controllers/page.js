@@ -82,13 +82,13 @@ export default class Page {
     }
   }
 
-  _renderBoardFilms(isStartApp = false, dataFromServer = undefined, popupIsOpen = false) {
+  _renderBoardFilms(isStartApp = false, dataFilmsFromServer = undefined, popupIsOpen = false) {
 
     let cards = this._checkSortedOrStartDataAndFilter();
 
-    if (dataFromServer) {
-      cards = dataFromServer;
-      this._cards = dataFromServer;
+    if (dataFilmsFromServer) {
+      cards = dataFilmsFromServer;
+      this._cards = dataFilmsFromServer;
     }
 
     const filmAllCardsData = isStartApp ? cards.slice(0, NUMBER_SHOW_FILMS) : cards.slice(0, this._getCountCurrentCards());

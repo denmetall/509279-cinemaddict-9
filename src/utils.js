@@ -39,19 +39,19 @@ const unrender = (element) => {
 
 const getNumberFilmsStat = (control, data) => data.reduce((count, film) => (film.controls[control] ? count + 1 : count), 0);
 
-const getStats = (data) => {
+const getStats = (films) => {
   return {
     get allFilmsNumber() {
-      return data.length;
+      return films.length;
     },
     get watchlistNumber() {
-      return getNumberFilmsStat(`isAddedToWatchlist`, data);
+      return getNumberFilmsStat(`isAddedToWatchlist`, films);
     },
     get historyNumber() {
-      return getNumberFilmsStat(`isMarkedAsWatched`, data);
+      return getNumberFilmsStat(`isMarkedAsWatched`, films);
     },
     get favoritesNumber() {
-      return getNumberFilmsStat(`isFavorite`, data);
+      return getNumberFilmsStat(`isFavorite`, films);
     }
   };
 };
