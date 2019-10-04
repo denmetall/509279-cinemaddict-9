@@ -11,6 +11,32 @@ const Position = {
   AFTEREND: `afterend`
 };
 
+const Status = {
+  OK: 200,
+  REDIRECTION: 300
+};
+
+const RatingDefault = {
+  TOTAL: 0,
+  AGE: 0,
+  PERSONAL: 0
+};
+
+const TimeBreakpoint = {
+  NOW: 1,
+  MINUTE: 3,
+  FEW_MINUTES: 59,
+  HOUR: 119,
+  FEW_HOURS: 1439,
+  DAY: 1440
+};
+
+const Nickname = {
+  NOVICE: 10,
+  FAN: 20,
+  MOVIE_BUFF: 21
+};
+
 const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template.trim();
@@ -59,9 +85,9 @@ const getStats = (films) => {
 const getNameUser = (historyNumber) => {
   let userName = 0;
 
-  if (historyNumber > 0 && historyNumber < 10) {
+  if (historyNumber > 0 && historyNumber < Nickname.NOVICE) {
     userName = `Novice`;
-  } else if (historyNumber > 10 && historyNumber < 21) {
+  } else if (historyNumber > Nickname.NOVICE && historyNumber <= Nickname.FAN) {
     userName = `Fan`;
   } else {
     userName = `Movie Buff`;
@@ -81,5 +107,8 @@ export {
   NUMBER_SHOW_MOST_COMMENTED_FILMS,
   MAX_DESCRIPTION_LENGTH,
   getStats,
-  getNameUser
+  getNameUser,
+  Status,
+  RatingDefault,
+  TimeBreakpoint
 };

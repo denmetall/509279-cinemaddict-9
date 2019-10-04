@@ -1,4 +1,5 @@
 import ModelFilm from "./model-film";
+import {Status} from "../utils";
 
 const Method = {
   GET: `GET`,
@@ -8,7 +9,7 @@ const Method = {
 };
 
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= Status.OK && response.status < Status.REDIRECTION) {
     return response;
   }
 

@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component";
 import moment from "moment";
-import 'moment-duration-format';
+import "moment-duration-format";
 import {MAX_DESCRIPTION_LENGTH} from "../utils";
 
 export default class Card extends AbstractComponent {

@@ -1,4 +1,5 @@
 import moment from "moment";
+import {RatingDefault} from "../utils";
 
 export default class ModelFilm {
   constructor(dataFilm) {
@@ -15,10 +16,10 @@ export default class ModelFilm {
       isFavorite: Boolean(dataFilm[`user_details`][`favorite`]) || false
     };
     this.alternativeTitle = dataFilm[`film_info`][`alternative_title`] || ``;
-    this.totalRating = dataFilm[`film_info`][`total_rating`] || 0;
+    this.totalRating = dataFilm[`film_info`][`total_rating`] || RatingDefault.TOTAL;
     this.releaseCountry = dataFilm[`film_info`][`release`][`release_country`] || ``;
     this.director = dataFilm[`film_info`][`director`] || ``;
-    this.ageRating = dataFilm[`film_info`][`age_rating`] || 0;
+    this.ageRating = dataFilm[`film_info`][`age_rating`] || RatingDefault.AGE;
     this.actors = dataFilm[`film_info`][`actors`] || [];
     this.writers = dataFilm[`film_info`][`writers`] || [];
     this.comments = dataFilm[`comments`];
@@ -58,7 +59,7 @@ export default class ModelFilm {
         'already_watched': this.controls.isMarkedAsWatched,
         'favorite': this.controls.isFavorite,
         'watchlist': this.controls.isAddedToWatchlist,
-        'personal_rating': parseInt(this.personalRating, 10) || 0,
+        'personal_rating': parseInt(this.personalRating, 10) || RatingDefault.PERSONAL,
         'watching_date': new Date(this.watchingDate) || null,
       },
       'comments': this.comments,
