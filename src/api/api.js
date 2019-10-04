@@ -1,4 +1,5 @@
 import ModelFilm from "./model-film";
+import {Status} from "../utils";
 
 const Method = {
   GET: `GET`,
@@ -8,11 +9,11 @@ const Method = {
 };
 
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= Status.OK && response.status < Status.REDIRECTION) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 const toJSON = (response) => {
@@ -31,11 +32,11 @@ export default class API {
       .then(ModelFilm.parseFilms);
   }
 
-  updateFilm(id, data) {
+  updateFilm(id, dataFilm) {
     return this._load({
       url: `movies/${id}`,
       method: `PUT`,
-      body: JSON.stringify(data.toRAW()),
+      body: JSON.stringify(dataFilm.toRAW()),
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then(toJSON)
@@ -67,7 +68,6 @@ export default class API {
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
       .then(checkStatus)
       .catch((err) => {
-        // console.error(`fetch error: ${err}`);
         throw err;
       });
   }

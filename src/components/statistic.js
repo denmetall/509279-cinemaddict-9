@@ -2,11 +2,11 @@ import AbstractComponent from "./abstract-component";
 import {getNameUser} from "../utils";
 
 export default class Statistic extends AbstractComponent {
-  constructor(stats, topGenre = ``, data, filter) {
+  constructor(stats, topGenre = ``, dataFilms, filter) {
     super();
     this._stats = stats;
     this._topGenre = topGenre;
-    this._data = data;
+    this._dataFilms = dataFilms;
     this._filter = filter;
     this._setCheckedFilter(this._filter);
   }
@@ -46,11 +46,11 @@ export default class Statistic extends AbstractComponent {
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Total duration</h4>
-            <p class="statistic__item-text">${Math.floor(this._data.reduce((acc, card) => {
+            <p class="statistic__item-text">${Math.floor(this._dataFilms.reduce((acc, card) => {
     if (card.controls.isMarkedAsWatched) {
       acc = acc + card.duration;
     } return acc;
-  }, 0) / 60)} <span class="statistic__item-description">h</span> ${this._data.reduce((acc, card) => {
+  }, 0) / 60)} <span class="statistic__item-description">h</span> ${this._dataFilms.reduce((acc, card) => {
   if (card.controls.isMarkedAsWatched) {
     acc = acc + card.duration;
   } return acc;
@@ -58,7 +58,7 @@ export default class Statistic extends AbstractComponent {
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Top genre</h4>
-            <p class="statistic__item-text">${this._topGenre}</p>
+            <p class="statistic__item-text">${this._topGenre ? this._topGenre : `-`}</p>
           </li>
         </ul>
       

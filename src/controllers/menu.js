@@ -1,5 +1,5 @@
 import Menu from "../components/menu";
-import {getStats, render, unrender} from "../utils";
+import {getStats, render, unrender, Filters} from "../utils";
 
 export default class MenuController {
   constructor(container, films, statsController, controllerSearch, controllerContent) {
@@ -35,22 +35,22 @@ export default class MenuController {
       evt.target.classList.add(`main-navigation__item--active`);
 
       switch (conditionSwitch) {
-        case `all`:
+        case Filters.ALL:
           this._statsController.hideStats();
           this._controllerSearch.hideSearchResult();
           this._controllerContent.showPage(`all`);
           break;
-        case `watchlist`:
+        case Filters.WATCHLIST:
           this._controllerContent.showPage(`watchlist`);
           this._controllerSearch.hideSearchResult();
           this._statsController.hideStats();
           break;
-        case `history`:
+        case Filters.HISTORY:
           this._controllerContent.showPage(`history`);
           this._controllerSearch.hideSearchResult();
           this._statsController.hideStats();
           break;
-        case `favorites`:
+        case Filters.FAVORITES:
           this._controllerContent.showPage(`favorites`);
           this._controllerSearch.hideSearchResult();
           this._statsController.hideStats();

@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component";
-import moment from 'moment';
+import moment from "moment";
+import {TimeBreakpoint} from "../utils";
 
 export default class Comment extends AbstractComponent {
   constructor({id, emotion, comment, author, date}) {
@@ -32,17 +33,17 @@ export default class Comment extends AbstractComponent {
   _getNameTime(date) {
     const inMinutes = moment().diff(date, `minutes`);
     switch (true) {
-      case inMinutes < 1:
+      case inMinutes < TimeBreakpoint.NOW:
         return `now`;
-      case inMinutes <= 3:
+      case inMinutes <= TimeBreakpoint.MINUTE:
         return `a minute ago`;
-      case inMinutes <= 59:
+      case inMinutes <= TimeBreakpoint.FEW_MINUTES:
         return `a few minutes ago`;
-      case inMinutes <= 119:
+      case inMinutes <= TimeBreakpoint.HOUR:
         return `an hour ago`;
-      case inMinutes <= 1439:
+      case inMinutes <= TimeBreakpoint.FEW_HOURS:
         return `a few hours ago`;
-      case inMinutes >= 1440:
+      case inMinutes >= TimeBreakpoint.DAY:
         return moment(date).fromNow();
     }
     return null;

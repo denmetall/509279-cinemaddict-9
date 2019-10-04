@@ -35,11 +35,6 @@ export default class SearchController {
     }
   }
 
-  _renderFilms(filmsList, container) {
-    const filmsListController = new FilmsList(filmsList, container, this._cards, this._searchUpdate.bind(this), this._onDataChangeMain);
-    filmsListController.init();
-  }
-
   hideSearchResult() {
     unrender(this._searchInfo.getElement());
     this._searchInfo.removeElement();
@@ -51,6 +46,11 @@ export default class SearchController {
 
   showSearch() {
     this.init();
+  }
+
+  _renderFilms(filmsList, container) {
+    const filmsListController = new FilmsList(filmsList, container, this._cards, this._searchUpdate.bind(this), this._onDataChangeMain);
+    filmsListController.init();
   }
 
   _searchUpdate() {

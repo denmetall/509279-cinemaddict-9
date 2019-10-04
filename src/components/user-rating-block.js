@@ -39,9 +39,8 @@ export default class UserRatingBlock extends AbstractComponent {
   _setUserRating(personalRating) {
     const rate = parseInt(personalRating, 10);
     const templateUserRatingBlock = Array(9).fill(``).map((item, index) => {
-
-      const i = index + 1;
-      return `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${(i === rate) ? `checked` : ``}><label class="film-details__user-rating-label" for="rating-${i}">${i}</label>`;
+      const rating = index + 1;
+      return `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${rating}" id="rating-${rating}" ${(rating === rate) ? `checked` : ``}><label class="film-details__user-rating-label" for="rating-${rating}">${rating}</label>`;
     })
       .join(` `);
 

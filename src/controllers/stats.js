@@ -1,5 +1,5 @@
 import Statistic from "../components/statistic";
-import {render, getStats, unrender} from "../utils";
+import {render, getStats, unrender, StatFilters} from "../utils";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
@@ -20,7 +20,16 @@ export default class StatsController {
     render(this._container, this._statistic.getElement());
     this._setFilterEvent();
 
-    this._renderCharts();
+    if (this._dataForRender.length) {
+      this._renderCharts();
+    }
+  }
+
+  hideStats() {
+    if (this._statistic !== null) {
+      unrender(this._statistic.getElement());
+      this._statistic.removeElement();
+    }
   }
 
   _setFilterEvent() {
@@ -37,19 +46,19 @@ export default class StatsController {
 
   _setDataForRender(filter) {
     switch (filter) {
-      case `all-time`:
+      case StatFilters.ALL:
         this._dataForRender = this._data;
         break;
-      case `today`:
+      case StatFilters.TODAY:
         this._dataForRender = this._data.filter((film) => moment().isSame(moment(film.watchingDate), `day`));
         break;
-      case `week`:
+      case StatFilters.WEEK:
         this._dataForRender = this._data.filter((film) => moment(film.watchingDate) > moment().subtract(1, `w`));
         break;
-      case `month`:
+      case StatFilters.MONTH:
         this._dataForRender = this._data.filter((film) => moment(film.watchingDate) > moment().subtract(1, `months`));
         break;
-      case `year`:
+      case StatFilters.YEAR:
         this._dataForRender = this._data.filter((film) => moment(film.watchingDate) > moment().subtract(1, `y`));
         break;
       default:
@@ -64,13 +73,6 @@ export default class StatsController {
     });
     const genres = new Set([...genresWithDoubles]);
     return Array.from(genres);
-  }
-
-  hideStats() {
-    if (this._statistic !== null) {
-      unrender(this._statistic.getElement());
-      this._statistic.removeElement();
-    }
   }
 
   _renderCharts() {
